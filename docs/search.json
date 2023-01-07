@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "tidytuesday_exercise.html",
+    "href": "tidytuesday_exercise.html",
+    "title": "Tidy Tuesday Exercise",
+    "section": "",
+    "text": "Placeholder file for the future Tidy Tuesday exercise."
+  },
+  {
+    "objectID": "aboutme.html",
+    "href": "aboutme.html",
+    "title": "About me",
+    "section": "",
+    "text": "My name is Nathan Greenslit and I am a second year Master’s student in the Department of Marine Sciences. I work under the advisement of Dr. Erin Lipp, where we look at the cross section between environmental and public health. I am specifically interested in marine pathogens and how environmental fluctuations can impact their dynamics in coastal waterways."
+  },
+  {
+    "objectID": "aboutme.html#previous-experience",
+    "href": "aboutme.html#previous-experience",
+    "title": "About me",
+    "section": "Previous Experience:",
+    "text": "Previous Experience:\nI have limited training in statistics and have taken an intensive computation course that helped me gain familiarity with R Markdown. I can comfortably filter through data and create simple figures. From this course, I hope to become more familiar and comfortable with coding syntax, and expand my abilities with producing figures, creating websites, working with data, and especially understanding when and why we use specific statistical measures."
+  },
+  {
+    "objectID": "aboutme.html#interesting-fact",
+    "href": "aboutme.html#interesting-fact",
+    "title": "About me",
+    "section": "Interesting Fact:",
+    "text": "Interesting Fact:\nBefore coming to UGA, I worked with a non-profit based in the Florida Keys that focused on scientific communication and coral restoration. I lead a team of divers on a series of “outplant” dives, where we would directly restore species of coral back out onto the reefs of the Middle Keys.\nFinally, include a link to a picture/video/website/etc. The linked material should be somehow related to data analysis. Find something that you think is really cool/interesting/weird/etc. Provide a few explanatory sentences. If you want, feel free to get creative and include other things. You can play with Quarto if you wish to, e.g., you can try to include some table or a video or whatever."
+  },
+  {
+    "objectID": "visualization_exercise.html",
+    "href": "visualization_exercise.html",
+    "title": "Visualization Exercise",
+    "section": "",
+    "text": "Placeholder file for the future visualization exercise."
+  },
+  {
+    "objectID": "coding_exercise.html",
+    "href": "coding_exercise.html",
+    "title": "R Coding Exercise",
+    "section": "",
+    "text": "Placeholder file for the future R coding exercise."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My website and data analysis portfolio",
+    "section": "",
+    "text": "Hello\n\nAnd hello again\nWelcome to my website and data analysis portfolio.\n\nPlease use the Menu Bar above to look around.\nHave fun!!!!"
+  }
+]

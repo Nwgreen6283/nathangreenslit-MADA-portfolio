@@ -5,4 +5,18 @@ output:
       toc: FALSE
 ---
 
-Add some text and a figure describing myself.
+## **Background:**
+
+My name is Nathan Greenslit and I am a second year Master's student in the Department of Marine Sciences. I work under the advisement of Dr. Erin Lipp, where we look at the cross section between environmental and public health. I am specifically interested in marine pathogens and how environmental fluctuations can impact their dynamics in coastal waterways.
+
+## **Previous Experience:**
+
+I have limited training in statistics and have taken an intensive computation course that helped me gain familiarity with R Markdown. I can comfortably filter through data and create simple figures. From this course, I hope to become more familiar and comfortable with coding syntax, and expand my abilities with producing figures, creating websites, working with data, and especially understanding when and why we use specific statistical measures.
+
+## **Interesting Fact:**
+
+Before coming to UGA, I worked with a non-profit based in the Florida Keys that focused on scientific communication and coral restoration. I lead a team of divers on a series of "outplant" dives, where we would directly restore species of coral back out onto the reefs of the Middle Keys.
+
+Finally, include a link to a picture/video/website/etc. The linked material should be somehow related to data analysis. Find something that you think is really cool/interesting/weird/etc. Provide a few explanatory sentences. If you want, feel free to get creative and include other things. You can play with Quarto if you wish to, e.g., you can try to include some table or a video or whatever.
+
+![](IMG_7758.JPG){fig-alt="A drawing of an elephant."}
