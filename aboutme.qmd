@@ -19,4 +19,4 @@ Before coming to UGA, I worked with a non-profit based in the Florida Keys that 
 
 Finally, include a link to a picture/video/website/etc. The linked material should be somehow related to data analysis. Find something that you think is really cool/interesting/weird/etc. Provide a few explanatory sentences. If you want, feel free to get creative and include other things. You can play with Quarto if you wish to, e.g., you can try to include some table or a video or whatever.
 
-![](IMG_7758.JPG){fig-alt="A drawing of an elephant."}
+![](IMG_7758.JPG)
