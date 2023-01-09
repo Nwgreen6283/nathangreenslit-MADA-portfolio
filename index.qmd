@@ -1,15 +1,15 @@
 ---
-title: "My website and data analysis portfolio"
+title: "Nathan Greenslit's Website and Data Analysis Portfolio"
 output: 
   html_document:
     toc: FALSE
 ---
 
-# Hello
+# Hello!
 
-### And hello again
+### Welcome to my Website
 
-Welcome to **my website** and *data analysis portfolio.*
+Here you will find some background information on myself as well as updates on current projects. 
 
 -   Please use the `Menu Bar` above to look around.
 -   Have fun!!!!
