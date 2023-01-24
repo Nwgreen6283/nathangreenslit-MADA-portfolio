@@ -170,4 +170,4 @@ summary(im2.fit)
 summary(pop2.fit)
 ```
 
-**Based on p-values, it looks like there is a significant relationship between infant mortality and life expectancy in the year 2000(p-value = 2.83e-8). There does not seem to be a significant relationship between population and Life expectancy (p-value = 0.62)**
+**Based on p-values, it looks like there is a significant relationship between infant mortality and life expectancy in the year 2000(p-value = 2.83e-8). There does not seem to be a significant correlation between population and life expectancy (p-value = 0.62)**
