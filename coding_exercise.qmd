@@ -4,6 +4,7 @@ output:
   html_document:
     toc: FALSE
 ---
+
 *Note: To make for a cleaner look, I used {r, message/results/echo/warning = FALSE} to hide the output.*
 
 # Load Libraries
@@ -13,6 +14,7 @@ library(dslabs)
 library(tidyverse)
 library(renv)
 ```
+
 # Working with Gapminder Data
 
 ## Examine Structure
@@ -52,6 +54,7 @@ summary(im)
 str(pop)
 summary(pop)
 ```
+
 ## Plotting
 
 ### Life Expectancy as a function of Infant Mortality
@@ -121,7 +124,7 @@ pop2<- two_k %>%
   select(population, life_expectancy)
 ```
 
-## Plotting 
+## Plotting
 
 ### Life Expectancy as a funtion of Infant Mortality in 2000
 
@@ -171,3 +174,73 @@ summary(pop2.fit)
 ```
 
 **Based on p-values, it looks like there is a significant relationship between infant mortality and life expectancy in the year 2000(p-value = 2.83e-8). There does not seem to be a significant correlation between population and life expectancy (p-value = 0.62)**
+
+# *This section was added by Kimberly Perez*
+
+```{r}
+library(broom)
+```
+
+
+# **Region and Fertility**
+
+```{r}
+# Code to create a box plot to visualize fertility by region
+bp_fert<-ggplot(two_k, aes(x=region, y=fertility, color= region)) + geom_boxplot(outlier.color="seagreen3", outlier.shape=8, outlier.size=2)
+
+# Editing the size and shapes present on the boxplot and adding title/axis labels 
+bp_fert + stat_summary(fun=mean, geom="point", shape=13, size=4) + labs(x="Region", y= "Fertility (Number of children)", color="Region Legend", title="Fertility by Region in Africa for 2000")
+```
+
+# **Filtering Dataset for NAs (fertility and GDP) and condensing data to year 2000**
+
+```{r, results= FALSE}
+fert_na<- africadata %>%
+  filter(is.na(fertility))
+fert_na
+unique(fert_na$year)
+
+gdp_na<- africadata %>%
+  filter(is.na(gdp))
+gdp_na
+unique(gdp_na$year)
+
+fert_a<- africadata[which(africadata$year=="2000"),]
+
+str(fert_a)
+```
+
+# **Fertility as a function of Gross Domestic Production (GDP) in 2000**
+
+```{r}
+fert_a %>%
+  ggplot() +
+  geom_point(
+    aes(
+      x= log10(gdp), #Log scale for Population 
+      y= fertility),
+    color = "cadetblue") +
+  theme_bw()+
+  labs(
+    x= "GDP (logscale)",
+    y= "Fertility (Number of Children)",
+    title= "Fertility as a Function of Gross Domestic Production (GDP) in 2000") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+# **Fertility as a function of Gross Domestic Production (GDP)**
+
+```{r, warning=FALSE}
+ggplot(fert_a, aes(log10(gdp), fertility))+ geom_point() +
+  geom_smooth(method="lm") +
+  labs(title="Fertility as a function of Gross Domestic Production", x="Gross Domestic Product [GDP] (logscale)", y="Fertility (Number of children)")
+```
+
+# **A Simple Fit and Table Using the Package Broom**
+```{r}
+le_fit<-lm(gdp~life_expectancy, data=two_k)
+tidy(le_fit)
+```
+
+Based on the p-values for the given fits, GDP as a predictor of LE is said to be statistically significant. But can we truly trust p-values?…
+
