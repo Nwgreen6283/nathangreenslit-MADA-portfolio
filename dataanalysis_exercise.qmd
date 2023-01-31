@@ -1,0 +1,67 @@
+---
+title: "Data Analysis Exercise"
+format:
+  html:
+    theme: default
+---
+*This dataset from the CDC contains the 10 leading causes of death in the US from 1999-2017.The data is derived from resident death certificates filed in the 50 states and D.C. The raw data includes: (1) Year, (2) 113 Cause Name, (3) Cause Name, (4) State, (5) Deaths, and (6) Age-adjusted Death Rate. The Cause Name variable is a simplified version of the 113 Cause Name (as assigned by the International Classification of Diseases) and the Age-adjusted Death rate (per 100,000 population) is calculated based on the US population in 2000. Death rates after 2010 are based on 2010 census.*
+
+*Link to Dataset:  https://data.cdc.gov/NCHS/NCHS-Leading-Causes-of-Death-United-States/bi63-dtpu/data  * 
+
+Load Libraries
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+Load Data from raw data folder
+
+```{r}
+data<- read_csv(here("dataanalysis_exercise","data","raw_data","death.csv"))
+```
+
+Examine Data
+
+```{r}
+summary(data)
+```
+
+Create new dataframe "data2": selecting variables of interest and renaming them
+*Upper case letters and spaces can be a hassle*
+
+```{r}
+data2<- data %>%
+  select(Year, `Cause Name`, State, Deaths) %>%
+  
+  rename("year" = "Year", #using rename() function to get rid of uppercase and spaces in variable names.
+         "cause" = "Cause Name",
+         "state" = "State",
+         "deaths" = "Deaths")
+```
+*We have selected variables: Year, Cause of Death, State, and Deaths.*
+
+Use filter() to look at Deaths in Georgia
+
+```{r}
+ga<- data2 %>%
+  filter(state %in% "Georgia")
+```
+
+*So now we have a final dataset that contains causes of deaths from the years 1999-2017 in Georgia*
+
+Save Cleaned data as RDS file in *clean_data* folder located in dataanalysis_exercise --> data --> clean_data
+```{r}
+saveRDS(data2, file="dataanalysis_exercise/data/clean_data/cleandata_file.rds")
+```
+
+Save Summary Table as RDS file in Results folder
+```{r}
+summary_df = data.frame(do.call(cbind, lapply(data2, summary)))
+print(summary_df)
+
+saveRDS(summary_df, file = "dataanalysis_exercise/results/summarytable.rds") #Tells to save as RDS file
+```
+
+
+
