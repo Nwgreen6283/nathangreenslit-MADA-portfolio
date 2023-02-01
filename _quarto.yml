@@ -17,7 +17,7 @@ website:
           - text: "Tidy Tuesday Exercise"
             href: ./tidytuesday_exercise.html
           - text: "Data Analysis Exercise"
-            href: ./datanalysis_exercise.html
+            href: ./dataanalysis_exercise.html
     right:
       - icon: github 
         href: https://github.com/Nwgreen6283/nathangreenslit-MADA-portfolio     
