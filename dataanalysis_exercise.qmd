@@ -4,9 +4,10 @@ format:
   html:
     theme: default
 ---
+
 *This dataset from the CDC contains the 10 leading causes of death in the US from 1999-2017.The data is derived from resident death certificates filed in the 50 states and D.C. The raw data includes: (1) Year, (2) 113 Cause Name, (3) Cause Name, (4) State, (5) Deaths, and (6) Age-adjusted Death Rate. The Cause Name variable is a simplified version of the 113 Cause Name (as assigned by the International Classification of Diseases) and the Age-adjusted Death rate (per 100,000 population) is calculated based on the US population in 2000. Death rates after 2010 are based on 2010 census.*
 
-*Link to Dataset:  https://data.cdc.gov/NCHS/NCHS-Leading-Causes-of-Death-United-States/bi63-dtpu/data  * 
+*Link to Dataset: https://data.cdc.gov/NCHS/NCHS-Leading-Causes-of-Death-United-States/bi63-dtpu/data*
 
 Load Libraries
 
@@ -27,8 +28,7 @@ Examine Data
 summary(data)
 ```
 
-Create new dataframe "data2": selecting variables of interest and renaming them
-*Upper case letters and spaces can be a hassle*
+Create new dataframe "data2": selecting variables of interest and renaming them *Upper case letters and spaces can be a hassle*
 
 ```{r}
 data2<- data %>%
@@ -39,6 +39,7 @@ data2<- data %>%
          "state" = "State",
          "deaths" = "Deaths")
 ```
+
 *We have selected variables: Year, Cause of Death, State, and Deaths.*
 
 Use filter() to look at Deaths in Georgia
@@ -50,18 +51,84 @@ ga<- data2 %>%
 
 *So now we have a final dataset that contains causes of deaths from the years 1999-2017 in Georgia*
 
-Save Cleaned data as RDS file in *clean_data* folder located in dataanalysis_exercise --> data --> clean_data
+Save Cleaned data as RDS file in *clean_data* folder located in dataanalysis_exercise --\> data --\> clean_data
+
 ```{r}
-saveRDS(data2, file="dataanalysis_exercise/data/clean_data/cleandata_file.rds")
+saveRDS(ga, file="dataanalysis_exercise/data/clean_data/cleandata_file.rds")
 ```
 
 Save Summary Table as RDS file in Results folder
+
 ```{r}
-summary_df = data.frame(do.call(cbind, lapply(data2, summary)))
+summary_df = data.frame(do.call(cbind, lapply(ga, summary)))
 print(summary_df)
 
 saveRDS(summary_df, file = "dataanalysis_exercise/results/summarytable.rds") #Tells to save as RDS file
 ```
 
+## This section added by Sara Benist
 
+###Load RDS file
 
+```{r}
+readRDS(file = "dataanalysis_exercise/data/clean_data/cleandata_file.rds")
+readRDS(file = "dataanalysis_exercise/results/summarytable.rds")
+```
+
+## Looking at the data
+
+To make sure the data loaded correctly, we will look at the summary measures of the dataframe.
+
+```{r}
+summary(ga)
+str(ga)
+```
+
+### Some simple exploratory analysis with plots
+
+Let's look at a a series of boxplots for each year of only the All Cause deaths in Georgia.
+
+```{r}
+#filter for all causes and pull death column
+ACdeaths <- ga %>% 
+  filter(cause == "All causes") %>% 
+  pull(deaths)
+
+#filter for all causes and pull year column
+ACyear <- ga %>% 
+  filter(cause == "All causes") %>% 
+  pull(year)
+
+#create boxplot
+boxplot(formula = ACdeaths ~ ACyear)
+```
+
+While not very informative, we can see that the death rate for All Causes are increasing with each year. Let's look at a better representation of the data.
+
+First, I want to look at the top category of injuries for GA over 1999 to 2017. To do this, I will plot the number of deaths for each cause for each year.
+
+```{r}
+#scatter plot of year vs deaths by cause
+ggplot(ga, aes(x = year, y = deaths, color = cause)) +
+  geom_point()+
+  geom_line()+
+  scale_y_continuous(trans = "log")+
+  scale_color_brewer(palette = "Paired")
+```
+
+Unlike with the box plot, the all causes line is not increasing as drastically as the boxplot suggested.Looking at the separated causes of death, we can see from the plot that the top causes are heart disease and cancer in Georgia for this time period. One cause of death that I find interesting is the sharp increase in Alzheimer's disease around 2013.
+
+We can try to fit a model to the Alzheimer's line to try to predict future trends.
+
+### Linear model
+
+```{r}
+#filter for alzheimer's disease
+AD <- ga %>% filter(cause == "Alzheimer's disease")
+
+#create fit and summary
+fit <- lm(deaths ~ year, data = AD)
+summary(fit)
+```
+
+The linear model suggests year is a valid predictor of the number of deaths from Alzheimer's disease with an expected increase of 139.67 deaths per year.
