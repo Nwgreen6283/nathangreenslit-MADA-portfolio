@@ -38,7 +38,7 @@ summary(women)
 ```
 
 
-**While we have winning times up to 2022, the graph was publish in 2018, so we need to filter the dates up to that year. Here, I also created a new column that highlighted the primary countries for men and women. Using `case_when()`, if the country said: Japan (men), Ethiopia (women), United States, or Kenya, the new column repeated that name. Any other country was charactereized as NA in the new column.**
+**While we have winning times up to 2022, the graph was published in 2018, so we need to filter the dates up to that year. Here, I also created a new column that highlighted the primary countries for men and women. Using `case_when()`, if the country said: Japan (men), Ethiopia (women), United States, or Kenya, the new column repeated that name. Any other country was charactereized as NA in the new column.**
 
 ### Make new column that singles out the three main countries of interest for men and women
 
@@ -64,7 +64,7 @@ women_18<- women %>% #Single point of interest (2018)
   filter(year %in% 2018)
 ```
 
-**Let's take a look at the result**
+**Let's take a look at the result.**
 ```{r}
 print(men2)
 print(women2)

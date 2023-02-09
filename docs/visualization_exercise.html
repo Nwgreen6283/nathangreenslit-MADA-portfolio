@@ -255,7 +255,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  Max.   :2022                                                          </code></pre>
 </div>
 </div>
-<p><strong>While we have winning times up to 2022, the graph was publish in 2018, so we need to filter the dates up to that year. Here, I also created a new column that highlighted the primary countries for men and women. Using <code>case_when()</code>, if the country said: Japan (men), Ethiopia (women), United States, or Kenya, the new column repeated that name. Any other country was charactereized as NA in the new column.</strong></p>
+<p><strong>While we have winning times up to 2022, the graph was published in 2018, so we need to filter the dates up to that year. Here, I also created a new column that highlighted the primary countries for men and women. Using <code>case_when()</code>, if the country said: Japan (men), Ethiopia (women), United States, or Kenya, the new column repeated that name. Any other country was charactereized as NA in the new column.</strong></p>
 <section id="make-new-column-that-singles-out-the-three-main-countries-of-interest-for-men-and-women" class="level3">
 <h3 class="anchored" data-anchor-id="make-new-column-that-singles-out-the-three-main-countries-of-interest-for-men-and-women">Make new column that singles out the three main countries of interest for men and women</h3>
 <div class="cell">
@@ -279,7 +279,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>women_18<span class="ot">&lt;-</span> women <span class="sc">%&gt;%</span> <span class="co">#Single point of interest (2018)</span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2018</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Let’s take a look at the result</strong></p>
+<p><strong>Let’s take a look at the result.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(men2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
