@@ -232,37 +232,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="data-altering" class="level2">
 <h2 class="anchored" data-anchor-id="data-altering">Data Altering</h2>
+<p><strong>Let’s preview the data:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(men)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      year          name             country              time         
+ Min.   :1897   Length:125         Length:125         Length:125       
+ 1st Qu.:1928   Class :character   Class :character   Class1:hms       
+ Median :1959   Mode  :character   Mode  :character   Class2:difftime  
+ Mean   :1959                                         Mode  :numeric   
+ 3rd Qu.:1990                                                          
+ Max.   :2022                                                          </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(women)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      year          name             country              time         
+ Min.   :1966   Length:56          Length:56          Length:56        
+ 1st Qu.:1980   Class :character   Class :character   Class1:hms       
+ Median :1994   Mode  :character   Mode  :character   Class2:difftime  
+ Mean   :1994                                         Mode  :numeric   
+ 3rd Qu.:2007                                                          
+ Max.   :2022                                                          </code></pre>
+</div>
+</div>
+<p><strong>While we have winning times up to 2022, the graph was publish in 2018, so we need to filter the dates up to that year. Here, I also created a new column that highlighted the primary countries for men and women. Using <code>case_when()</code>, if the country said: Japan (men), Ethiopia (women), United States, or Kenya, the new column repeated that name. Any other country was charactereized as NA in the new column.</strong></p>
 <section id="make-new-column-that-singles-out-the-three-main-countries-of-interest-for-men-and-women" class="level3">
 <h3 class="anchored" data-anchor-id="make-new-column-that-singles-out-the-three-main-countries-of-interest-for-men-and-women">Make new column that singles out the three main countries of interest for men and women</h3>
-<p><strong>Here, I created a new column that highlighted the primary countries for men and women. Using <code>case_when()</code>, if the country said: Japan (men), Ethiopia (women), United States, or Kenya, the new column repeated that name. Any other country was put in an Other category.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>men2<span class="ot">&lt;-</span> men <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time2 =</span> <span class="fu">as.numeric</span>(men<span class="sc">$</span>time)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country2 =</span> <span class="fu">case_when</span>(country <span class="sc">==</span> <span class="st">"Kenya"</span><span class="sc">~</span><span class="st">"Kenya"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"United States"</span><span class="sc">~</span> <span class="st">"United States"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"Japan"</span><span class="sc">~</span><span class="st">"Japan"</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="st">"1897"</span><span class="sc">:</span><span class="st">"2018"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>women2<span class="ot">&lt;-</span> women <span class="sc">%&gt;%</span> </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">time2 =</span> <span class="fu">as.numeric</span>(women<span class="sc">$</span>time)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country2 =</span> <span class="fu">case_when</span>(country <span class="sc">==</span> <span class="st">"Kenya"</span><span class="sc">~</span><span class="st">"Kenya"</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"United States"</span><span class="sc">~</span> <span class="st">"United States"</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"Ethiopia"</span><span class="sc">~</span><span class="st">"Ethiopia"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="st">"1966"</span><span class="sc">:</span><span class="st">"2018"</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>men_18<span class="ot">&lt;-</span> men <span class="sc">%&gt;%</span> <span class="co">#Single point of interest (2018)</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2018</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>women_18<span class="ot">&lt;-</span> women <span class="sc">%&gt;%</span> <span class="co">#Single point of interest (2018)</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2018</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>men2<span class="ot">&lt;-</span> men <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time2 =</span> <span class="fu">as.numeric</span>(men<span class="sc">$</span>time)) <span class="sc">%&gt;%</span> <span class="co">#Switched time from an interval (unknown) to numeric (seconds)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country2 =</span> <span class="fu">case_when</span>(country <span class="sc">==</span> <span class="st">"Kenya"</span><span class="sc">~</span><span class="st">"Kenya"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"United States"</span><span class="sc">~</span> <span class="st">"United States"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"Japan"</span><span class="sc">~</span><span class="st">"Japan"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="st">"1897"</span><span class="sc">:</span><span class="st">"2018"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>women2<span class="ot">&lt;-</span> women <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">time2 =</span> <span class="fu">as.numeric</span>(women<span class="sc">$</span>time)) <span class="sc">%&gt;%</span> <span class="co">#Switched time from an interval (unknown) to numeric (seconds)</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country2 =</span> <span class="fu">case_when</span>(country <span class="sc">==</span> <span class="st">"Kenya"</span><span class="sc">~</span><span class="st">"Kenya"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"United States"</span><span class="sc">~</span> <span class="st">"United States"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                              country <span class="sc">==</span> <span class="st">"Ethiopia"</span><span class="sc">~</span><span class="st">"Ethiopia"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="st">"1966"</span><span class="sc">:</span><span class="st">"2018"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>men_18<span class="ot">&lt;-</span> men <span class="sc">%&gt;%</span> <span class="co">#Single point of interest (2018)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2018</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>women_18<span class="ot">&lt;-</span> women <span class="sc">%&gt;%</span> <span class="co">#Single point of interest (2018)</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2018</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Let’s take a look at the result</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(men2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 122 × 6
+    year name                           country       time     time2 country2   
+   &lt;dbl&gt; &lt;chr&gt;                          &lt;chr&gt;         &lt;time&gt;   &lt;dbl&gt; &lt;chr&gt;      
+ 1  2018 "Yuki Kawauchi"                Japan         02:15:58  8158 Japan      
+ 2  2017 "Geoffrey Kirui"               Kenya         02:09:37  7777 Kenya      
+ 3  2016 "Lemi Berhanu"                 Ethiopia      02:12:45  7965 &lt;NA&gt;       
+ 4  2015 "Lelisa Desisa"                Ethiopia      02:09:17  7757 &lt;NA&gt;       
+ 5  2014 "Mebrahtom \"Meb\" Keflezighi" United States 02:08:37  7717 United Sta…
+ 6  2013 "Lelisa Desisa"                Ethiopia      02:10:22  7822 &lt;NA&gt;       
+ 7  2012 "Wesley Korir"                 Kenya         02:12:40  7960 Kenya      
+ 8  2011 "Geoffrey Mutai"               Kenya         02:03:02  7382 Kenya      
+ 9  2010 "Robert Kiprono Cheruiyot"     Kenya         02:05:52  7552 Kenya      
+10  2009 "Deriba Merga"                 Ethiopia      02:08:42  7722 &lt;NA&gt;       
+# … with 112 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(women2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53 × 6
+    year name            country       time     time2 country2     
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;         &lt;time&gt;   &lt;dbl&gt; &lt;chr&gt;        
+ 1  2018 Desiree Linden  United States 02:39:54  9594 United States
+ 2  2017 Edna Kiplagat   Kenya         02:21:52  8512 Kenya        
+ 3  2016 Atsede Baysa    Ethiopia      02:29:19  8959 Ethiopia     
+ 4  2015 Caroline Rotich Kenya         02:24:55  8695 Kenya        
+ 5  2014 Buzunesh Deba   Ethiopia      02:19:59  8399 Ethiopia     
+ 6  2013 Rita Jeptoo     Kenya         02:26:25  8785 Kenya        
+ 7  2012 Sharon Cherop   Kenya         02:31:50  9110 Kenya        
+ 8  2011 Caroline Kilel  Kenya         02:22:36  8556 Kenya        
+ 9  2010 Teyba Erkesso   Ethiopia      02:26:11  8771 Ethiopia     
+10  2009 Salina Kosgei   Kenya         02:32:16  9136 Kenya        
+# … with 43 more rows</code></pre>
+</div>
 </div>
 </section>
 <section id="create-lists-for-x-axis" class="level3">
 <h3 class="anchored" data-anchor-id="create-lists-for-x-axis">Create lists for x axis</h3>
 <p><strong>The figure displays the x axis in years as both 4 digits and 2 digits with a “`”. Here I manually create lists that will be used as axis labels downstream.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>men_years<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1900"</span>, <span class="st">"'10"</span>, <span class="st">"'20"</span>, <span class="st">"'30"</span>, <span class="st">"'40"</span>, <span class="st">"'50"</span>, <span class="st">"'60"</span>, <span class="st">"'70"</span>, <span class="st">"'80"</span>, <span class="st">"'90"</span>, <span class="st">"2000"</span>, <span class="st">"'10"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>women_years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1970"</span>,<span class="st">"'80"</span>, <span class="st">"'90"</span>, <span class="st">"2000"</span>, <span class="st">"'10"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>men_years<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1900"</span>, <span class="st">"'10"</span>, <span class="st">"'20"</span>, <span class="st">"'30"</span>, <span class="st">"'40"</span>, <span class="st">"'50"</span>, <span class="st">"'60"</span>, <span class="st">"'70"</span>, <span class="st">"'80"</span>, <span class="st">"'90"</span>, <span class="st">"2000"</span>, <span class="st">"'10"</span>, <span class="st">"'18"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>women_years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1970"</span>,<span class="st">"'80"</span>, <span class="st">"'90"</span>, <span class="st">"2000"</span>, <span class="st">"'10"</span>, <span class="st">"`18"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -271,140 +331,140 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="plot-women" class="level3">
 <h3 class="anchored" data-anchor-id="plot-women">Plot Women</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Basic plotting</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>wom<span class="ot">&lt;-</span> women2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span><span class="fu">geom_point</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span> year,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> time,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span> country2),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span><span class="fl">0.5</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_fivethirtyeight</span>()<span class="sc">+</span> <span class="co">#Theme is specific to their website</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Working with axis scales</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1970</span>,<span class="dv">2018</span>,<span class="dv">10</span>), <span class="co">#Breaks will go from 1970-2018 by 10 years</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1966</span>,<span class="dv">2018</span>), <span class="co">#Limits set from 1966-2018</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> women_years) <span class="sc">+</span> <span class="co">#Here is that manual list for the x axis labels </span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_time</span>(<span class="at">breaks =</span> <span class="fu">date_breaks</span>(<span class="st">"30 mins"</span>),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">limits =</span> <span class="fu">c</span>(<span class="st">"7200"</span>, <span class="st">"12960"</span>))<span class="sc">+</span> <span class="co">#times are in seconds </span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2018</span>,<span class="at">alpha=</span><span class="fl">0.3</span>, <span class="co">#Adds dashed line to 2018</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dotted"</span>)<span class="sc">+</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Labels/Arrows to Plot</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2013</span>, <span class="at">y =</span><span class="dv">12555</span>, <span class="at">label =</span> <span class="st">"WOMEN'S"</span>, <span class="at">color =</span> <span class="st">"#36454F"</span>, <span class="at">fontface=</span><span class="dv">2</span>, <span class="at">size =</span> <span class="fl">6.4</span>)<span class="sc">+</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2009</span>, <span class="at">y =</span><span class="dv">8300</span>, <span class="at">label =</span> <span class="st">"Kenya"</span>, <span class="at">color =</span> <span class="st">"#800080"</span>, <span class="at">fontface =</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1979</span>, <span class="at">y =</span><span class="dv">11000</span>, <span class="at">label =</span> <span class="st">"United</span><span class="sc">\n</span><span class="st">States"</span>, <span class="at">color =</span> <span class="st">"#6495ED"</span>, <span class="at">fontface =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2000</span>, <span class="at">y =</span><span class="dv">9100</span>, <span class="at">label =</span> <span class="st">"Ethiopia"</span>, <span class="at">color =</span> <span class="st">"#228B22"</span>, <span class="at">fontface =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2015</span>, <span class="at">y =</span><span class="dv">10600</span>, <span class="at">label =</span> <span class="st">"Desiree</span><span class="sc">\n</span><span class="st">Linden"</span>)<span class="sc">+</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>( <span class="at">geom =</span> <span class="st">"curve"</span>, <span class="at">x =</span> <span class="dv">2015</span>, <span class="at">y =</span> <span class="dv">10100</span>, <span class="at">xend =</span> <span class="fl">2017.3</span>, <span class="at">yend =</span> <span class="dv">9600</span>, </span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">curvature =</span> .<span class="dv">45</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)))<span class="sc">+</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#Assign Colors by Country. Hex codes were Googled.</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Ethiopia"</span> <span class="ot">=</span> <span class="st">"#228B22"</span>,</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"United States"</span> <span class="ot">=</span> <span class="st">"#6495ED"</span>,</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Kenya"</span> <span class="ot">=</span> <span class="st">"#800080"</span>))<span class="sc">+</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#Labels </span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Winning time"</span>,</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"A slower field at this year's Boston Marathon"</span>,</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Finish time for winners of the Boston Marathon, by country"</span>,</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span><span class="st">"'18"</span>)<span class="sc">+</span> <span class="co">#This was the only way I could think of adding 2018 the axis that had breaks of 10 years otherwise. </span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co">#Work with Plot colors, fonts, and Label Positions</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>,</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">1.4</span>),</span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="sc">-</span>.<span class="dv">41</span>),</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#36454F"</span>,</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">face=</span> <span class="st">"bold"</span>),</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.96555</span>, <span class="at">vjust =</span> <span class="fl">8.1</span>)) <span class="sc">+</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="co">#Create new plot to overlay with point of interest (2018)</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>women_18,</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y=</span> time), </span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>           <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span><span class="st">"black"</span>, <span class="co">#Outline point </span></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.8</span>)</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>wom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Basic plotting</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>wom<span class="ot">&lt;-</span> women2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span><span class="fu">geom_point</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span> year,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> time,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span> country2),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span><span class="fl">0.5</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_fivethirtyeight</span>()<span class="sc">+</span> <span class="co">#Theme is specific to their website</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Working with axis scales</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1970</span>,<span class="dv">1980</span>, <span class="dv">1990</span>, <span class="dv">2000</span>,<span class="dv">2010</span>,<span class="dv">2018</span>), <span class="co">#Breaks will go from 1970-2018 by 10 years</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1966</span>,<span class="dv">2018</span>), <span class="co">#Limits set from 1966-2018</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> women_years) <span class="sc">+</span> <span class="co">#Here is that manual list for the x axis labels </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_time</span>(<span class="at">breaks =</span> <span class="fu">date_breaks</span>(<span class="st">"30 mins"</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">limits =</span> <span class="fu">c</span>(<span class="st">"7200"</span>, <span class="st">"12960"</span>))<span class="sc">+</span> <span class="co">#times are in seconds </span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2018</span>,<span class="at">alpha=</span><span class="fl">0.3</span>, <span class="co">#Adds dashed line to 2018</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dotted"</span>)<span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Labels/Arrows to Plot</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2013</span>, <span class="at">y =</span><span class="dv">12555</span>, <span class="at">label =</span> <span class="st">"WOMEN'S"</span>, <span class="at">color =</span> <span class="st">"#36454F"</span>, <span class="at">fontface=</span><span class="dv">2</span>, <span class="at">size =</span> <span class="fl">6.4</span>)<span class="sc">+</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2009</span>, <span class="at">y =</span><span class="dv">8300</span>, <span class="at">label =</span> <span class="st">"Kenya"</span>, <span class="at">color =</span> <span class="st">"#800080"</span>, <span class="at">fontface =</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1979</span>, <span class="at">y =</span><span class="dv">11000</span>, <span class="at">label =</span> <span class="st">"United</span><span class="sc">\n</span><span class="st">States"</span>, <span class="at">color =</span> <span class="st">"#6495ED"</span>, <span class="at">fontface =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2000</span>, <span class="at">y =</span><span class="dv">9100</span>, <span class="at">label =</span> <span class="st">"Ethiopia"</span>, <span class="at">color =</span> <span class="st">"#228B22"</span>, <span class="at">fontface =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2015</span>, <span class="at">y =</span><span class="dv">10600</span>, <span class="at">label =</span> <span class="st">"Desiree</span><span class="sc">\n</span><span class="st">Linden"</span>)<span class="sc">+</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>( <span class="at">geom =</span> <span class="st">"curve"</span>, <span class="at">x =</span> <span class="dv">2015</span>, <span class="at">y =</span> <span class="dv">10100</span>, <span class="at">xend =</span> <span class="fl">2017.3</span>, <span class="at">yend =</span> <span class="dv">9600</span>, </span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">curvature =</span> .<span class="dv">45</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)))<span class="sc">+</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#Assign Colors by Country. Hex codes were Googled.</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Ethiopia"</span> <span class="ot">=</span> <span class="st">"#228B22"</span>,</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"United States"</span> <span class="ot">=</span> <span class="st">"#6495ED"</span>,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Kenya"</span> <span class="ot">=</span> <span class="st">"#800080"</span>))<span class="sc">+</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co">#Labels </span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Winning time"</span>,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"A slower field at this year's Boston Marathon"</span>,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Finish time for winners of the Boston Marathon, by country"</span>)<span class="sc">+</span><span class="co">#,</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>     <span class="co"># caption ="'18")+ #This was the only way I could think of adding 2018 the axis that had breaks of 10 years otherwise. </span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co">#Work with Plot colors, fonts, and Label Positions</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">1.4</span>),</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="sc">-</span>.<span class="dv">41</span>),</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#36454F"</span>,</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">face=</span> <span class="st">"bold"</span>)) <span class="sc">+</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>       <span class="co"># plot.caption = element_text(hjust = 0.96555, vjust = 8.1)) +</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="co">#Create new plot to overlay with point of interest (2018)</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>women_18,</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y=</span> time), </span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>           <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span><span class="st">"black"</span>, <span class="co">#Outline point </span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.8</span>)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>wom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="visualization_exercise_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="visualization_exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="plot-men" class="level3">
 <h3 class="anchored" data-anchor-id="plot-men">Plot Men</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Basic Plotting</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mn<span class="ot">&lt;-</span> men2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span><span class="fu">geom_point</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span> year,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> time,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span> country2),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_fivethirtyeight</span>()<span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Working with axis scales</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1900</span>,<span class="dv">2018</span>,<span class="dv">10</span>), <span class="co">#Breaks go from 1900-2018 by 10 years</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1897</span>,<span class="dv">2020</span>), <span class="co">#Limits set from 1897-2020</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> men_years) <span class="sc">+</span> <span class="co">#Using list from above for x axis labels</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_time</span>(<span class="at">breaks =</span> <span class="fu">date_breaks</span>(<span class="st">"30 mins"</span>),</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">limits =</span> <span class="fu">c</span>(<span class="st">"7200"</span>, <span class="st">"10800"</span>))<span class="sc">+</span> <span class="co">#Time in seconds</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2018</span>,</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha=</span><span class="fl">0.3</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Labels/Arrows to Plot</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2011</span>, <span class="at">y =</span><span class="dv">10500</span>, <span class="at">label =</span> <span class="st">"MEN'S"</span>, <span class="at">color =</span> <span class="st">"#36454F"</span>, <span class="at">fontface=</span><span class="dv">2</span>, <span class="at">size =</span> <span class="fl">6.4</span>)<span class="sc">+</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2000</span>, <span class="at">y =</span><span class="dv">7500</span>, <span class="at">label =</span> <span class="st">"Kenya"</span>, <span class="at">color =</span> <span class="st">"#800080"</span>, <span class="at">fontface=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1919</span>, <span class="at">y =</span><span class="dv">9500</span>, <span class="at">label =</span> <span class="st">"United</span><span class="sc">\n</span><span class="st">States"</span>, <span class="at">color =</span> <span class="st">"#6495ED"</span>, <span class="at">fontface=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1960</span>, <span class="at">y =</span><span class="dv">7900</span>, <span class="at">label =</span> <span class="st">"Japan"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">fontface =</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2010</span>, <span class="at">y =</span><span class="dv">9000</span>, <span class="at">label =</span> <span class="st">"Yuki</span><span class="sc">\n</span><span class="st">Kawauchi"</span>)<span class="sc">+</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>( <span class="at">geom =</span> <span class="st">"curve"</span>, <span class="at">x =</span> <span class="dv">2010</span>, <span class="at">y =</span> <span class="dv">8750</span>, <span class="at">xend =</span> <span class="fl">2016.5</span>, <span class="at">yend =</span> <span class="dv">8150</span>, </span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">curvature =</span> .<span class="dv">45</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)))<span class="sc">+</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">#Working with Labels, etc</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Winning time"</span>,</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption  =</span> <span class="st">"'18"</span>)<span class="sc">+</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#36454F"</span>,</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.952</span>, <span class="at">vjust =</span> <span class="fl">8.1</span>)) <span class="sc">+</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">#Assign Colors by Country</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Japan"</span> <span class="ot">=</span> <span class="st">"red"</span>,</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"United States"</span> <span class="ot">=</span> <span class="st">"#6495ED"</span>,</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Kenya"</span> <span class="ot">=</span> <span class="st">"#800080"</span>))<span class="sc">+</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co">#Overlay Plot with point of interest (2018)</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>men_18, </span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y=</span> time), </span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>             <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span><span class="st">"black"</span>,</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) </span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>mn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Basic Plotting</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mn<span class="ot">&lt;-</span> men2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span><span class="fu">geom_point</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span> year,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> time,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color=</span> country2),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_fivethirtyeight</span>()<span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Working with axis scales</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1900</span>,<span class="dv">1910</span>,<span class="dv">1920</span>,<span class="dv">1930</span>,<span class="dv">1940</span>,<span class="dv">1950</span>,<span class="dv">1960</span>,<span class="dv">1970</span>,<span class="dv">1980</span>,<span class="dv">1990</span>,<span class="dv">2000</span>,<span class="dv">2010</span>,<span class="dv">2018</span>), <span class="co">#Breaks go from 1900-2018 by 10 years</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1897</span>,<span class="dv">2020</span>), <span class="co">#Limits set from 1897-2020</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> men_years) <span class="sc">+</span> <span class="co">#Using list from above for x axis labels</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_time</span>(<span class="at">breaks =</span> <span class="fu">date_breaks</span>(<span class="st">"30 mins"</span>),</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">limits =</span> <span class="fu">c</span>(<span class="st">"7200"</span>, <span class="st">"10800"</span>))<span class="sc">+</span> <span class="co">#Time in seconds</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2018</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha=</span><span class="fl">0.3</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Labels/Arrows to Plot</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2011</span>, <span class="at">y =</span><span class="dv">10500</span>, <span class="at">label =</span> <span class="st">"MEN'S"</span>, <span class="at">color =</span> <span class="st">"#36454F"</span>, <span class="at">fontface=</span><span class="dv">2</span>, <span class="at">size =</span> <span class="fl">6.4</span>)<span class="sc">+</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2000</span>, <span class="at">y =</span><span class="dv">7500</span>, <span class="at">label =</span> <span class="st">"Kenya"</span>, <span class="at">color =</span> <span class="st">"#800080"</span>, <span class="at">fontface=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1919</span>, <span class="at">y =</span><span class="dv">9500</span>, <span class="at">label =</span> <span class="st">"United</span><span class="sc">\n</span><span class="st">States"</span>, <span class="at">color =</span> <span class="st">"#6495ED"</span>, <span class="at">fontface=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1960</span>, <span class="at">y =</span><span class="dv">7900</span>, <span class="at">label =</span> <span class="st">"Japan"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">fontface =</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">2010</span>, <span class="at">y =</span><span class="dv">9000</span>, <span class="at">label =</span> <span class="st">"Yuki</span><span class="sc">\n</span><span class="st">Kawauchi"</span>)<span class="sc">+</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>( <span class="at">geom =</span> <span class="st">"curve"</span>, <span class="at">x =</span> <span class="dv">2010</span>, <span class="at">y =</span> <span class="dv">8750</span>, <span class="at">xend =</span> <span class="fl">2016.5</span>, <span class="at">yend =</span> <span class="dv">8150</span>, </span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">curvature =</span> .<span class="dv">45</span>, <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)))<span class="sc">+</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#Working with Labels, etc</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Winning time"</span>)<span class="sc">+</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>       <span class="co">#caption  = "'18")+</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="st">"#E5E4E2"</span>),</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#36454F"</span>,</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">face =</span> <span class="st">"bold"</span>))<span class="sc">+</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>      <span class="co"># plot.caption = element_text(hjust = 0.952, vjust = 8.1)) +</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="co">#Assign Colors by Country</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Japan"</span> <span class="ot">=</span> <span class="st">"red"</span>,</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"United States"</span> <span class="ot">=</span> <span class="st">"#6495ED"</span>,</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Kenya"</span> <span class="ot">=</span> <span class="st">"#800080"</span>))<span class="sc">+</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="co">#Overlay Plot with point of interest (2018)</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>men_18, </span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y=</span> time), </span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>             <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span><span class="st">"black"</span>,</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.8</span>,</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) </span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>mn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="visualization_exercise_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="visualization_exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="final-plot" class="level3">
 <h3 class="anchored" data-anchor-id="final-plot">Final Plot</h3>
-<p><strong>Here I used <code>ggarrange()</code> to stack the plots on top of one another. </strong></p>
+<p><strong>Here I used <code>ggarrange()</code> to stack the plots on top of one another.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>figure<span class="ot">&lt;-</span> <span class="fu">ggarrange</span>(wom, mn <span class="sc">+</span> <span class="fu">font</span>(<span class="st">"x.text"</span>, <span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="co">#Final plot is 1 column and 2 rows </span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>figure</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>figure<span class="ot">&lt;-</span> <span class="fu">ggarrange</span>(wom, mn <span class="sc">+</span> <span class="fu">font</span>(<span class="st">"x.text"</span>, <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="co">#Final plot is 1 column and 2 rows </span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>figure</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="visualization_exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="visualization_exercise_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Pretty close! A few things that I struggled with were getting the y axis tick labels to be displayed as “2:00:00” as opposed to “02:00:00”. I also could not get the dashed lines for `18 to line up for both graphs without skewing everything else.</strong></p>
@@ -413,9 +473,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="save-as-png" class="level2">
 <h2 class="anchored" data-anchor-id="save-as-png">Save as PNG</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"results"</span>,<span class="st">"plots"</span>, <span class="st">"marathon.png"</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>figure</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"results"</span>,<span class="st">"plots"</span>, <span class="st">"marathon.png"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>figure</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>quartz_off_screen 
                 2 </code></pre>
