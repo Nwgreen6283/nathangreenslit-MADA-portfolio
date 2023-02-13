@@ -4,7 +4,35 @@
     "href": "tidytuesday_exercise.html",
     "title": "Tidy Tuesday Exercise",
     "section": "",
-    "text": "Placeholder file for the future Tidy Tuesday exercise."
+    "text": "library(tidyverse)\n\n── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.4.0      ✔ purrr   1.0.1 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.5.0 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nlibrary(here)\n\nhere() starts at /Users/nathangreenslit/Desktop/UGA/Spring 2023/MADA/nathangreenslit-MADA-portfolio\n\nlibrary(tidytuesdayR)\nlibrary(lubridate)\n\nLoading required package: timechange\n\nAttaching package: 'lubridate'\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union"
+  },
+  {
+    "objectID": "tidytuesday_exercise.html#the-data",
+    "href": "tidytuesday_exercise.html#the-data",
+    "title": "Tidy Tuesday Exercise",
+    "section": "The Data",
+    "text": "The Data\n\ntuesdata <- tidytuesdayR::tt_load(2023, week = 7)\n\n\n    Downloading file 1 of 1: `age_gaps.csv`\n\nage_gaps <- tuesdata$age_gaps\n\n\nTake a look at the data\n\nglimpse(age_gaps)\n\nRows: 1,155\nColumns: 13\n$ movie_name         <chr> \"Harold and Maude\", \"Venus\", \"The Quiet American\", …\n$ release_year       <dbl> 1971, 2006, 2002, 1998, 2010, 1992, 2009, 1999, 199…\n$ director           <chr> \"Hal Ashby\", \"Roger Michell\", \"Phillip Noyce\", \"Joe…\n$ age_difference     <dbl> 52, 50, 49, 45, 43, 42, 40, 39, 38, 38, 36, 36, 35,…\n$ couple_number      <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ actor_1_name       <chr> \"Ruth Gordon\", \"Peter O'Toole\", \"Michael Caine\", \"D…\n$ actor_2_name       <chr> \"Bud Cort\", \"Jodie Whittaker\", \"Do Thi Hai Yen\", \"T…\n$ character_1_gender <chr> \"woman\", \"man\", \"man\", \"man\", \"man\", \"man\", \"man\", …\n$ character_2_gender <chr> \"man\", \"woman\", \"woman\", \"woman\", \"man\", \"woman\", \"…\n$ actor_1_birthdate  <date> 1896-10-30, 1932-08-02, 1933-03-14, 1930-09-17, 19…\n$ actor_2_birthdate  <date> 1948-03-29, 1982-06-03, 1982-10-01, 1975-11-08, 19…\n$ actor_1_age        <dbl> 75, 74, 69, 68, 81, 59, 62, 69, 57, 77, 59, 56, 65,…\n$ actor_2_age        <dbl> 23, 24, 20, 23, 38, 17, 22, 30, 19, 39, 23, 20, 30,…\n\n\n\n\nHow many occurances of age gaps are there?\n\ndist<- age_gaps %>%\n  count(age_difference)"
+  },
+  {
+    "objectID": "tidytuesday_exercise.html#analysis-ideas",
+    "href": "tidytuesday_exercise.html#analysis-ideas",
+    "title": "Tidy Tuesday Exercise",
+    "section": "Analysis Ideas",
+    "text": "Analysis Ideas\n\n1. How has the age gap changes over the years?\n\n\n2. Do we see a greater age gap between same-sex or oposite-sex couples?\n\n\n3. What is the most common age differnce?"
+  },
+  {
+    "objectID": "tidytuesday_exercise.html#data-wrangling",
+    "href": "tidytuesday_exercise.html#data-wrangling",
+    "title": "Tidy Tuesday Exercise",
+    "section": "Data Wrangling",
+    "text": "Data Wrangling\nSlim down Data\n\nd1 <- age_gaps %>%\n  select(release_year, age_difference)\n\nAverage gap by year\n\nyear_avg<- d1 %>%\ngroup_by(release_year) %>%\nsummarize_if(is.numeric, mean) %>%\nungroup()"
+  },
+  {
+    "objectID": "tidytuesday_exercise.html#plotting",
+    "href": "tidytuesday_exercise.html#plotting",
+    "title": "Tidy Tuesday Exercise",
+    "section": "Plotting",
+    "text": "Plotting\n\nHow has age gap chaged over the years?\n\n\nyear_avg %>%\n  ggplot() + \n  geom_line(\n    aes(\n      x = release_year,\n      y = age_difference))+\n  geom_point(\n    aes(\n      x = release_year,\n      y = age_difference))\n\n\n\n\n\nWhat is the most common age difference?\n\n\nage_gaps %>%\n  ggplot() +\n  geom_freqpoly(\n    aes(\n      x = age_difference))+\n scale_x_continuous(n.breaks=5)\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\nWHY DO WE SEE 150???"
   },
   {
     "objectID": "aboutme.html",
@@ -186,7 +214,7 @@
     "href": "cheatsheet.html#ggplot",
     "title": "Cheat Sheet",
     "section": "GGPLOT",
-    "text": "GGPLOT\n\nTilting x axis labels:\ntheme(axis.text.x = element_text(angle = 45, hjust = 1))\nCentering Title:\ntheme(plot.title = element_text(hjust = 0.5))\nRemove legend:\ntheme(legend.position = \"none\")\nAdd more ticks to x or y acis:\nscale_x_continuous(n.breaks=10) // scale_y_continuous\nStack Plots with ggarrange():\nggarrange(fig1, fig2, fig3 + font(\"x.text\", size = 10), ncol = 1, nrow = 3)\n\nFinal plot is 1 column and 2 rows\n\nEdit axis or title labels aesthetically:\ntheme(axis.title.y = element_text(hjust = 1, color = \"red, face = \"bold)"
+    "text": "GGPLOT\n\nTilting x axis labels:\ntheme(axis.text.x = element_text(angle = 45, hjust = 1))\nCentering Title:\ntheme(plot.title = element_text(hjust = 0.5))\nRemove legend:\ntheme(legend.position = \"none\")\nAdd more ticks to x or y acis:\nscale_x_continuous(n.breaks=10) // scale_y_continuous\nStack Plots with ggarrange():\nggarrange(fig1, fig2, fig3 + font(\"x.text\", size = 10), ncol = 1, nrow = 3)\n\nFinal plot is 1 column and 2 rows\n\nEdit axis or title labels aesthetically:\ntheme(axis.title.y = element_text(hjust = 1, color = \"red, face = \"bold)\nAdd annotation:\nannotate(\"text\", x = 100, y =200, label = \"WORD\", color = \"blue\", fontface=2, size = 6.4)\nAdd Arrows:\nannotate( geom = \"curve\", x = 100, y = 200, xend = 200, yend = 300, curvature = .45, arrow = arrow(length = unit(2, \"mm\")))"
   },
   {
     "objectID": "cheatsheet.html#statistics",
@@ -201,5 +229,12 @@
     "title": "Cheat Sheet",
     "section": "Exporting",
     "text": "Exporting\n\nSave as RDS file in specific folder:\nsaveRDS(data, file = \"Desktop/cheese/newdata.rds\") would save the file newdata.rds in a folder called cheese on the desktop\nreadRDS(\"Desktop/cheese/newdata.rds\") would load it back in\nSave plot as png:\npng(file = \"file/location/plot.png\")\nGpplot code\ndev.off()"
+  },
+  {
+    "objectID": "cheatsheet.html#random",
+    "href": "cheatsheet.html#random",
+    "title": "Cheat Sheet",
+    "section": "Random",
+    "text": "Random\n\nMake a nice table:\ntable<- data.frame(Height, Width)\nkable(table)"
   }
 ]

@@ -5,4 +5,76 @@ output:
     toc: FALSE
 ---
 
-Placeholder file for the future Tidy Tuesday exercise.
+## Loading Packages
+```{r}
+library(tidyverse)
+library(here)
+library(tidytuesdayR)
+library(lubridate)
+```
+
+## The Data
+```{r, message = FALSE}
+tuesdata <- tidytuesdayR::tt_load(2023, week = 7)
+age_gaps <- tuesdata$age_gaps
+```
+
+### Take a look at the data
+```{r}
+glimpse(age_gaps)
+```
+
+### How many occurances of age gaps are there?
+```{r}
+dist<- age_gaps %>%
+  count(age_difference)
+```
+
+## Analysis Ideas
+### 1. How has the age gap changes over the years?
+### 2. Do we see a greater age gap between same-sex or oposite-sex couples?
+### 3. What is the most common age differnce? 
+
+## Data Wrangling
+
+Slim down Data
+```{r}
+d1 <- age_gaps %>%
+  select(release_year, age_difference)
+```
+
+Average gap by year
+```{r}
+year_avg<- d1 %>%
+group_by(release_year) %>%
+summarize_if(is.numeric, mean) %>%
+ungroup()
+```
+
+
+
+## Plotting
+1. How has age gap chaged over the years?
+```{r}
+year_avg %>%
+  ggplot() + 
+  geom_line(
+    aes(
+      x = release_year,
+      y = age_difference))+
+  geom_point(
+    aes(
+      x = release_year,
+      y = age_difference))
+```
+3. What is the most common age difference?
+```{r}
+age_gaps %>%
+  ggplot() +
+  geom_freqpoly(
+    aes(
+      x = age_difference))+
+ scale_x_continuous(n.breaks=5)
+```
+**WHY DO WE SEE 150???**
+
