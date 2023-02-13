@@ -159,5 +159,47 @@
     "title": "Data Analysis Exercise",
     "section": "Looking at the data",
     "text": "Looking at the data\nTo make sure the data loaded correctly, we will look at the summary measures of the dataframe.\n\nsummary(ga)\n\n      year         cause              state               deaths     \n Min.   :1999   Length:209         Length:209         Min.   :  847  \n 1st Qu.:2003   Class :character   Class :character   1st Qu.: 1604  \n Median :2008   Mode  :character   Mode  :character   Median : 3411  \n Mean   :2008                                         Mean   :11130  \n 3rd Qu.:2013                                         3rd Qu.:14032  \n Max.   :2017                                         Max.   :83098  \n\nstr(ga)\n\ntibble [209 × 4] (S3: tbl_df/tbl/data.frame)\n $ year  : num [1:209] 2017 2017 2017 2017 2017 ...\n $ cause : chr [1:209] \"Unintentional injuries\" \"All causes\" \"Alzheimer's disease\" \"Stroke\" ...\n $ state : chr [1:209] \"Georgia\" \"Georgia\" \"Georgia\" \"Georgia\" ...\n $ deaths: num [1:209] 4712 83098 4290 4399 4866 ...\n\n\n\nSome simple exploratory analysis with plots\nLet’s look at a a series of boxplots for each year of only the All Cause deaths in Georgia.\n\n#filter for all causes and pull death column\nACdeaths <- ga %>% \n  filter(cause == \"All causes\") %>% \n  pull(deaths)\n\n#filter for all causes and pull year column\nACyear <- ga %>% \n  filter(cause == \"All causes\") %>% \n  pull(year)\n\n#create boxplot\nboxplot(formula = ACdeaths ~ ACyear)\n\n\n\n\nWhile not very informative, we can see that the death rate for All Causes are increasing with each year. Let’s look at a better representation of the data.\nFirst, I want to look at the top category of injuries for GA over 1999 to 2017. To do this, I will plot the number of deaths for each cause for each year.\n\n#scatter plot of year vs deaths by cause\nggplot(ga, aes(x = year, y = deaths, color = cause)) +\n  geom_point()+\n  geom_line()+\n  scale_y_continuous(trans = \"log\")+\n  scale_color_brewer(palette = \"Paired\")\n\n\n\n\nUnlike with the box plot, the all causes line is not increasing as drastically as the boxplot suggested.Looking at the separated causes of death, we can see from the plot that the top causes are heart disease and cancer in Georgia for this time period. One cause of death that I find interesting is the sharp increase in Alzheimer’s disease around 2013.\nWe can try to fit a model to the Alzheimer’s line to try to predict future trends.\n\n\nLinear model\n\n#filter for alzheimer's disease\nAD <- ga %>% filter(cause == \"Alzheimer's disease\")\n\n#create fit and summary\nfit <- lm(deaths ~ year, data = AD)\nsummary(fit)\n\n\nCall:\nlm(formula = deaths ~ year, data = AD)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-804.16 -337.48   10.23  203.93  879.15 \n\nCoefficients:\n              Estimate Std. Error t value Pr(>|t|)    \n(Intercept) -278310.97   38525.50  -7.224 1.42e-06 ***\nyear            139.67      19.19   7.280 1.29e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 458.1 on 17 degrees of freedom\nMultiple R-squared:  0.7571,    Adjusted R-squared:  0.7429 \nF-statistic:    53 on 1 and 17 DF,  p-value: 1.286e-06\n\n\nThe linear model suggests year is a valid predictor of the number of deaths from Alzheimer’s disease with an expected increase of 139.67 deaths per year."
+  },
+  {
+    "objectID": "cheatsheet.html",
+    "href": "cheatsheet.html",
+    "title": "Cheat Sheet",
+    "section": "",
+    "text": "Hide source code: {r, echo=FALSE}\nHide text output: {r, results = FALSE} #Summary Tables\nHide messages: {r, message=FALSE} #Package Loading\nHide warning messages: {r, warning=FALSE}\nHide Plots: {r, fig.show = hide}"
+  },
+  {
+    "objectID": "cheatsheet.html#data-cleaning",
+    "href": "cheatsheet.html#data-cleaning",
+    "title": "Cheat Sheet",
+    "section": "Data Cleaning",
+    "text": "Data Cleaning\nselect() :which extracts columns from a data frame\nfilter() :which extracts rows from a data frame\narrange() :which moves important rows to the top of a data frame\n\nWill naturally put in ascending/alphabetical order.\narrange(desc(x)) will put dataframe in descending order\nFilter NAs - filter(!is.na(x))"
+  },
+  {
+    "objectID": "cheatsheet.html#dataset-wrangling",
+    "href": "cheatsheet.html#dataset-wrangling",
+    "title": "Cheat Sheet",
+    "section": "Dataset Wrangling",
+    "text": "Dataset Wrangling\n\nCombine column from one dataset to another: - I have column tree in ds1 that I want to add to ds2\n\ncbind command:\ncbind(ds2, x = ds1$tree)\n_join commands\n\nStrsplit: Split up one name into multiple:\n\nExample: BO_19_2938 → BO, 19, 2938 (so 3 columns)\ndata %>% strsplit(split = \"_\")\n\nSubstring: Just take a portion of the name\n\nExample: BO_19_1000\nData %>% substr(1,5) —>Would give us BO_19\n\nRename Column:\nData %>% rename(\"New\" = \"Old\")\nRename Variables In a Column”\nmutate(column = recode(column, \"Old\" = \"Blind New\"))\nMake new column based on old column:\nmutate(new_col = old_col*6) —>If old column had “3”, new column would have “18”\nAverage values based on column (Ex. Triplicates in qPCR)“\ngroup_by(non-numeric things) %>%\nsummarize_if(is.numeric, mean) %>%\nungroup()\nAdd two datasets with same column headings vertically:\nrbind(d1,d2)\nCreate new column using mutate() and case_when:\nDf %>% mutate(new_column = case_when(other_column == \"A\"~ \"What_you_want_in_new_col\")"
+  },
+  {
+    "objectID": "cheatsheet.html#ggplot",
+    "href": "cheatsheet.html#ggplot",
+    "title": "Cheat Sheet",
+    "section": "GGPLOT",
+    "text": "GGPLOT\n\nTilting x axis labels:\ntheme(axis.text.x = element_text(angle = 45, hjust = 1))\nCentering Title:\ntheme(plot.title = element_text(hjust = 0.5))\nRemove legend:\ntheme(legend.position = \"none\")\nAdd more ticks to x or y acis:\nscale_x_continuous(n.breaks=10) // scale_y_continuous\nStack Plots with ggarrange():\nggarrange(fig1, fig2, fig3 + font(\"x.text\", size = 10), ncol = 1, nrow = 3)\n\nFinal plot is 1 column and 2 rows\n\nEdit axis or title labels aesthetically:\ntheme(axis.title.y = element_text(hjust = 1, color = \"red, face = \"bold)"
+  },
+  {
+    "objectID": "cheatsheet.html#statistics",
+    "href": "cheatsheet.html#statistics",
+    "title": "Cheat Sheet",
+    "section": "Statistics",
+    "text": "Statistics\n\nLinear model: Relationship between infant_mortality (x) and life_expectancy (y) from gapminder dataset:\nlm(infant_mortality\\~life_expectancy, data = gapminder)"
+  },
+  {
+    "objectID": "cheatsheet.html#exporting",
+    "href": "cheatsheet.html#exporting",
+    "title": "Cheat Sheet",
+    "section": "Exporting",
+    "text": "Exporting\n\nSave as RDS file in specific folder:\nsaveRDS(data, file = \"Desktop/cheese/newdata.rds\") would save the file newdata.rds in a folder called cheese on the desktop\nreadRDS(\"Desktop/cheese/newdata.rds\") would load it back in\nSave plot as png:\npng(file = \"file/location/plot.png\")\nGpplot code\ndev.off()"
   }
 ]

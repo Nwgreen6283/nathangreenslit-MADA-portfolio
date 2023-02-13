@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>My Data Analysis Portfolio - Tidy Tuesday Exercise</title>
+<title>My Data Analysis Portfolio - Cheat Sheet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -133,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tidy Tuesday Exercise</h1>
+<h1 class="title">Cheat Sheet</h1>
 </div>
 
 
@@ -148,9 +148,103 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Placeholder file for the future Tidy Tuesday exercise.</p>
+<section id="hiding-render-output" class="level2">
+<h2 class="anchored" data-anchor-id="hiding-render-output">Hiding Render Output</h2>
+<ul>
+<li>Hide source code: {r, echo=FALSE}</li>
+<li>Hide text output: {r, results = FALSE} #Summary Tables</li>
+<li>Hide messages: {r, message=FALSE} #Package Loading</li>
+<li>Hide warning messages: {r, warning=FALSE}</li>
+<li>Hide Plots: {r, fig.show = <code>hide</code>}</li>
+</ul>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
+<p><code>select()</code> :which extracts columns from a data frame<br>
+<code>filter()</code> :which extracts rows from a data frame<br>
+<code>arrange()</code> :which moves important rows to the top of a data frame</p>
+<ul>
+<li><p>Will naturally put in ascending/alphabetical order.</p></li>
+<li><p><code>arrange(desc(x))</code> will put dataframe in descending order</p></li>
+<li><p>Filter NAs - <code>filter(!is.na(x))</code></p></li>
+</ul>
+</section>
+<section id="dataset-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-wrangling">Dataset Wrangling</h2>
+<ul>
+<li><p>Combine column from one dataset to another: - I have column <code>tree</code> in ds1 that I want to add to ds2</p>
+<ul>
+<li><p>cbind command:<br>
+<code>cbind(ds2, x = ds1$tree)</code></p></li>
+<li><p><code>_join</code> commands</p></li>
+</ul></li>
+<li><p>Strsplit: Split up one name into multiple:</p>
+<ul>
+<li>Example: BO_19_2938 → BO, 19, 2938 (so 3 columns)<br>
+<code>data %&gt;% strsplit(split = "_")</code></li>
+</ul></li>
+<li><p>Substring: Just take a portion of the name</p>
+<ul>
+<li>Example: BO_19_1000<br>
+<code>Data %&gt;% substr(1,5)</code> —&gt;Would give us BO_19</li>
+</ul></li>
+<li><p>Rename Column:<br>
+<code>Data %&gt;% rename("New" = "Old")</code></p></li>
+<li><p>Rename Variables In a Column”<br>
+<code>mutate(column = recode(column, "Old" = "Blind New"))</code></p></li>
+<li><p>Make new column based on old column:<br>
+<code>mutate(new_col = old_col*6)</code> —&gt;If old column had “3”, new column would have “18”</p></li>
+<li><p>Average values based on column (Ex. Triplicates in qPCR)“<br>
+<code>group_by(non-numeric things) %&gt;%</code><br>
+<code>summarize_if(is.numeric, mean) %&gt;%</code><br>
+<code>ungroup()</code></p></li>
+<li><p>Add two datasets with same column headings vertically:<br>
+<code>rbind(d1,d2)</code></p></li>
+<li><p>Create new column using mutate() and case_when:<br>
+<code>Df %&gt;% mutate(new_column = case_when(other_column == "A"~ "What_you_want_in_new_col")</code></p></li>
+</ul>
+</section>
+<section id="ggplot" class="level2">
+<h2 class="anchored" data-anchor-id="ggplot">GGPLOT</h2>
+<ul>
+<li><p>Tilting x axis labels:<br>
+<code>theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></p></li>
+<li><p>Centering Title:<br>
+<code>theme(plot.title = element_text(hjust = 0.5))</code></p></li>
+<li><p>Remove legend:<br>
+<code>theme(legend.position = "none")</code></p></li>
+<li><p>Add more ticks to x or y acis:<br>
+<code>scale_x_continuous(n.breaks=10) // scale_y_continuous</code></p></li>
+<li><p>Stack Plots with ggarrange():<br>
+<code>ggarrange(fig1, fig2, fig3 + font("x.text", size = 10), ncol = 1, nrow = 3)</code></p>
+<ul>
+<li>Final plot is 1 column and 2 rows</li>
+</ul></li>
+<li><p>Edit axis or title labels aesthetically:<br>
+<code>theme(axis.title.y = element_text(hjust = 1, color = "red, face = "bold)</code></p></li>
+</ul>
+</section>
+<section id="statistics" class="level2">
+<h2 class="anchored" data-anchor-id="statistics">Statistics</h2>
+<ul>
+<li>Linear model: Relationship between infant_mortality (x) and life_expectancy (y) from gapminder dataset:<br>
+<code>lm(infant_mortality\~life_expectancy, data = gapminder)</code></li>
+</ul>
+</section>
+<section id="exporting" class="level2">
+<h2 class="anchored" data-anchor-id="exporting">Exporting</h2>
+<ul>
+<li><p>Save as RDS file in specific folder:<br>
+<code>saveRDS(data, file = "Desktop/cheese/newdata.rds")</code> would save the file newdata.rds in a folder called cheese on the desktop<br>
+<code>readRDS("Desktop/cheese/newdata.rds")</code> would load it back in</p></li>
+<li><p>Save plot as png:<br>
+<code>png(file = "file/location/plot.png")</code><br>
+<code>Gpplot code</code><br>
+<code>dev.off()</code></p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

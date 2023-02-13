@@ -1,0 +1,103 @@
+---
+title: "Cheat Sheet"
+output:
+  html_document:
+    toc: TRUE
+---
+
+## Hiding Render Output
+
+-   Hide source code: {r, echo=FALSE}
+-   Hide text output: {r, results = FALSE} #Summary Tables
+-   Hide messages: {r, message=FALSE} #Package Loading
+-   Hide warning messages: {r, warning=FALSE}
+-   Hide Plots: {r, fig.show = `hide`}
+
+## Data Cleaning
+
+`select()` :which extracts columns from a data frame\
+`filter()` :which extracts rows from a data frame\
+`arrange()` :which moves important rows to the top of a data frame
+
+-   Will naturally put in ascending/alphabetical order.
+
+-   `arrange(desc(x))` will put dataframe in descending order
+
+-   Filter NAs - `filter(!is.na(x))`
+
+## Dataset Wrangling
+
+-   Combine column from one dataset to another: - I have column `tree` in ds1 that I want to add to ds2
+
+    -   cbind command:\
+        `cbind(ds2, x = ds1$tree)`
+
+    -   `_join` commands
+
+-   Strsplit: Split up one name into multiple:
+
+    -   Example: BO_19_2938 → BO, 19, 2938 (so 3 columns)\
+        `data %>% strsplit(split = "_")`
+
+-   Substring: Just take a portion of the name
+
+    -   Example: BO_19_1000\
+        `Data %>% substr(1,5)` --->Would give us BO_19
+
+-   Rename Column:\
+    `Data %>% rename("New" = "Old")`
+
+-   Rename Variables In a Column"\
+    `mutate(column = recode(column, "Old" = "Blind New"))`
+
+-   Make new column based on old column:\
+    `mutate(new_col = old_col*6)` --->If old column had "3", new column would have "18"
+
+-   Average values based on column (Ex. Triplicates in qPCR)"\
+    `group_by(non-numeric things) %>%`\
+    `summarize_if(is.numeric, mean) %>%`\
+    `ungroup()`
+
+-   Add two datasets with same column headings vertically:\
+    `rbind(d1,d2)`
+
+-   Create new column using mutate() and case_when:\
+    `Df %>% mutate(new_column = case_when(other_column == "A"~ "What_you_want_in_new_col")`
+
+## GGPLOT
+
+-   Tilting x axis labels:\
+    `theme(axis.text.x = element_text(angle = 45, hjust = 1))`
+
+-   Centering Title:\
+    `theme(plot.title = element_text(hjust = 0.5))`
+
+-   Remove legend:\
+    `theme(legend.position = "none")`
+
+-   Add more ticks to x or y acis:\
+    `scale_x_continuous(n.breaks=10) // scale_y_continuous`
+
+-   Stack Plots with ggarrange():\
+    `ggarrange(fig1, fig2, fig3 + font("x.text", size = 10), ncol = 1, nrow = 3)`
+
+    -   Final plot is 1 column and 2 rows
+
+-   Edit axis or title labels aesthetically:\
+    `theme(axis.title.y = element_text(hjust = 1, color = "red, face = "bold)`
+
+## Statistics
+
+-   Linear model: Relationship between infant_mortality (x) and life_expectancy (y) from gapminder dataset:\
+    `lm(infant_mortality\~life_expectancy, data = gapminder)`
+
+## Exporting
+
+-   Save as RDS file in specific folder:\
+    `saveRDS(data, file = "Desktop/cheese/newdata.rds")` would save the file newdata.rds in a folder called cheese on the desktop\
+    `readRDS("Desktop/cheese/newdata.rds")` would load it back in
+
+-   Save plot as png:\
+    `png(file = "file/location/plot.png")`\
+    `Gpplot code`\
+    `dev.off()`

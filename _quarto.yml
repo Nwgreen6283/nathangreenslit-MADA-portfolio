@@ -18,6 +18,8 @@ website:
             href: ./tidytuesday_exercise.html
           - text: "Data Analysis Exercise"
             href: ./dataanalysis_exercise.html
+          - text: "Coding Cheat Sheet"
+            href: ./cheatsheet.html
     right:
       - icon: github 
         href: https://github.com/Nwgreen6283/nathangreenslit-MADA-portfolio     
