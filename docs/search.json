@@ -172,7 +172,7 @@
     "href": "cheatsheet.html#data-cleaning",
     "title": "Cheat Sheet",
     "section": "Data Cleaning",
-    "text": "Data Cleaning\nselect() :which extracts columns from a data frame\nfilter() :which extracts rows from a data frame\narrange() :which moves important rows to the top of a data frame\n\nWill naturally put in ascending/alphabetical order.\narrange(desc(x)) will put dataframe in descending order\nFilter NAs - filter(!is.na(x))"
+    "text": "Data Cleaning\n\nselect() :which extracts columns from a data frame\nfilter() :which extracts rows from a data frame\n\nFilter NAs: filter(!is.na(x))\n\narrange() :which moves important rows to the top of a data frame\n\nWill naturally put in ascending/alphabetical order.\narrange(desc(x)) will put dataframe in descending order"
   },
   {
     "objectID": "cheatsheet.html#dataset-wrangling",

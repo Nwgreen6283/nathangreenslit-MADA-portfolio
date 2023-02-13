@@ -2,7 +2,7 @@
 title: "Cheat Sheet"
 output:
   html_document:
-    toc: TRUE
+    toc: FALSE
 ---
 
 ## Hiding Render Output
@@ -15,15 +15,17 @@ output:
 
 ## Data Cleaning
 
-`select()` :which extracts columns from a data frame\
-`filter()` :which extracts rows from a data frame\
-`arrange()` :which moves important rows to the top of a data frame
+-   `select()` :which extracts columns from a data frame
 
--   Will naturally put in ascending/alphabetical order.
+-   `filter()` :which extracts rows from a data frame
 
--   `arrange(desc(x))` will put dataframe in descending order
+    -   Filter NAs: `filter(!is.na(x))`
 
--   Filter NAs - `filter(!is.na(x))`
+-   `arrange()` :which moves important rows to the top of a data frame
+
+    -   Will naturally put in ascending/alphabetical order.
+
+    -   `arrange(desc(x))` will put dataframe in descending order
 
 ## Dataset Wrangling
 

@@ -160,13 +160,17 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
-<p><code>select()</code> :which extracts columns from a data frame<br>
-<code>filter()</code> :which extracts rows from a data frame<br>
-<code>arrange()</code> :which moves important rows to the top of a data frame</p>
+<ul>
+<li><p><code>select()</code> :which extracts columns from a data frame</p></li>
+<li><p><code>filter()</code> :which extracts rows from a data frame</p>
+<ul>
+<li>Filter NAs: <code>filter(!is.na(x))</code></li>
+</ul></li>
+<li><p><code>arrange()</code> :which moves important rows to the top of a data frame</p>
 <ul>
 <li><p>Will naturally put in ascending/alphabetical order.</p></li>
 <li><p><code>arrange(desc(x))</code> will put dataframe in descending order</p></li>
-<li><p>Filter NAs - <code>filter(!is.na(x))</code></p></li>
+</ul></li>
 </ul>
 </section>
 <section id="dataset-wrangling" class="level2">
