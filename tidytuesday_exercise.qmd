@@ -6,6 +6,7 @@ output:
 ---
 
 ## Loading Packages
+
 ```{r}
 library(tidyverse)
 library(here)
@@ -14,36 +15,40 @@ library(lubridate)
 ```
 
 ## The Data
+
 ```{r, message = FALSE}
 tuesdata <- tidytuesdayR::tt_load(2023, week = 7)
 age_gaps <- tuesdata$age_gaps
 ```
 
 ### Take a look at the data
+
 ```{r}
 glimpse(age_gaps)
 ```
 
-### How many occurances of age gaps are there?
-```{r}
-dist<- age_gaps %>%
-  count(age_difference)
-```
-
 ## Analysis Ideas
+
 ### 1. How has the age gap changes over the years?
-### 2. Do we see a greater age gap between same-sex or oposite-sex couples?
-### 3. What is the most common age differnce? 
+
+### 2. What is the most common age differnce?
+
+### 3. What differences do we see between older male and younger female or vv?
+
+### 4. Do we see a greater age gap between same-sex or oposite-sex couples?
+
 
 ## Data Wrangling
 
 Slim down Data
+
 ```{r}
 d1 <- age_gaps %>%
   select(release_year, age_difference)
 ```
 
 Average gap by year
+
 ```{r}
 year_avg<- d1 %>%
 group_by(release_year) %>%
@@ -51,10 +56,10 @@ summarize_if(is.numeric, mean) %>%
 ungroup()
 ```
 
+# Visualization
 
+## 1. How has age gap changed over the years?
 
-## Plotting
-1. How has age gap chaged over the years?
 ```{r}
 year_avg %>%
   ggplot() + 
@@ -67,14 +72,71 @@ year_avg %>%
       x = release_year,
       y = age_difference))
 ```
-3. What is the most common age difference?
+
+## 2. What is the most common age difference?
+
+Let's make a dataframe that contains the number of times an age gap is reported:
+
 ```{r}
-age_gaps %>%
-  ggplot() +
-  geom_freqpoly(
-    aes(
-      x = age_difference))+
- scale_x_continuous(n.breaks=5)
+dist<- age_gaps %>%
+  count(age_difference)
 ```
-**WHY DO WE SEE 150???**
+
+Now let's plot it:
+
+```{r}
+dist %>%
+  ggplot() +
+  geom_point(
+    aes(
+      x = age_difference,
+      y = n),
+    color = "darkblue")+
+  geom_line(
+    aes(
+      x = age_difference,
+      y = n),
+    color = "darkblue")+
+  theme_bw()+
+ scale_x_continuous(n.breaks=10)+
+  labs(
+    x = "Age Gap",
+    y = "Number of Times Age Gap Appears",
+    title = "Frequency of Age Gaps in Media" )+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+## 3. What differences do we see between older male and younger female or vv?
+
+Make new column that identifies the older male or female (character_1_gender refers to gender of older actor)
+```{r}
+older<- age_gaps %>%
+  mutate(older = case_when(age_gaps$character_1_gender == "woman"~ "Female", # Older Female
+                           age_gaps$character_1_gender == "man" ~ "Male")) # Older Male 
+```
+
+Plot Age difference over time and split between older male and older female
+```{r}
+older %>% ggplot() + geom_point(
+  aes(
+    x = release_year,
+    y = age_difference,
+    color = older))+
+  theme_bw()+
+  labs(
+    x = "Movie Release Year",
+    y = "Age Difference",
+    title = "Age Difference over Release Years by Gender",
+    color = "Older Actor")+
+    theme(
+      plot.title = element_text(hjust = 0.5))
+
+```
+
+
+
+
+
+
+
+
 

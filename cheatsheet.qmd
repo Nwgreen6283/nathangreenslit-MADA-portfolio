@@ -77,7 +77,7 @@ output:
 -   Remove legend:\
     `theme(legend.position = "none")`
 
--   Add more ticks to x or y acis:\
+-   Add more ticks to x or y axis:\
     `scale_x_continuous(n.breaks=10) // scale_y_continuous`
 
 -   Stack Plots with ggarrange():\
@@ -87,12 +87,14 @@ output:
 
 -   Edit axis or title labels aesthetically:\
     `theme(axis.title.y = element_text(hjust = 1, color = "red, face = "bold)`
-    
-- Add annotation:\
-  `annotate("text", x = 100, y =200, label = "WORD", color = "blue", fontface=2, size = 6.4)`
-  
-- Add Arrows:\
-  `annotate( geom = "curve", x = 100, y = 200, xend = 200, yend = 300, curvature = .45, arrow = arrow(length = unit(2, "mm")))`
+
+-   Set colors by factor `scale_color_manual(values = c("setosa" = "purple","versicolor" = "red"))`
+
+-   Add annotation:\
+    `annotate("text", x = 100, y =200, label = "WORD", color = "blue", fontface=2, size = 6.4)`
+
+-   Add Arrows:\
+    `annotate( geom = "curve", x = 100, y = 200, xend = 200, yend = 300, curvature = .45, arrow = arrow(length = unit(2, "mm")))`
 
 ## Statistics
 
@@ -109,9 +111,9 @@ output:
     `png(file = "file/location/plot.png")`\
     `Gpplot code`\
     `dev.off()`
-    
+
 ## Random
 
-- Make a nice table:\
-  `table<- data.frame(Height, Width)`\
-  `kable(table)`
+-   Make a nice table:\
+    `table<- data.frame(Height, Width)`\
+    `kable(table)`

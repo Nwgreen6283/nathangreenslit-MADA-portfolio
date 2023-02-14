@@ -217,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 <code>theme(plot.title = element_text(hjust = 0.5))</code></p></li>
 <li><p>Remove legend:<br>
 <code>theme(legend.position = "none")</code></p></li>
-<li><p>Add more ticks to x or y acis:<br>
+<li><p>Add more ticks to x or y axis:<br>
 <code>scale_x_continuous(n.breaks=10) // scale_y_continuous</code></p></li>
 <li><p>Stack Plots with ggarrange():<br>
 <code>ggarrange(fig1, fig2, fig3 + font("x.text", size = 10), ncol = 1, nrow = 3)</code></p>
@@ -226,6 +226,7 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li><p>Edit axis or title labels aesthetically:<br>
 <code>theme(axis.title.y = element_text(hjust = 1, color = "red, face = "bold)</code></p></li>
+<li><p>Set colors by factor <code>scale_color_manual(values = c("setosa" = "purple","versicolor" = "red"))</code></p></li>
 <li><p>Add annotation:<br>
 <code>annotate("text", x = 100, y =200, label = "WORD", color = "blue", fontface=2, size = 6.4)</code></p></li>
 <li><p>Add Arrows:<br>
