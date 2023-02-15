@@ -226,7 +226,13 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li><p>Edit axis or title labels aesthetically:<br>
 <code>theme(axis.title.y = element_text(hjust = 1, color = "red, face = "bold)</code></p></li>
-<li><p>Set colors by factor <code>scale_color_manual(values = c("setosa" = "purple","versicolor" = "red"))</code></p></li>
+<li><p>Set colors by factor:<br>
+<code>scale_color_manual(values = c("setosa" = "purple","versicolor" = "red"))</code></p></li>
+<li><p>Set shapes by factor:<br>
+<code>scale_shape_manual(values = c("setosa" = 1, "versicolor" = 2))</code></p></li>
+</ul>
+<p><img src="images/unnamed-chunk-2-1.png" class="img-fluid" width="195"></p>
+<ul>
 <li><p>Add annotation:<br>
 <code>annotate("text", x = 100, y =200, label = "WORD", color = "blue", fontface=2, size = 6.4)</code></p></li>
 <li><p>Add Arrows:<br>

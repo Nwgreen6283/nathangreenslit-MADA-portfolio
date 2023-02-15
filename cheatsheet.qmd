@@ -88,7 +88,13 @@ output:
 -   Edit axis or title labels aesthetically:\
     `theme(axis.title.y = element_text(hjust = 1, color = "red, face = "bold)`
 
--   Set colors by factor `scale_color_manual(values = c("setosa" = "purple","versicolor" = "red"))`
+-   Set colors by factor:\
+    `scale_color_manual(values = c("setosa" = "purple","versicolor" = "red"))`
+
+-   Set shapes by factor:\
+    `scale_shape_manual(values = c("setosa" = 1, "versicolor" = 2))`
+
+![](images/unnamed-chunk-2-1.png){width="195"}
 
 -   Add annotation:\
     `annotate("text", x = 100, y =200, label = "WORD", color = "blue", fontface=2, size = 6.4)`
