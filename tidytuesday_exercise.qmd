@@ -12,6 +12,7 @@ library(tidyverse)
 library(here)
 library(tidytuesdayR)
 library(lubridate)
+library(skimr)
 ```
 
 ## The Data
@@ -33,7 +34,7 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 
 ## Analysis Ideas
 
-#### 1. How has the age gap changesd over the years?
+#### 1. How has the age gap changed over the years?
 
 #### 2. What is the most common age differnce?
 
@@ -71,11 +72,21 @@ year_avg %>%
   geom_line(
     aes(
       x = release_year,
-      y = age_difference))+
+      y = age_difference),
+    color = "darkgreen")+
   geom_point(
     aes(
       x = release_year,
-      y = age_difference))
+      y = age_difference),
+    color = "darkgreen")+
+  theme_bw()+
+  labs(
+    x = "Release Year",
+    y = "Age Gap",
+    title = "Age gaps in movies from 1935-2022") +
+  theme(
+    plot.title = element_text(hjust = 0.5))
+
 ```
 
 Nothing really stands out here. We see a slight decrease in average age gap between \~1980-2018. the years 2020 and 2022 both had movies with age gaps \>20 years (You Should Have Left, Mank, The Northman, and The Bubble).
@@ -148,7 +159,7 @@ age_gaps2 %>% ggplot() + geom_point(
 
 A few things to note here. (1) It looks like older female couples become more prevalent around the 1980s. (2) Despite a higher incidence of older female couples, the age gap is relatively lower than that of older male couples. (3) Some of the movies include same-sex couples, which can make this graph misleading. In the case where the couple is woman-woman, older female will show up regardless.
 
-### Make new columns and dataframes for same and opposute sex couples
+### Make new columns and dataframes for same and opposite sex couples
 ```{r}
 age_gaps3<- age_gaps2 %>%
   mutate(sex = case_when(
@@ -169,8 +180,13 @@ age_opp<- age_gaps3 %>%
   filter(sex %in% "dif")
 ```
 
+```{r}
+glimpse(age_same)
+```
+From this, we can see that 23 entereies are same-sex couples.
 
-### Opposite sex couples
+
+### Plot Opposite sex couples
 ```{r}
 age_opp %>% ggplot() + geom_point(
   aes(
@@ -187,6 +203,7 @@ age_opp %>% ggplot() + geom_point(
       plot.title = element_text(hjust = 0.5))
 
 ```
+This is not drastically different from the previous graph. But let's look at everything together. 
 
 ### Plot everything together
 ```{r}
@@ -216,7 +233,17 @@ age_gaps3 %>% ggplot() + geom_boxplot(
     y = age_difference,
   color = sex))
 ```
-n = small for same though 
+On average, there is a greater age gap in same sex couples, but it is important to note that there are only 23 entries for same-sex couples and 1132 entereies for opposite sex couples. 
+
+### Same-sex prevalance in film
+```{r}
+age_gaps3 %>% ggplot() + geom_point(
+  aes(
+    x = release_year,
+    y = age_difference,
+    color = sex))+
+  scale_color_manual(values = c("dif" = "grey", "same" = "darkblue"))
+```
 
 
 
