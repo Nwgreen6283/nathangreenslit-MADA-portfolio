@@ -284,7 +284,7 @@ $ actor_2_age        &lt;dbl&gt; 23, 24, 20, 23, 38, 17, 22, 30, 19, 39, 23, 20,
  Max.   :68.00  </code></pre>
 </div>
 </div>
-<p>It looks like we have data from 1935-2022 that contains the movie, director, each actors age and gender, and their birth-dates. For each couple, the age gap is defined in the age_difference column.<br>
+<p>It looks like we have data from 1935-2022 that contains the movie, release date, director, each actors age and gender, and their birth-dates. For each couple, the age gap is defined in the age_difference column. Gender of character_1 is the older gender, while gender for character_2 is the younger gender in the relationship.<br>
 This dataset seems to be fairly clean, with consistent entries for each variable. So lets think about some analyses we can explore.</p>
 </section>
 </section>
@@ -293,14 +293,17 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 <section id="how-has-the-age-gap-changed-over-the-years" class="level4">
 <h4 class="anchored" data-anchor-id="how-has-the-age-gap-changed-over-the-years">1. How has the age gap changed over the years?</h4>
 </section>
-<section id="what-is-the-most-common-age-differnce" class="level4">
-<h4 class="anchored" data-anchor-id="what-is-the-most-common-age-differnce">2. What is the most common age differnce?</h4>
+<section id="what-is-the-most-common-age-difference" class="level4">
+<h4 class="anchored" data-anchor-id="what-is-the-most-common-age-difference">2. What is the most common age difference?</h4>
 </section>
-<section id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-versa" class="level4">
-<h4 class="anchored" data-anchor-id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-versa">3. Are age gaps where the male is older than the female more common? Or vice versa?</h4>
+<section id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-verse" class="level4">
+<h4 class="anchored" data-anchor-id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-verse">3. Are age gaps where the male is older than the female more common? Or vice verse?</h4>
 </section>
-<section id="do-we-see-a-greater-age-gap-between-same-sex-or-oposite-sex-couples" class="level4">
-<h4 class="anchored" data-anchor-id="do-we-see-a-greater-age-gap-between-same-sex-or-oposite-sex-couples">4. Do we see a greater age gap between same-sex or oposite-sex couples?</h4>
+<section id="do-we-see-a-greater-age-gap-between-same-gender-or-opposite-gender-couples" class="level4">
+<h4 class="anchored" data-anchor-id="do-we-see-a-greater-age-gap-between-same-gender-or-opposite-gender-couples">4. Do we see a greater age gap between same-gender or opposite-gender couples?</h4>
+</section>
+<section id="when-do-we-start-seeing-the-prevalence-of-same-gender-relationships" class="level4">
+<h4 class="anchored" data-anchor-id="when-do-we-start-seeing-the-prevalence-of-same-gender-relationships">5. When do we start seeing the prevalence of same-gender relationships?</h4>
 </section>
 </section>
 <section id="how-has-age-gap-changed-over-the-years" class="level2">
@@ -323,8 +326,8 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 </div>
 <p>Because multiple movies came out in the same year, we are taking an average of the age gap per year.</p>
 </section>
-<section id="plotting-avereage-age-gap-over-the-years" class="level3">
-<h3 class="anchored" data-anchor-id="plotting-avereage-age-gap-over-the-years">Plotting avereage age gap over the years</h3>
+<section id="plotting-average-age-gap-over-the-years" class="level3">
+<h3 class="anchored" data-anchor-id="plotting-average-age-gap-over-the-years">Plotting average age gap over the years</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>year_avg <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
@@ -341,7 +344,7 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Release Year"</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Gap"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Gap (years)"</span>,</span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age gaps in movies from 1935-2022"</span>) <span class="sc">+</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -352,8 +355,8 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 <p>Nothing really stands out here. We see a slight decrease in average age gap between ~1980-2018. the years 2020 and 2022 both had movies with age gaps &gt;20 years (You Should Have Left, Mank, The Northman, and The Bubble).</p>
 </section>
 </section>
-<section id="what-is-the-most-common-age-difference" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-the-most-common-age-difference">2. What is the most common age difference?</h2>
+<section id="what-is-the-most-common-age-difference-1" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-most-common-age-difference-1">2. What is the most common age difference?</h2>
 <section id="lets-make-a-dataframe-that-contains-the-number-of-times-an-age-gap-is-reported" class="level3">
 <h3 class="anchored" data-anchor-id="lets-make-a-dataframe-that-contains-the-number-of-times-an-age-gap-is-reported">Let’s make a dataframe that contains the number of times an age gap is reported:</h3>
 <div class="cell">
@@ -389,19 +392,19 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_continuous</span>(<span class="at">n.breaks=</span><span class="dv">10</span>)<span class="sc">+</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Age Gap"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Age Gap (years)"</span>,</span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Times Age Gap Appears"</span>,</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frequency of Age Gaps in Media"</span> )<span class="sc">+</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frequency of Age Gaps in Media from 1935-2022"</span> )<span class="sc">+</span></span>
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It looks like an age gap of 2-3 years is most common.</p>
+<p>It looks like an age gap of 2-3 years is most common. We also have an age gap of 52 years!</p>
 </section>
 </section>
-<section id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-versa-1" class="level2">
-<h2 class="anchored" data-anchor-id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-versa-1">3. Are age gaps where the male is older than the female more common? Or vice versa?</h2>
+<section id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-verse-1" class="level2">
+<h2 class="anchored" data-anchor-id="are-age-gaps-where-the-male-is-older-than-the-female-more-common-or-vice-verse-1">3. Are age gaps where the male is older than the female more common? Or vice verse?</h2>
 <section id="make-new-column-that-identifies-the-older-male-or-female-character_1_gender-refers-to-gender-of-older-actor" class="level3">
 <h3 class="anchored" data-anchor-id="make-new-column-that-identifies-the-older-male-or-female-character_1_gender-refers-to-gender-of-older-actor">Make new column that identifies the older male or female (character_1_gender refers to gender of older actor)</h3>
 <div class="cell">
@@ -430,28 +433,28 @@ This dataset seems to be fairly clean, with consistent entries for each variable
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>A few things to note here. (1) It looks like older female couples become more prevalent around the 1980s. (2) Despite a higher incidence of older female couples, the age gap is relatively lower than that of older male couples. (3) Some of the movies include same-sex couples, which can make this graph misleading. In the case where the couple is woman-woman, older female will show up regardless.</p>
+<p>A few things to note here. (1) It looks like older females in couples become more prevalent around the 1980s. (2) Despite a higher incidence of older females in couples, the age gap is relatively lower than that of older male couples. (3) Some of the movies include same-gender couples, which can make this graph misleading. In the case where the couple is woman-woman, older female will show up regardless. So:</p>
 </section>
-<section id="make-new-columns-and-dataframes-for-same-and-opposite-sex-couples" class="level3">
-<h3 class="anchored" data-anchor-id="make-new-columns-and-dataframes-for-same-and-opposite-sex-couples">Make new columns and dataframes for same and opposite sex couples</h3>
+<section id="lets-make-new-columns-and-dataframes-for-same-and-opposite-gender-couples" class="level3">
+<h3 class="anchored" data-anchor-id="lets-make-new-columns-and-dataframes-for-same-and-opposite-gender-couples">Let’s make new columns and dataframes for same and opposite gender couples</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>age_gaps3<span class="ot">&lt;-</span> age_gaps2 <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">case_when</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Same-sex male couples</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="fu">case_when</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Same-gender male couples</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    (age_gaps<span class="sc">$</span>character_1_gender <span class="sc">==</span> <span class="st">"man"</span> <span class="sc">&amp;</span> age_gaps<span class="sc">$</span>character_2_gender <span class="sc">==</span> <span class="st">"man"</span>) <span class="sc">~</span><span class="st">"same"</span>, </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Same-sex female couples</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Same-gender female couples</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    (age_gaps<span class="sc">$</span>character_1_gender <span class="sc">==</span> <span class="st">"woman"</span> <span class="sc">&amp;</span> age_gaps<span class="sc">$</span>character_2_gender <span class="sc">==</span> <span class="st">"woman"</span>) <span class="sc">~</span><span class="st">"same"</span>, </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Opposite-sex couples</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Opposite-gender couples</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    (age_gaps<span class="sc">$</span>character_1_gender <span class="sc">==</span> <span class="st">"woman"</span> <span class="sc">&amp;</span> age_gaps<span class="sc">$</span>character_2_gender <span class="sc">==</span> <span class="st">"man"</span>) <span class="sc">~</span><span class="st">"dif"</span>, </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>     <span class="co">#Opposite-sex couples</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>     <span class="co">#Opposite-gender couples</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    (age_gaps<span class="sc">$</span>character_1_gender <span class="sc">==</span> <span class="st">"man"</span> <span class="sc">&amp;</span> age_gaps<span class="sc">$</span>character_2_gender <span class="sc">==</span> <span class="st">"woman"</span>) <span class="sc">~</span><span class="st">"dif"</span>)) </span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#New dataframes for same and oppoiste sex relationships </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#New dataframes for same and opposite gender relationships </span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>age_same<span class="ot">&lt;-</span> age_gaps3 <span class="sc">%&gt;%</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">%in%</span> <span class="st">"same"</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">%in%</span> <span class="st">"same"</span>)</span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>age_opp<span class="ot">&lt;-</span> age_gaps3 <span class="sc">%&gt;%</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">%in%</span> <span class="st">"dif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">%in%</span> <span class="st">"dif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(age_same)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -472,24 +475,24 @@ $ actor_2_birthdate  &lt;date&gt; 1972-09-09, 1989-12-07, 1987-02-21, 1970-10-08
 $ actor_1_age        &lt;dbl&gt; 81, 49, 55, 69, 49, 49, 48, 54, 46, 44, 52, 47, 31,…
 $ actor_2_age        &lt;dbl&gt; 38, 20, 28, 43, 24, 31, 30, 37, 30, 30, 40, 37, 22,…
 $ older              &lt;chr&gt; "Male", "Male", "Female", "Male", "Female", "Male",…
-$ sex                &lt;chr&gt; "same", "same", "same", "same", "same", "same", "sa…</code></pre>
+$ gender             &lt;chr&gt; "same", "same", "same", "same", "same", "same", "sa…</code></pre>
 </div>
 </div>
-<p>From this, we can see that 23 entereies are same-sex couples.</p>
+<p>From this, we can see that 23 entries are same-gender couples. There is a lot going on with the aboce graph, so lets use a boxxplot to looks at this data.</p>
 </section>
-<section id="plot-opposite-sex-couples" class="level3">
-<h3 class="anchored" data-anchor-id="plot-opposite-sex-couples">Plot Opposite sex couples</h3>
+<section id="lets-make-a-box-plot-with-only-opposite-gender-couples" class="level3">
+<h3 class="anchored" data-anchor-id="lets-make-a-box-plot-with-only-opposite-gender-couples">Let’s make a box plot with only opposite gender couples</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>age_opp <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(</span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>age_opp <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_boxplot</span>(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> release_year,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> older,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> age_difference,</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> older))<span class="sc">+</span></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Movie Release Year"</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Difference"</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age Difference over Release Years by Gender of Opposite-sex Couples"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Difference (years"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age Difference by Gender of Opposite-gender Couples"</span>,</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Older Actor"</span>)<span class="sc">+</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -497,59 +500,57 @@ $ sex                &lt;chr&gt; "same", "same", "same", "same", "same", "same",
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>This is not drastically different from the previous graph. But let’s look at everything together.</p>
+<p>This is a better way to see the distribution of age gaps where either a male or female is the oldest in the relationship. We can see that on average, males are typically older than the females and the age gap is higher for older male-younger female relationships.</p>
 </section>
-<section id="plot-everything-together" class="level3">
-<h3 class="anchored" data-anchor-id="plot-everything-together">Plot everything together</h3>
+</section>
+<section id="do-we-see-a-greater-age-gap-between-same-gender-or-opposite-gender-couples-1" class="level2">
+<h2 class="anchored" data-anchor-id="do-we-see-a-greater-age-gap-between-same-gender-or-opposite-gender-couples-1">4. Do we see a greater age gap between same-gender or opposite-gender couples?</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>age_gaps3 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(</span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>age_gaps3 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_boxplot</span>(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> release_year,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> gender,</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> age_difference,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> older,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> sex))<span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Movie Release Year"</span>,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Difference"</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age Difference over Release Years by Gender"</span>,</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Older Actor"</span>)<span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> gender))<span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Difference (years)"</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Age Gaps between Same/Opposite Gender Couples"</span>)<span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a> <span class="co"># scale_color_manual(values = c("Male" = "grey","Female" = "#F88379"))+</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># scale_shape_manual(values = c("dif" = 2, "same" = 20))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>On average, there is a greater age gap in same gender couples, but it is important to note that there are only 23 entries for same-gender couples and 1132 entries for opposite gender couples. So this isn’t very informative.</p>
 </section>
-</section>
-<section id="do-we-see-a-greater-age-gap-between-same-sex-or-opoosite-sex-couples" class="level2">
-<h2 class="anchored" data-anchor-id="do-we-see-a-greater-age-gap-between-same-sex-or-opoosite-sex-couples">4. Do we see a greater age gap between same-sex or opoosite-sex couples?</h2>
+<section id="how-has-the-prevalance-of-same-gender-relationships-in-movies-changed-over-the-years" class="level2">
+<h2 class="anchored" data-anchor-id="how-has-the-prevalance-of-same-gender-relationships-in-movies-changed-over-the-years">5: How has the prevalance of same-gender relationships in movies changed over the years?</h2>
+<section id="same-gender-prevalence-in-film" class="level3">
+<h3 class="anchored" data-anchor-id="same-gender-prevalence-in-film">Same-gender prevalence in film</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>age_gaps3 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_boxplot</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> sex,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> age_difference,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>age_gaps3 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> release_year,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> age_difference,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> gender,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> gender))<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dif"</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">"same"</span> <span class="ot">=</span> <span class="st">"darkred"</span>)) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Release Year"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Age Difference (years)"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Prevalance of Same-gender Relationships in Film"</span>)<span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position  =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using alpha for a discrete variable is not advised.</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On average, there is a greater age gap in same sex couples, but it is important to note that there are only 23 entries for same-sex couples and 1132 entereies for opposite sex couples.</p>
-<section id="same-sex-prevalance-in-film" class="level3">
-<h3 class="anchored" data-anchor-id="same-sex-prevalance-in-film">Same-sex prevalance in film</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>age_gaps3 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> release_year,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> age_difference,</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> sex))<span class="sc">+</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dif"</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">"same"</span> <span class="ot">=</span> <span class="st">"darkblue"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="tidytuesday_exercise_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>From our age_same data set, we can see that same-gender couples were documented starting in the year 1997 and that there are 23 recorded cases. We see a wide spread in age gap and that the prevalence of same-gender couples in the documented films increases starting after 1977.</p>
 
 
 </section>

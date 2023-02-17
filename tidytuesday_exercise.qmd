@@ -29,18 +29,20 @@ glimpse(age_gaps)
 summary(age_gaps)
 ```
 
-It looks like we have data from 1935-2022 that contains the movie, director, each actors age and gender, and their birth-dates. For each couple, the age gap is defined in the age_difference column.\
+It looks like we have data from 1935-2022 that contains the movie, release date, director, each actors age and gender, and their birth-dates. For each couple, the age gap is defined in the age_difference column. Gender of character_1 is the older gender, while gender for character_2 is the younger gender in the relationship.\
 This dataset seems to be fairly clean, with consistent entries for each variable. So lets think about some analyses we can explore.
 
 ## Analysis Ideas
 
 #### 1. How has the age gap changed over the years?
 
-#### 2. What is the most common age differnce?
+#### 2. What is the most common age difference?
 
-#### 3. Are age gaps where the male is older than the female more common? Or vice versa?
+#### 3. Are age gaps where the male is older than the female more common? Or vice verse?
 
-#### 4. Do we see a greater age gap between same-sex or oposite-sex couples?
+#### 4. Do we see a greater age gap between same-gender or opposite-gender couples?
+
+#### 5. When do we start seeing the prevalence of same-gender relationships?
 
 ## 1. How has age gap changed over the years?
 
@@ -64,7 +66,7 @@ ungroup()
 
 Because multiple movies came out in the same year, we are taking an average of the age gap per year.
 
-### Plotting avereage age gap over the years
+### Plotting average age gap over the years
 
 ```{r}
 year_avg %>%
@@ -82,7 +84,7 @@ year_avg %>%
   theme_bw()+
   labs(
     x = "Release Year",
-    y = "Age Gap",
+    y = "Age Gap (years)",
     title = "Age gaps in movies from 1935-2022") +
   theme(
     plot.title = element_text(hjust = 0.5))
@@ -119,17 +121,17 @@ dist %>%
   theme_bw()+
  scale_x_continuous(n.breaks=10)+
   labs(
-    x = "Age Gap",
+    x = "Age Gap (years)",
     y = "Number of Times Age Gap Appears",
-    title = "Frequency of Age Gaps in Media" )+
+    title = "Frequency of Age Gaps in Media from 1935-2022" )+
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-It looks like an age gap of 2-3 years is most common.
+It looks like an age gap of 2-3 years is most common. We also have an age gap of 52 years!
 
-## 3. Are age gaps where the male is older than the female more common? Or vice versa?
+## 3. Are age gaps where the male is older than the female more common? Or vice verse?
 
-### Make new column that identifies the older male or female        (character_1\_gender refers to gender of older actor)
+### Make new column that identifies the older male or female (character_1\_gender refers to gender of older actor)
 
 ```{r}
 age_gaps2<- age_gaps %>%
@@ -157,96 +159,95 @@ age_gaps2 %>% ggplot() + geom_point(
 
 ```
 
-A few things to note here. (1) It looks like older female couples become more prevalent around the 1980s. (2) Despite a higher incidence of older female couples, the age gap is relatively lower than that of older male couples. (3) Some of the movies include same-sex couples, which can make this graph misleading. In the case where the couple is woman-woman, older female will show up regardless.
+A few things to note here. (1) It looks like older females in couples become more prevalent around the 1980s. (2) Despite a higher incidence of older females in couples, the age gap is relatively lower than that of older male couples. (3) Some of the movies include same-gender couples, which can make this graph misleading. In the case where the couple is woman-woman, older female will show up regardless. So:
 
-### Make new columns and dataframes for same and opposite sex couples
+### Let's make new columns and dataframes for same and opposite gender couples
+
 ```{r}
 age_gaps3<- age_gaps2 %>%
-  mutate(sex = case_when(
-    #Same-sex male couples
+  mutate(gender = case_when(
+    #Same-gender male couples
     (age_gaps$character_1_gender == "man" & age_gaps$character_2_gender == "man") ~"same", 
-    #Same-sex female couples
+    #Same-gender female couples
     (age_gaps$character_1_gender == "woman" & age_gaps$character_2_gender == "woman") ~"same", 
-    #Opposite-sex couples
+    #Opposite-gender couples
     (age_gaps$character_1_gender == "woman" & age_gaps$character_2_gender == "man") ~"dif", 
-     #Opposite-sex couples
+     #Opposite-gender couples
     (age_gaps$character_1_gender == "man" & age_gaps$character_2_gender == "woman") ~"dif")) 
 
-#New dataframes for same and oppoiste sex relationships 
+#New dataframes for same and opposite gender relationships 
 age_same<- age_gaps3 %>%
-  filter(sex %in% "same")
+  filter(gender %in% "same")
 
 age_opp<- age_gaps3 %>%
-  filter(sex %in% "dif")
+  filter(gender %in% "dif")
 ```
 
 ```{r}
 glimpse(age_same)
 ```
-From this, we can see that 23 entereies are same-sex couples.
 
+From this, we can see that 23 entries are same-gender couples. There is a lot going on with the aboce graph, so lets use a boxxplot to looks at this data.
 
-### Plot Opposite sex couples
+### Let's make a box plot with only opposite gender couples
+
 ```{r}
-age_opp %>% ggplot() + geom_point(
+age_opp %>% ggplot() + geom_boxplot(
   aes(
-    x = release_year,
+    x = older,
     y = age_difference,
     color = older))+
   theme_bw()+
   labs(
-    x = "Movie Release Year",
-    y = "Age Difference",
-    title = "Age Difference over Release Years by Gender of Opposite-sex Couples",
+    x = "",
+    y = "Age Difference (years",
+    title = "Age Difference by Gender of Opposite-gender Couples",
     color = "Older Actor")+
     theme(
       plot.title = element_text(hjust = 0.5))
 
 ```
-This is not drastically different from the previous graph. But let's look at everything together. 
 
-### Plot everything together
-```{r}
-age_gaps3 %>% ggplot() + geom_point(
-  aes(
-    x = release_year,
-    y = age_difference,
-    color = older,
-    shape = sex))+
-  theme_bw()+
-  labs(
-    x = "Movie Release Year",
-    y = "Age Difference",
-    title = "Age Difference over Release Years by Gender",
-    color = "Older Actor")+
-    theme(
-      plot.title = element_text(hjust = 0.5))
- # scale_color_manual(values = c("Male" = "grey","Female" = "#F88379"))+
- # scale_shape_manual(values = c("dif" = 2, "same" = 20))
-```
+This is a better way to see the distribution of age gaps where either a male or female is the oldest in the relationship. We can see that on average, males are typically older than the females and the age gap is higher for older male-younger female relationships.
 
-## 4. Do we see a greater age gap between same-sex or opoosite-sex couples?
+## 4. Do we see a greater age gap between same-gender or opposite-gender couples?
+
 ```{r}
 age_gaps3 %>% ggplot() + geom_boxplot(
   aes(
-    x = sex,
+    x = gender,
     y = age_difference,
-  color = sex))
+  color = gender))+
+  labs(
+    x = "",
+    y = "Age Difference (years)",
+    title = "Age Gaps between Same/Opposite Gender Couples")+
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "none")
 ```
-On average, there is a greater age gap in same sex couples, but it is important to note that there are only 23 entries for same-sex couples and 1132 entereies for opposite sex couples. 
 
-### Same-sex prevalance in film
+On average, there is a greater age gap in same gender couples, but it is important to note that there are only 23 entries for same-gender couples and 1132 entries for opposite gender couples. So this isn't very informative.
+
+## 5: How has the prevalance of same-gender relationships in movies changed over the years?
+
+### Same-gender prevalence in film
+
 ```{r}
 age_gaps3 %>% ggplot() + geom_point(
   aes(
     x = release_year,
     y = age_difference,
-    color = sex))+
-  scale_color_manual(values = c("dif" = "grey", "same" = "darkblue"))
+    color = gender,
+    alpha = gender))+
+  scale_color_manual(values = c("dif" = "grey", "same" = "darkred")) +
+  labs(
+    x = "Release Year",
+    y = "Age Difference (years)",
+    title = "Prevalance of Same-gender Relationships in Film")+
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position  = "none")
 ```
 
-
-
-
-
-
+From our age_same data set, we can see that same-gender couples were documented starting in the year 1997 and that there are 23 recorded cases. We see a wide spread in age gap and that the prevalence of same-gender couples in the documented films increases starting after 1977.
