@@ -171,23 +171,23 @@ age_gaps3<- age_gaps2 %>%
     #Same-gender female couples
     (age_gaps$character_1_gender == "woman" & age_gaps$character_2_gender == "woman") ~"same", 
     #Opposite-gender couples
-    (age_gaps$character_1_gender == "woman" & age_gaps$character_2_gender == "man") ~"dif", 
+    (age_gaps$character_1_gender == "woman" & age_gaps$character_2_gender == "man") ~"opposite", 
      #Opposite-gender couples
-    (age_gaps$character_1_gender == "man" & age_gaps$character_2_gender == "woman") ~"dif")) 
+    (age_gaps$character_1_gender == "man" & age_gaps$character_2_gender == "woman") ~"opposite")) 
 
 #New dataframes for same and opposite gender relationships 
 age_same<- age_gaps3 %>%
   filter(gender %in% "same")
 
 age_opp<- age_gaps3 %>%
-  filter(gender %in% "dif")
+  filter(gender %in% "opposite")
 ```
 
 ```{r}
 glimpse(age_same)
 ```
 
-From this, we can see that 23 entries are same-gender couples. There is a lot going on with the aboce graph, so lets use a boxxplot to looks at this data.
+From this, we can see that 23 entries are same-gender couples. There is a lot going on with the above graph, so lets use a box plot to look at this data.
 
 ### Let's make a box plot with only opposite gender couples
 
@@ -200,9 +200,9 @@ age_opp %>% ggplot() + geom_boxplot(
   theme_bw()+
   labs(
     x = "",
-    y = "Age Difference (years",
+    y = "Age Difference (years)",
     title = "Age Difference by Gender of Opposite-gender Couples",
-    color = "Older Actor")+
+    color = "Older Actor Gender")+
     theme(
       plot.title = element_text(hjust = 0.5))
 
@@ -218,6 +218,7 @@ age_gaps3 %>% ggplot() + geom_boxplot(
     x = gender,
     y = age_difference,
   color = gender))+
+  theme_bw()+
   labs(
     x = "",
     y = "Age Difference (years)",
@@ -233,13 +234,14 @@ On average, there is a greater age gap in same gender couples, but it is importa
 
 ### Same-gender prevalence in film
 
-```{r}
+```{r, warning =  FALSE}
 age_gaps3 %>% ggplot() + geom_point(
   aes(
     x = release_year,
     y = age_difference,
     color = gender,
     alpha = gender))+
+  theme_bw()+
   scale_color_manual(values = c("dif" = "grey", "same" = "darkred")) +
   labs(
     x = "Release Year",
