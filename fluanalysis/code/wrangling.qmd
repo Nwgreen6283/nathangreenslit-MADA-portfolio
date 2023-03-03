@@ -1,0 +1,32 @@
+---
+title: "Wrangling"
+format:
+  html:
+    theme: default
+---
+
+## Libraries
+```{r}
+library(tidyverse)
+library(here)
+```
+
+## Load Data
+```{r}
+d<- readRDS(here("fluanalysis", "data", "SympAct_Any_Pos.Rda"))
+```
+
+## Remove Columns of non-interest
+```{r}
+d1<- d %>%
+  select(-contains(c("FluA", "FluB", "Score", "Total", "Dxname", "Activity", "Unique.Visit"))) %>% #Removes Columns of non-interest 
+drop_na() #Drop NAs
+```
+**Now we have a data set with no NAs and presence/absence of flu symptoms (categorical), and body temperature (continuous)**
+
+Save RDS
+```{r}
+saveRDS(d1, file= here("fluanalysis", "data", "SypAct_clean.rds"))
+```
+
+

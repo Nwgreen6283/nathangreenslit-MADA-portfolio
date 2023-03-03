@@ -1,0 +1,9 @@
+`wrangling.qmd` take the data set and removes columns of non interest. 
+
+`exploration.qmd` includes code that explored variables of specific interest that could predict our outcomes of interest: Body Temperature and Nausea. After looking through the variables, Fever was chosen as a predictor variable for the former, and Vomit was chosen for the latter. 
+
+`fitting.qmd` includes code that runs 4 models:
+1. A Linear model examining the relationship between Body Temperature and Fever
+2. A linear model examining the relationship between Body Temperature and all variables
+3. A logistic model examining the relationship between Nausea and Vomit
+4. A logistic model examining the relationship between Nausea and all variables. 

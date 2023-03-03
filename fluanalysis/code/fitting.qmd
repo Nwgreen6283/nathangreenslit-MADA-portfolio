@@ -1,0 +1,194 @@
+---
+title: "Fitting Statistical Models"
+format:
+  html:
+    theme: default
+---
+
+## Library
+
+```{r}
+library(tidyverse)
+library(here)
+library(tidymodels)  # for the parsnip package, along with the rest of tidymodels
+library(parsnip) #Had to load this separately due to error message
+
+# Helper packages for visualizatiob
+library(readr)       # for importing data
+library(broom.mixed) # for converting bayesian models to tidy tibbles
+library(dotwhisker)  # for visualizing regression results
+library(rpart)
+
+#Libraries for model performance comparrison 
+library(performance)
+library(vip)
+
+```
+
+## 1. Load Data
+
+```{r}
+d<- readRDS(here("fluanalysis", "data", "SypAct_clean.rds"))
+```
+
+## 2. Fitting a linear model to the continuous outcome (Body temperature) using only the main predictor of interest (Fever).
+
+### Define Linear Regression
+
+```{r}
+linear_reg() %>%
+  set_engine("lm")
+
+lm_mod<- linear_reg()
+```
+
+### Train model to data
+
+```{r}
+lm_fit <- 
+  lm_mod %>% 
+  fit(BodyTemp ~ SubjectiveFever, data = d)
+lm_fit
+```
+
+### Examine output
+
+```{r}
+tidy(lm_fit)
+```
+
+### Plot
+
+```{r}
+tidy(lm_fit) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+
+glance(lm_fit)
+```
+
+## 3. Fitting another linear model to the continuous outcome (Body Temperature) using all predictors of interest.
+
+### Define Linear Regression
+
+```{r}
+lm_mod_all<- linear_reg()
+```
+
+### Train model to data
+
+```{r}
+lm_fit_all <- 
+  lm_mod_all %>% 
+  fit(BodyTemp ~ ., data = d)
+lm_fit_all
+```
+
+### Examine output
+
+```{r}
+tidy(lm_fit_all)
+```
+
+### Plot
+
+```{r}
+tidy(lm_fit_all) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+```
+
+## 4. Compare the model results for the model with just the main predictor and all predictors.
+
+### Assess Performance
+
+```{r}
+check_model(lm_fit$fit)
+check_model(lm_fit_all$fit)
+```
+
+### Compare Performance
+
+```{r}
+compare_performance(lm_fit,lm_fit_all)
+```
+
+**There does not seem to be a major difference in model performance between the uni and multivariate models. Both have a similar observance/predicted line path and Normality of Residuals. The multivariate model does have a "higher" R2 and lower RMSE value.**
+
+## 5. Fitting a logistic model to the categorical outcome (Nausea) using only the main predictor of interest (Vomit).
+
+```{r}
+#Make model
+log_mod <- logistic_reg() %>% 
+  set_engine("glm")
+
+#Train Model
+glm_fit <- 
+  log_mod %>% 
+  fit(Nausea ~ Vomit, data = d)
+glm_fit 
+```
+
+### Examine model output
+
+```{r}
+tidy(glm_fit)
+```
+
+### Plot
+
+```{r}
+tidy(glm_fit) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+```
+
+## 5. Fits another logistic model to the categorical outcome using all (important) predictors of interest.
+
+```{r}
+#Make Model
+log_mod_all <- logistic_reg() %>% 
+  set_engine("glm")
+
+#Train Model
+glm_fit_all <- 
+  log_mod_all %>% 
+  fit(Nausea ~ ., data = d)
+glm_fit_all 
+```
+
+### Examine Output
+
+```{r}
+tidy(glm_fit_all)
+```
+
+### Plot
+
+```{r}
+tidy(glm_fit_all) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
+```
+
+## 6. Compares the model results for the categorical model with just the main predictor and all predictors.
+
+### Assess Performance
+
+```{r}
+check_model(glm_fit$fit)
+check_model(glm_fit_all$fit)
+```
+
+### Compare Performance
+
+```{r}
+compare_performance(glm_fit,glm_fit_all)
+
+```
+
+**In this case, it looks like the multivariate analysis had a better performance than the uni-variate. While both had a good observed/predicted line path, the former had better Normality of Residuals.**

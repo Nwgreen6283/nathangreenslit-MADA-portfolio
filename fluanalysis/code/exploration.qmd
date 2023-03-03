@@ -1,0 +1,138 @@
+---
+title: "exploration"
+format:
+  html:
+    theme: default
+---
+
+## Library
+
+```{r}
+library(tidyverse) #For plotting and wrangling
+library(here) #Setting working directory 
+library(gtsummary) #For summary tables 
+```
+
+## Load Data
+
+```{r}
+d<- readRDS(here("fluanalysis", "data", "SypAct_clean.rds"))
+```
+
+## Produce and Print a Summary Table for both Body Temperature and Nausea
+
+#### Summary Stats
+
+```{r}
+summary(d$BodyTemp)
+summary(d$Nausea)
+```
+
+#### Summary of full data set
+
+```{r}
+tab<- 
+  tbl_summary(d)
+tab
+```
+
+## Create Histogram for Body Temperature
+
+```{r}
+d %>%
+  ggplot()+geom_histogram(
+    aes(
+      x = BodyTemp))
+```
+
+**A majority of the body temperatures fall between 98-99°F**
+
+## Let's look at Predictor Variables for our outcomes of interest (Body Temperature and Nausea)
+
+### Body Temperature
+
+#### Weakness and Body Temp
+
+```{r}
+d %>%
+  ggplot()+geom_boxplot(
+    aes(
+      x= Weakness,
+      y = BodyTemp))
+```
+
+#### Chills and Sweats and Body Temp
+
+```{r}
+d %>%
+  ggplot()+geom_boxplot(
+    aes(
+      x= ChillsSweats,
+      y = BodyTemp))
+```
+
+#### Fatigue and Body Temp
+
+```{r}
+d %>%
+  ggplot()+geom_boxplot(
+    aes(
+      x= Fatigue,
+      y = BodyTemp))
+```
+
+#### Fever and Body Temp
+
+```{r}
+d %>%
+  ggplot()+geom_boxplot(
+    aes(
+      x= SubjectiveFever,
+      y = BodyTemp))
+```
+
+**On average, it looks like those that experienced severe weakness symptoms, chills and sweats, fatigue, and fever had higher body temperatures. We would expect to see this positive relationship in the latter- so fever will be our main predictor of interest for Body Temperature.**
+
+## Now let's look at some predictor variables for the categorical variable (Nausea)
+
+#### Diarrhea and Nausea
+
+```{r}
+d %>%
+  ggplot() + geom_count(
+    aes(
+      x = Nausea,
+      y = Fatigue))
+```
+
+#### Chills and Nausea
+
+```{r}
+d %>%
+  ggplot() + geom_count(
+    aes(
+      x = Nausea,
+      y = ChillsSweats))
+```
+
+#### Fatigue and Nausea
+
+```{r}
+d %>%
+  ggplot() + geom_count(
+    aes(
+      x = Nausea,
+      y = Fatigue))
+```
+
+#### Fever and Nausea
+
+```{r}
+d %>%
+  ggplot() + geom_count(
+    aes(
+      x = Nausea,
+      y = SubjectiveFever))
+```
+
+**Fever, Fatigue, Chills, and Diarrhea all appear to have equal or no major positive relationship (Where x:nausea = Yes-Yes \< Yes-No). Vomiting will be our predictor of interest for the categorical outcome (Nausea), as there was a large proportion that did not experience either Nausea or Vomiting, and a medium-proportion of those that experienced one symptom with the other.**

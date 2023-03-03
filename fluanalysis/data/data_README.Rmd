@@ -1,0 +1,3 @@
+Original data (SympAct_Any_Pos.Rda) is sourced from Brian McKay's paper titled "Virulence-mediated infectiousness and activity trade-offs and their impact on transmission potential of patients infected with influenza". The Data set can be found here: https://datadryad.org/stash/dataset/doi:10.5061/dryad.51c59zw4v
+
+Clean data (SypAct_clean.rds) removed columns of non-interest in the `wrangling.qmd` file. This data set contains categorical variables of flu-symptoms (e.g. vomiting, sore throat) as well as one continuous variable (Body temperature). 
