@@ -9,6 +9,7 @@ format:
 
 ```{r}
 library(tidyverse)
+library(dplyr)
 library(here)
 library(tidymodels)  # for the parsnip package, along with the rest of tidymodels
 library(parsnip) #Had to load this separately due to error message

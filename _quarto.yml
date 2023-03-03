@@ -20,6 +20,14 @@ website:
             href: ./dataanalysis_exercise.html
           - text: "Coding Cheat Sheet"
             href: ./cheatsheet.html
+      - text: "Flu Analysis"
+        menu:
+          - text: "Wrangling"
+            href: ./fluanalysis/code/wrangling.html
+          - text: "Exploration"
+            href: ./fluanalysis/code/exploration.html
+          - text: "Fitting"
+            href: ./fluanalysis/code/fitting.html
     right:
       - icon: github 
         href: https://github.com/Nwgreen6283/nathangreenslit-MADA-portfolio     
