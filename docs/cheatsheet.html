@@ -211,6 +211,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Example: BO_19_1000<br>
 <code>Data %&gt;% substr(1,5)</code> —&gt;Would give us BO_19</li>
 </ul></li>
+<li><p>Filter columns containing “x”</p>
+<p><code>data %&gt;% filter(grepl('x', column))</code></p></li>
 <li><p>Rename Column:<br>
 <code>Data %&gt;% rename("New" = "Old")</code></p></li>
 <li><p>Rename Variables In a Column”<br>

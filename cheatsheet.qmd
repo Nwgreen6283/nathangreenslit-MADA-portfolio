@@ -46,6 +46,10 @@ output:
     -   Example: BO_19_1000\
         `Data %>% substr(1,5)` --->Would give us BO_19
 
+-   Filter columns containing "x"
+
+    `data %>% filter(grepl('x', column))`
+
 -   Rename Column:\
     `Data %>% rename("New" = "Old")`
 
