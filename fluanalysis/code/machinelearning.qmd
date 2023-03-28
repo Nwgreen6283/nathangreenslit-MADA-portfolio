@@ -1,0 +1,176 @@
+---
+title: "machinelearning"
+format:
+  html:
+    theme: default
+---
+
+# Libraries and Loading Data:
+
+#### Library
+
+```{r}
+library(here)
+library(tidyverse)
+library(rsample) #Data splitting
+library(tidymodels)#Modeling
+library(rpart) #Model Fitting
+library(ranger) #Model Fitting
+library(glmnet) #Model Fitting
+```
+
+#### Data
+
+```{r}
+data<- readRDS(here("fluanalysis", "data", "SypAct_clean.rds"))
+```
+
+# Data Setup:
+
+#### Split Data
+
+```{r}
+# Fix the random numbers by setting the seed 
+# This enables the analysis to be reproducible when random numbers are used 
+set.seed(123)
+# Put 3/4 of the data into the training set 
+data_split <- initial_split(
+  data, prop = 7/10, #70:30 Split
+  strata = BodyTemp) #Allows for more balanced outcome valuesin the train/test df
+  
+
+# Create data frames for the two sets:
+train <- training(data_split)
+test  <- testing(data_split)
+```
+
+#### 5-Fold Cross Validation
+
+```{r}
+fold_bt_train <- vfold_cv(train, v = 5, repeats = 5, strata = BodyTemp)
+
+fold_bt_test <- vfold_cv(test, v = 5, repeats = 5, strata = BodyTemp)
+```
+
+#### Recipes
+
+```{r}
+#Train Data
+bt_rec_train <- 
+  recipe(BodyTemp ~ ., data = train) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors()) %>%
+  step_normalize(all_predictors())
+
+#Test Data
+bt_rec_test <- 
+  recipe(BodyTemp ~ ., data = test) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_zv(all_predictors()) %>%
+  step_normalize(all_predictors())
+```
+
+#### Model
+
+```{r}
+lm_mod <- 
+  linear_reg() %>% 
+  set_engine("lm") %>% 
+  set_mode("regression")
+
+```
+
+# Null Model Performance
+
+#### Train Data
+
+```{r}
+#Recipe
+null_train_rec<- 
+  recipe(BodyTemp ~ 1, data = train)
+
+#Workflow
+null_train_wf <- 
+  workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(null_train_rec)
+
+#Fit
+null_train_fit <- 
+  fit_resamples(null_train_wf, resamples = fold_bt_train)
+
+#RMSE
+null_train_aug <- augment(null_train_fit, train) 
+null_train_rmse <- null_train_aug %>% rmse(truth = BodyTemp, .pred) 
+```
+
+#### Test Data
+
+```{r}
+#Recipe
+null_test_rec<- 
+  recipe(BodyTemp ~ 1, data = test)
+
+#Workflow
+null_test_wf <- 
+  workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(null_test_rec)
+
+#Fit
+null_test_fit <- 
+  fit_resamples(null_test_wf, resamples = fold_bt_test)
+
+#RMSE
+null_test_aug <- augment(null_test_fit, test) 
+null_test_rmse <- null_test_aug %>% rmse(truth = BodyTemp, .pred) 
+```
+
+# Model Tuning and fitting:
+
+## Tree Model:
+
+#### Model Specification
+
+```{r}
+tune_spec_dtree <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()) %>%
+  set_engine("rpart") %>% 
+  set_mode("regression")
+
+tune_spec_dtree
+```
+
+#### Workflow Definition
+
+```{r}
+dtree_wf <- workflow() %>%
+  add_model(tune_spec_dtree) %>%
+  add_recipe(bt_rec_train)
+```
+
+#### Tuning Grid Specification
+
+```{r}
+#create a regular grid of values for using convenience functions for each hyperparameter.
+tree_grid_dtree <-
+  dials::grid_regular(
+    cost_complexity(), 
+    tree_depth(), 
+    levels = 5)
+
+tree_grid_dtree
+```
+
+#### Tuning using Cross-validation and `tune_grid()` function
+
+```{r}
+dtree_resample <- 
+  dtree_wf %>% 
+  tune_grid(
+    resamples = fold_bt_train,
+    grid = tree_grid_dtree)
+    
+```

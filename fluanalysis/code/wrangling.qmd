@@ -40,10 +40,17 @@ d2<-
 ## Recode as ordered/unordered
 
 ```{r}
-d2 %>% 
-    mutate_at(.vars = vars("Weakness", "CoughIntensity","Myalgia"),
-                     .funs = funs(factor(., levels = factor_levels, 
-                                             ordered = TRUE)))
+cat <- #Create Dataframe with just categorical variables
+  d2 %>% 
+  select(!c(Weakness, CoughIntensity, Myalgia, BodyTemp)) %>%
+  step_dummy(all_predictors())#???
+
+ord<- #Create df with just ordinal variables
+  d2 %>%
+  select(Weakness, CoughIntensity, Myalgia) %>%
+  step_ordinalscore(all_predictors())#????
+    
+
 ```
 
 ## Remove Binary predictors that have\<50 entries in one category

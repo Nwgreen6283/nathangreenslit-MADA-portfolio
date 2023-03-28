@@ -44,8 +44,13 @@ test_data  <- testing(data_split)
 
 ```{r}
 flu_rec<- 
-  recipe(Nausea ~ ., data = train_data)
+  recipe(Nausea ~ ., data = train_data) %>%
+  step_dummy(all_nominal(), - all_outcomes()) %>%
+  step_nzv(all_predictors())
+tidy(flu_rec)
 ```
+
+#### 
 
 #### Fit the Model
 
@@ -221,14 +226,17 @@ vom_aug_train %>%
 ```
 
 # **This section added by Kimberly Perez**
-## **Making the Recipe [Training]**
+
+## **Making the Recipe \[Training\]**
+
 ```{r}
 set.seed(321)
 #Creating the recipe 
 BT_recipe<- recipe(BodyTemp ~., data=train_data)
 ```
 
-## **Workflow Creation and Prediction [Training]**
+## **Workflow Creation and Prediction \[Training\]**
+
 ```{r}
 #Now let's set or define our model
 lr_BT<- linear_reg() %>%
@@ -257,7 +265,8 @@ pred_BT %>%
   select(BodyTemp, .pred)
 ```
 
-## **Model Assessment 1 [Training]**
+## **Model Assessment 1 \[Training\]**
+
 ```{r}
 BT_rmse<- pred_BT %>% 
   rmse(truth=BodyTemp, .pred)
@@ -265,21 +274,25 @@ BT_rmse<- pred_BT %>%
 BT_rmse
 ```
 
-## **Model Assessment 2 [Training]**
+## **Model Assessment 2 \[Training\]**
+
 ```{r}
 BT_rsq<- pred_BT %>% 
   rsq(truth=BodyTemp, .pred)
 
 BT_rsq
 ```
-## **Making the Recipe [Test]**
+
+## **Making the Recipe \[Test\]**
+
 ```{r}
 set.seed(321)
 #Creating the recipe 
 BT_recipe_test<- recipe(BodyTemp ~., data=test_data)
 ```
 
-## **Workflow Creation and Prediction [Test]**
+## **Workflow Creation and Prediction \[Test\]**
+
 ```{r}
 #Now let's set or define our model
 lr_BT_test<- linear_reg() %>%
@@ -308,28 +321,34 @@ pred_BT_test %>%
   select(BodyTemp, .pred)
 ```
 
-## **Model Assessment 1 [Test]**
+## **Model Assessment 1 \[Test\]**
+
 ```{r}
 BT_rmse_test<- pred_BT_test %>% 
   rmse(truth=BodyTemp, .pred)
 
 BT_rmse_test
 ```
-## **Model Assessment 2 [Test]**
+
+## **Model Assessment 2 \[Test\]**
+
 ```{r}
 BT_rsq_test<- pred_BT_test %>% 
   rsq(truth=BodyTemp, .pred)
 
 BT_rsq_test
 ```
-## **Making the Recipe: Body Temperature & Runny Nose [Training]**
+
+## **Making the Recipe: Body Temperature & Runny Nose \[Training\]**
+
 ```{r}
 set.seed(321)
 #Creating the recipe 
 BTRN_recipe<- recipe(BodyTemp~RunnyNose, data=train_data)
 ```
 
-## **Workflow Creation and Prediction [Training]**
+## **Workflow Creation and Prediction \[Training\]**
+
 ```{r}
 #Now let's set or define our model
 lr_BTRN<- linear_reg() %>%
@@ -358,7 +377,8 @@ pred_BTRN %>%
   select(BodyTemp, .pred)
 ```
 
-## **Model Assessment 1 [Training]**
+## **Model Assessment 1 \[Training\]**
+
 ```{r}
 BTRN_rmse<- pred_BTRN %>% 
   rmse(truth=BodyTemp, .pred)
@@ -366,14 +386,16 @@ BTRN_rmse<- pred_BTRN %>%
 BTRN_rmse
 ```
 
-## **Making the Recipe: Body Temperature & Runny Nose [Training]**
+## **Making the Recipe: Body Temperature & Runny Nose \[Training\]**
+
 ```{r}
 set.seed(321)
 #Creating the recipe 
 BTRN_recipe_test<- recipe(BodyTemp~RunnyNose, data=test_data)
 ```
 
-## **Workflow Creation and Prediction [Test]**
+## **Workflow Creation and Prediction \[Test\]**
+
 ```{r}
 #Now let's set or define our model
 lr_BTRN_test<- linear_reg() %>%
@@ -402,11 +424,13 @@ pred_BTRN_test %>%
   select(BodyTemp, .pred)
 ```
 
-## **Model Assessment 1 [Test]**
+## **Model Assessment 1 \[Test\]**
+
 ```{r}
 BTRN_rmse_test<- pred_BTRN_test %>% 
   rmse(truth=BodyTemp, .pred)
 
 BTRN_rmse_test
 ```
-Our training data out preformed our test data, estimates 1.2 and 1.12 respectively. Thus, runny nose does not seem like a predictor of body temperature.  
+
+Our training data out preformed our test data, estimates 1.2 and 1.12 respectively. Thus, runny nose does not seem like a predictor of body temperature.
