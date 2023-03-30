@@ -9,7 +9,7 @@ format:
 
 #### Library
 
-```{r}
+```{r, include = FALSE}
 library(here)
 library(tidyverse)
 library(rsample) #Data splitting
@@ -17,6 +17,8 @@ library(tidymodels)#Modeling
 library(rpart) #Model Fitting
 library(ranger) #Model Fitting
 library(glmnet) #Model Fitting
+library(rpart.plot)  # for visualizing a decision tree
+library(vip)         # for variable importance plots
 ```
 
 #### Data
@@ -44,6 +46,8 @@ train <- training(data_split)
 test  <- testing(data_split)
 ```
 
+# Null Model
+
 #### 5-Fold Cross Validation
 
 ```{r}
@@ -62,15 +66,22 @@ bt_rec_train <-
   step_zv(all_predictors()) %>%
   step_normalize(all_predictors())
 
+bt_rec_train
+
+#Look at table
+#bt_rec_train <- prep(bt_rec_train, training = train)
+#bake(bt_rec_train, new_data = NULL, everything())
+
 #Test Data
 bt_rec_test <- 
-  recipe(BodyTemp ~ ., data = test) %>%
+  recipe(BodyTemp ~ ., data = train) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
   step_zv(all_predictors()) %>%
   step_normalize(all_predictors())
+
 ```
 
-#### Model
+#### Define Model
 
 ```{r}
 lm_mod <- 
@@ -80,50 +91,72 @@ lm_mod <-
 
 ```
 
-# Null Model Performance
-
 #### Train Data
 
-```{r}
-#Recipe
-null_train_rec<- 
-  recipe(BodyTemp ~ 1, data = train)
+##### Recipe
 
-#Workflow
+```{r}
+null_train_rec<- 
+recipe(BodyTemp ~ 1, data = train)
+
+null_train_rec
+```
+
+##### Workflow
+
+```{r}
 null_train_wf <- 
   workflow() %>% 
   add_model(lm_mod) %>% 
   add_recipe(null_train_rec)
+```
 
-#Fit
+##### Fit
+
+```{r, include = FALSE}
 null_train_fit <- 
   fit_resamples(null_train_wf, resamples = fold_bt_train)
+```
 
-#RMSE
-null_train_aug <- augment(null_train_fit, train) 
-null_train_rmse <- null_train_aug %>% rmse(truth = BodyTemp, .pred) 
+##### RMSE Metric
+
+```{r}
+null_train_met <- collect_metrics(null_train_fit)
+
+null_train_met
 ```
 
 #### Test Data
 
+##### Recipe
+
 ```{r}
-#Recipe
 null_test_rec<- 
   recipe(BodyTemp ~ 1, data = test)
+```
 
-#Workflow
+##### Workflow
+
+```{r}
 null_test_wf <- 
   workflow() %>% 
   add_model(lm_mod) %>% 
   add_recipe(null_test_rec)
+```
 
-#Fit
+##### Fit
+
+```{r, include = FALSE}
 null_test_fit <- 
   fit_resamples(null_test_wf, resamples = fold_bt_test)
+```
 
-#RMSE
-null_test_aug <- augment(null_test_fit, test) 
-null_test_rmse <- null_test_aug %>% rmse(truth = BodyTemp, .pred) 
+##### RMSE Metric
+
+```{r}
+null_test_met <- collect_metrics(null_test_fit)
+
+null_test_met
 ```
 
 # Model Tuning and fitting:
@@ -143,6 +176,8 @@ tune_spec_dtree <-
 tune_spec_dtree
 ```
 
+Think of `tune()` here as a placeholder. After the tuning process, we will select a single numeric value for each of these hyperparameters. For now, we specify our parsnip model object and identify the hyperparameters we will `tune()`.
+
 #### Workflow Definition
 
 ```{r}
@@ -153,10 +188,12 @@ dtree_wf <- workflow() %>%
 
 #### Tuning Grid Specification
 
+We can create a regular grid of values to try using some convenience functions for each hyperparameter:
+
 ```{r}
 #create a regular grid of values for using convenience functions for each hyperparameter.
 tree_grid_dtree <-
-  dials::grid_regular(
+  grid_regular(
     cost_complexity(), 
     tree_depth(), 
     levels = 5)
@@ -166,7 +203,7 @@ tree_grid_dtree
 
 #### Tuning using Cross-validation and `tune_grid()` function
 
-```{r}
+```{r, include = FALSE}
 dtree_resample <- 
   dtree_wf %>% 
   tune_grid(
@@ -174,3 +211,342 @@ dtree_resample <-
     grid = tree_grid_dtree)
     
 ```
+
+Once we have our tuning results, we can both explore them through visualization and then select the best result. The function `collect_metrics()` gives us a tidy tibble with all the results
+
+```{r}
+dtree_resample %>%
+  collect_metrics()
+```
+
+##### Plot Model using autoplot()
+
+```{r}
+dtree_resample %>%
+  collect_metrics() %>%
+  mutate(tree_depth = factor(tree_depth)) %>%
+  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
+  geom_line(linewidth = 1.5, alpha = 0.6) +
+  geom_point(size = 2) +
+  facet_wrap(~ .metric, scales = "free", nrow = 2) +
+  scale_x_log10(labels = scales::label_number()) +
+  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+```
+
+##### Show and Select best performing models
+
+The [`show_best()`](https://tune.tidymodels.org/reference/show_best.html) function shows us the top 5 candidate models by default. We set n=1
+
+```{r}
+dtree_resample %>%
+  show_best(n=1)
+```
+
+We can also use the [`select_best()`](https://tune.tidymodels.org/reference/show_best.html) function to pull out the single set of hyperparameter values for our best decision tree model:
+
+```{r}
+#Selects best performing model
+best_tree <- dtree_resample %>%
+  select_best()
+
+best_tree
+```
+
+##### Create final fit based on best model permutation and plotting predicted values from that final fit model
+
+We can update (or "finalize") our workflow object `tree_wf` with the values from `select_best()`.
+
+```{r}
+dtree_final_wf <- 
+  dtree_wf %>% 
+  finalize_workflow(best_tree)
+
+dtree_final_wf
+```
+
+```{r}
+#Create workflow for fitting model to train predictions
+dtree_final_fit <- 
+  dtree_final_wf %>%
+  fit(train) 
+```
+
+##### Calculating Residuals and Plotting Actual Vs. Predicted Values
+
+```{r}
+dtree_residuals <- dtree_final_fit %>%
+  augment(train) %>% #use augment() to make predictions from train data
+  select(c(.pred, BodyTemp)) %>%
+  mutate(.resid = BodyTemp - .pred) #calculate residuals and make new row.
+
+dtree_residuals
+```
+
+##### Predictions vs. Actual
+
+```{r}
+dtree_pred_plot <- ggplot(dtree_residuals, 
+                          aes(x = BodyTemp, 
+                              y = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Actual: Decision Tree", 
+       x = "Body Temperature Outcome", 
+       y = "Body Temperature Prediction")
+dtree_pred_plot
+```
+
+##### Predictions vs. Residuals
+
+```{r}
+dtree_residual_plot <- ggplot(dtree_residuals, 
+                              aes(y = .resid, 
+                                  x = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Residuals: Decision Tree", 
+       x = "Body Temperature Prediction", 
+       y = "Residuals")
+plot(dtree_residual_plot) #view plot
+```
+
+## Lasso Model:
+
+#### Specify Model
+
+```{r}
+lasso_mod <- 
+  linear_reg(penalty = tune(), mixture = 1) %>% 
+  set_engine("glmnet")
+```
+
+Setting `mixture` to a value of one means that the glmnet model will potentially remove irrelevant predictors and choose a simpler model.
+
+#### Create Workflow
+
+```{r}
+lasso_wf <- workflow() %>%
+  add_model(lasso_mod) %>%
+  add_recipe(bt_rec_train)
+```
+
+#### Creating a Tuning Grid
+
+```{r}
+lasso_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
+
+```
+
+#### Cross Validation with tune_grid()
+
+```{r}
+lasso_resample <- 
+  lasso_wf %>%
+  tune_grid(resamples = fold_bt_train,
+            grid = lasso_grid,
+            control = control_grid(verbose = FALSE, save_pred = TRUE),
+            metrics = metric_set(rmse))
+
+lasso_resample %>%
+  collect_metrics()
+```
+
+##### Plot Model Performance
+
+```{r}
+lr_plot <- 
+  lasso_resample %>% 
+  collect_metrics() %>% 
+  ggplot(aes(x = penalty, y = mean)) + 
+  geom_point() + 
+  geom_line() +
+  scale_x_log10(labels = scales::label_number())
+
+lr_plot
+```
+
+##### Showing and selecting best performing Models
+
+```{r}
+#Showing best performing tree models
+lasso_resample %>%
+  show_best()
+
+#Selects best performing model
+best_lasso <- lasso_resample %>%
+  select_best()
+```
+
+##### Creating Final Fit based on based model permutation and plotting predicted values from that final fit model
+
+```{r}
+lasso_final_wf <- 
+  lasso_wf %>% 
+  finalize_workflow(best_lasso)
+
+lasso_final_wf
+
+#Create workflow for fitting model to train_data2 predictions
+lasso_final_fit <- 
+  lasso_final_wf %>%
+  fit(train) 
+```
+
+##### Calculate Residuals
+
+```{r}
+lasso_residuals <- lasso_final_fit %>%
+  augment(train) %>% #use augment() to make predictions from train data
+  select(c(.pred, BodyTemp)) %>%
+  mutate(.resid = BodyTemp - .pred) #calculate residuals and make new row.
+
+lasso_residuals
+```
+
+##### Model Predictions from tuned model vs actual outcomes
+
+```{r}
+lasso_pred_plot <- ggplot(lasso_residuals, 
+                          aes(x = BodyTemp, 
+                              y = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Actual: LASSO", 
+       x = "Body Temperature Outcome", 
+       y = "Body Temperature Prediction")
+lasso_pred_plot
+
+lasso_residual_plot <- ggplot(lasso_residuals, 
+                              aes(y = .resid, 
+                                  x = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Residuals: LASSO", 
+       x = "Body Temperature Prediction", 
+       y = "Residuals")
+plot(lasso_residual_plot) #view plot
+```
+
+## Random Forest
+
+##### Create fxn to detect cores for RFM computation
+
+```{r}
+cores <- parallel::detectCores()
+cores
+```
+
+#### Specify Model
+
+```{r}
+rf_mod <- 
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>% 
+  set_engine("ranger", num.threads = cores) %>% 
+  set_mode("regression")
+```
+
+#### Creating Workflow
+
+```{r}
+rf_wf <- workflow() %>%
+  add_model(rf_mod) %>%
+  add_recipe(bt_rec_train)
+```
+
+#### Create Tuning Grid
+
+```{r}
+rf_grid  <- expand.grid(mtry = c(3, 4, 5, 6),
+                        min_n = c(40,50,60), 
+                        trees = c(500,1000)  )
+```
+
+#### Cross-validation
+
+```{r}
+rf_resample <- 
+  rf_wf %>% 
+  tune_grid(fold_bt_train,
+            grid = 25,
+            control = control_grid(save_pred = TRUE),
+            metrics = metric_set(rmse))
+```
+
+```{r}
+rf_resample %>%
+  collect_metrics()
+```
+
+##### Plot Model Performance
+
+```{r}
+#Plot of actual train_data2
+rf_resample %>%
+  autoplot()
+```
+
+##### Showing and Selecting Best Performing Models
+
+```{r}
+#Showing best performing tree models
+rf_resample %>%
+  show_best()
+
+#Selects best performing model
+best_rf <- rf_resample %>%
+  select_best(method = "rmse")
+```
+
+##### Create Final Fit
+
+```{r}
+rf_final_wf <- 
+  rf_wf %>% 
+  finalize_workflow(best_rf)
+
+#Create workflow for fitting model to train_data2 predictions
+rf_final_fit <- 
+  rf_final_wf %>%
+  fit(train) 
+```
+
+##### Calculate Residuals
+
+```{r}
+rf_residuals <- rf_final_fit %>%
+  augment(train) %>% #use augment() to make predictions from train data
+  select(c(.pred, BodyTemp)) %>%
+  mutate(.resid = BodyTemp - .pred) #calculate residuals and make new row.
+
+rf_residuals
+```
+
+##### Model Predictions from Tuned Model vs Actual Outcomes
+
+```{r}
+rf_pred_plot <- ggplot(rf_residuals, 
+                          aes(x = BodyTemp, 
+                              y = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Actual: Random Forest", 
+       x = "Body Temperature Actual", 
+       y = "Body Temperature Prediction")
+rf_pred_plot
+
+rf_residual_plot <- ggplot(rf_residuals, 
+                              aes(y = .resid, 
+                                  x = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Residuals: Random Forest", 
+       x = "Body Temperature Prediction", 
+       y = "Residuals")
+plot(rf_residual_plot) #view plot
+```
+
+# Model Selection
+
+Once you have implemented above steps for the 3 models, you should have a "best" fit for each one based on the tuning process. For each best model you should have performance, uncertainty around the performance measure, and some diagnostic plots. While for any real research project, you likely want to look deeper (e.g. at uncertainty in predictions instead of just overall performance), for now this is enough. Pick one of the three models. Explain why you pick it. There is no single answer that's correct, I just want you to practice reasoning for why you are doing something: in this case justify why you are picking the model you do.
+
+# Final Evaluation
+
+Once you picked your final model, you are allowed to once -- **and only once** -- fit it to the test data and check how well it performs on that data. This gives you a somewhat honest estimate of how the model might perform for new, unseen data. You can do that using the `last_fit()` function applied to the model you end up choosing. For the final model applied to the test set, report performance and the diagnostic plots as above.
+
+\
+
+\

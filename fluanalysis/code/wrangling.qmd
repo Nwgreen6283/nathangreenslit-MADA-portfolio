@@ -37,32 +37,28 @@ d2<-
   select(!c(WeaknessYN, CoughYN, MyalgiaYN, CoughYN2))
 ```
 
-## Recode as ordered/unordered
-
-```{r}
-cat <- #Create Dataframe with just categorical variables
-  d2 %>% 
-  select(!c(Weakness, CoughIntensity, Myalgia, BodyTemp)) %>%
-  step_dummy(all_predictors())#???
-
-ord<- #Create df with just ordinal variables
-  d2 %>%
-  select(Weakness, CoughIntensity, Myalgia) %>%
-  step_ordinalscore(all_predictors())#????
-    
-
-```
-
 ## Remove Binary predictors that have\<50 entries in one category
 
+#### Check Data set 
+
 ```{r}
-rec<- 
-  d2 %>%
-  step_nzv(all_predictors())
+summary(d2)
 ```
 
-Save RDS
+We can see that Vision and Hearing have \<50 entries for one category. Let's remove them.
+
+#### Remove Vision and Hearing
 
 ```{r}
-saveRDS(d2, file= here("fluanalysis", "data", "SypAct_clean.rds"))
+d3<- 
+  d2 %>%
+  select(!c(Vision, Hearing))
+```
+
+Now we have a dataframe with 730 observations and 26 variables.
+
+#### Save RDS
+
+```{r}
+saveRDS(d3, file= here("fluanalysis", "data", "SypAct_clean.rds"))
 ```
