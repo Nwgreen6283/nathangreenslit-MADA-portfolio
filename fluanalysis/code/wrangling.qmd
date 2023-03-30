@@ -39,7 +39,7 @@ d2<-
 
 ## Remove Binary predictors that have\<50 entries in one category
 
-#### Check Data set 
+#### Check Data set
 
 ```{r}
 summary(d2)

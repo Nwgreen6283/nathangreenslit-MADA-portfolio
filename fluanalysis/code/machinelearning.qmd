@@ -63,8 +63,7 @@ fold_bt_test <- vfold_cv(test, v = 5, repeats = 5, strata = BodyTemp)
 bt_rec_train <- 
   recipe(BodyTemp ~ ., data = train) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
-  step_zv(all_predictors()) %>%
-  step_normalize(all_predictors())
+  step_zv(all_predictors()) 
 
 bt_rec_train
 
@@ -76,8 +75,7 @@ bt_rec_train
 bt_rec_test <- 
   recipe(BodyTemp ~ ., data = train) %>%
   step_dummy(all_nominal(), -all_outcomes()) %>%
-  step_zv(all_predictors()) %>%
-  step_normalize(all_predictors())
+  step_zv(all_predictors()) 
 
 ```
 
@@ -126,6 +124,9 @@ null_train_met <- collect_metrics(null_train_fit)
 null_train_met
 ```
 
+**RMSE = 1.21 with a standard error 0.018. \
+**The mean and standard deviation of the performance give you a measure of overall performance and variability in that measure. The plots show you if there are any systematic deviations between model and data. Taken together, these can be compared for the different models and based on those (and as wanted, other considerations) a final model can be chosen.
+
 #### Test Data
 
 ##### Recipe
@@ -158,6 +159,9 @@ null_test_met <- collect_metrics(null_test_fit)
 
 null_test_met
 ```
+
+**RMSE = 1.16 with a standard error of 0.029\
+**
 
 # Model Tuning and fitting:
 

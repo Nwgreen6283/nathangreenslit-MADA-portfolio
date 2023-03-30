@@ -190,6 +190,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../.././fluanalysis/code/fitting.html">
  <span class="dropdown-text">Fitting</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../.././fluanalysis/code/modeleval.html">
+ <span class="dropdown-text">Model Evaluation</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -236,75 +240,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.1     ✔ purrr   1.0.1
-✔ tibble  3.2.1     ✔ dplyr   1.1.1
-✔ tidyr   1.3.0     ✔ stringr 1.5.0
-✔ readr   2.1.3     ✔ forcats 0.5.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✔ ggplot2 3.4.0     ✔ purrr   1.0.1
+✔ tibble  3.1.8     ✔ dplyr   1.1.0
+✔ tidyr   1.2.1     ✔ stringr 1.5.0
+✔ readr   2.1.3     ✔ forcats 0.5.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>here() starts at C:/GitHub/MADA/nathangreenslit-MADA-portfolio</code></pre>
+<pre><code>here() starts at /Users/nathangreenslit/Desktop/UGA/Spring 2023/MADA/nathangreenslit-MADA-portfolio</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)  <span class="co"># for the parsnip package, along with the rest of tidymodels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidymodels' was built under R version 4.2.3</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)  <span class="co"># for the parsnip package, along with the rest of tidymodels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.0.0 ──
-✔ broom        1.0.3     ✔ rsample      1.1.1
+✔ broom        1.0.2     ✔ rsample      1.1.1
 ✔ dials        1.1.0     ✔ tune         1.0.1
 ✔ infer        1.0.4     ✔ workflows    1.1.3
 ✔ modeldata    1.1.0     ✔ workflowsets 1.0.0
 ✔ parsnip      1.0.4     ✔ yardstick    1.1.0
-✔ recipes      1.0.5     </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dials' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'infer' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'modeldata' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'parsnip' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'recipes' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'rsample' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tune' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'workflows' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'workflowsets' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'yardstick' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✔ recipes      1.0.5     
+── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 ✖ scales::discard() masks purrr::discard()
 ✖ dplyr::filter()   masks stats::filter()
 ✖ recipes::fixed()  masks stringr::fixed()
@@ -313,19 +271,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ recipes::step()   masks stats::step()
 • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip) <span class="co">#Had to load this separately due to error message</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper packages for visualizatiob</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)       <span class="co"># for importing data</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed) <span class="co"># for converting bayesian models to tidy tibbles</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'broom.mixed' was built under R version 4.2.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dotwhisker)  <span class="co"># for visualizing regression results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dotwhisker' was built under R version 4.2.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip) <span class="co">#Had to load this separately due to error message</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper packages for visualizatiob</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)       <span class="co"># for importing data</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed) <span class="co"># for converting bayesian models to tidy tibbles</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dotwhisker)  <span class="co"># for visualizing regression results</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'rpart'
@@ -334,11 +286,8 @@ The following object is masked from 'package:dials':
 
     prune</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Libraries for model performance comparrison </span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'performance' was built under R version 4.2.3</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Libraries for model performance comparrison </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'performance'
@@ -347,10 +296,7 @@ The following objects are masked from 'package:yardstick':
 
     mae, rmse</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'vip' was built under R version 4.2.3</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'vip'
@@ -364,7 +310,7 @@ The following object is masked from 'package:utils':
 <section id="load-data" class="level2">
 <h2 class="anchored" data-anchor-id="load-data">1. Load Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>d<span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">"fluanalysis"</span>, <span class="st">"data"</span>, <span class="st">"SypAct_clean.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d<span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">"fluanalysis"</span>, <span class="st">"data"</span>, <span class="st">"SypAct_clean.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="fitting-a-linear-model-to-the-continuous-outcome-body-temperature-using-only-the-main-predictor-of-interest-fever." class="level2">
@@ -372,23 +318,23 @@ The following object is masked from 'package:utils':
 <section id="define-linear-regression" class="level3">
 <h3 class="anchored" data-anchor-id="define-linear-regression">Define Linear Regression</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression Model Specification (regression)
 
 Computational engine: lm </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lm_mod<span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lm_mod<span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="train-model-to-data" class="level3">
 <h3 class="anchored" data-anchor-id="train-model-to-data">Train model to data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  lm_mod <span class="sc">%&gt;%</span> </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(BodyTemp <span class="sc">~</span> SubjectiveFever, <span class="at">data =</span> d)</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>lm_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  lm_mod <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(BodyTemp <span class="sc">~</span> SubjectiveFever, <span class="at">data =</span> d)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>lm_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>parsnip model object
 
@@ -405,7 +351,7 @@ Coefficients:
 <section id="examine-output" class="level3">
 <h3 class="anchored" data-anchor-id="examine-output">Examine output</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term               estimate std.error statistic      p.value
@@ -418,14 +364,14 @@ Coefficients:
 <section id="plot" class="level3">
 <h3 class="anchored" data-anchor-id="plot">Plot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit) <span class="sc">%&gt;%</span> </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(lm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(lm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 12
   r.squ…¹ adj.r…² sigma stati…³ p.value    df logLik   AIC   BIC devia…⁴ df.re…⁵
@@ -442,16 +388,16 @@ Coefficients:
 <section id="define-linear-regression-1" class="level3">
 <h3 class="anchored" data-anchor-id="define-linear-regression-1">Define Linear Regression</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>lm_mod_all<span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lm_mod_all<span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="train-model-to-data-1" class="level3">
 <h3 class="anchored" data-anchor-id="train-model-to-data-1">Train model to data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>lm_fit_all <span class="ot">&lt;-</span> </span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  lm_mod_all <span class="sc">%&gt;%</span> </span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(BodyTemp <span class="sc">~</span> ., <span class="at">data =</span> d)</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>lm_fit_all</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>lm_fit_all <span class="ot">&lt;-</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  lm_mod_all <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(BodyTemp <span class="sc">~</span> ., <span class="at">data =</span> d)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>lm_fit_all</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>parsnip model object
 
@@ -461,63 +407,59 @@ stats::lm(formula = BodyTemp ~ ., data = data)
 
 Coefficients:
            (Intercept)    SwollenLymphNodesYes      ChestCongestionYes  
-             97.925243               -0.165302                0.087326  
-       ChillsSweatsYes      NasalCongestionYes              CoughYNYes  
-              0.201266               -0.215771                0.313893  
-             SneezeYes              FatigueYes      SubjectiveFeverYes  
-             -0.361924                0.264762                0.436837  
-           HeadacheYes            WeaknessMild        WeaknessModerate  
-              0.011453                0.018229                0.098944  
-        WeaknessSevere           WeaknessYNYes      CoughIntensityMild  
-              0.373435                      NA                0.084881  
-CoughIntensityModerate    CoughIntensitySevere             CoughYN2Yes  
-             -0.061384               -0.037272                      NA  
+             97.932520               -0.166066                0.102608  
+       ChillsSweatsYes      NasalCongestionYes               SneezeYes  
+              0.191826               -0.221568               -0.372709  
+            FatigueYes      SubjectiveFeverYes             HeadacheYes  
+              0.272509                0.436694                0.004977  
+          WeaknessMild        WeaknessModerate          WeaknessSevere  
+              0.005517                0.087801                0.351281  
+    CoughIntensityMild  CoughIntensityModerate    CoughIntensitySevere  
+              0.359527                0.261469                0.287089  
            MyalgiaMild         MyalgiaModerate           MyalgiaSevere  
-              0.164242               -0.024064               -0.129263  
-          MyalgiaYNYes            RunnyNoseYes               AbPainYes  
-                    NA               -0.080485                0.031574  
-          ChestPainYes             DiarrheaYes                EyePnYes  
-              0.105071               -0.156806                0.131544  
-           InsomniaYes             ItchyEyeYes               NauseaYes  
-             -0.006824               -0.008016               -0.034066  
-              EarPnYes              HearingYes          PharyngitisYes  
-              0.093790                0.232203                0.317581  
-         BreathlessYes              ToothPnYes               VisionYes  
-              0.090526               -0.022876               -0.274625  
+              0.156342               -0.028450               -0.136091  
+          RunnyNoseYes               AbPainYes            ChestPainYes  
+             -0.064666                0.015375                0.100308  
+           DiarrheaYes                EyePnYes             InsomniaYes  
+             -0.152344                0.128786               -0.005824  
+           ItchyEyeYes               NauseaYes                EarPnYes  
+             -0.003889               -0.033246                0.111125  
+        PharyngitisYes           BreathlessYes              ToothPnYes  
+              0.315991                0.086379               -0.035497  
               VomitYes               WheezeYes  
-              0.165272               -0.046665  </code></pre>
+              0.160053               -0.034654  </code></pre>
 </div>
 </div>
 </section>
 <section id="examine-output-1" class="level3">
 <h3 class="anchored" data-anchor-id="examine-output-1">Examine output</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 38 × 5
+<pre><code># A tibble: 32 × 5
    term                 estimate std.error statistic   p.value
    &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
- 1 (Intercept)           97.9       0.304   322.     0        
- 2 SwollenLymphNodesYes  -0.165     0.0920   -1.80   0.0727   
- 3 ChestCongestionYes     0.0873    0.0975    0.895  0.371    
- 4 ChillsSweatsYes        0.201     0.127     1.58   0.114    
- 5 NasalCongestionYes    -0.216     0.114    -1.90   0.0584   
- 6 CoughYNYes             0.314     0.241     1.30   0.193    
- 7 SneezeYes             -0.362     0.0983   -3.68   0.000249 
- 8 FatigueYes             0.265     0.161     1.65   0.0996   
- 9 SubjectiveFeverYes     0.437     0.103     4.22   0.0000271
-10 HeadacheYes            0.0115    0.125     0.0913 0.927    
-# … with 28 more rows</code></pre>
+ 1 (Intercept)          97.9        0.304   323.     0        
+ 2 SwollenLymphNodesYes -0.166      0.0920   -1.81   0.0714   
+ 3 ChestCongestionYes    0.103      0.0971    1.06   0.291    
+ 4 ChillsSweatsYes       0.192      0.127     1.51   0.131    
+ 5 NasalCongestionYes   -0.222      0.113    -1.95   0.0512   
+ 6 SneezeYes            -0.373      0.0980   -3.80   0.000156 
+ 7 FatigueYes            0.273      0.161     1.70   0.0901   
+ 8 SubjectiveFeverYes    0.437      0.103     4.25   0.0000244
+ 9 HeadacheYes           0.00498    0.125     0.0397 0.968    
+10 WeaknessMild          0.00552    0.189     0.0292 0.977    
+# … with 22 more rows</code></pre>
 </div>
 </div>
 </section>
 <section id="plot-1" class="level3">
 <h3 class="anchored" data-anchor-id="plot-1">Plot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit_all) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lm_fit_all) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -529,11 +471,14 @@ CoughIntensityModerate    CoughIntensitySevere             CoughYN2Yes
 <section id="assess-performance" class="level3">
 <h3 class="anchored" data-anchor-id="assess-performance">Assess Performance</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(lm_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(lm_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(lm_fit_all<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(lm_fit_all<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Variable `Component` is not in your data frame :/</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
 </div>
@@ -542,14 +487,14 @@ CoughIntensityModerate    CoughIntensitySevere             CoughYN2Yes
 <section id="compare-performance" class="level3">
 <h3 class="anchored" data-anchor-id="compare-performance">Compare Performance</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(lm_fit,lm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(lm_fit,lm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Comparison of Model Performance Indices
 
 Name       | Model |  AIC (weights) | AICc (weights) |  BIC (weights) |    R2 | R2 (adj.) |  RMSE | Sigma
 ---------------------------------------------------------------------------------------------------------
-lm_fit     |   _lm | 2307.1 (0.165) | 2307.1 (0.570) | 2320.9 (&gt;.999) | 0.042 |     0.041 | 1.170 | 1.172
-lm_fit_all |   _lm | 2303.8 (0.835) | 2307.7 (0.430) | 2469.2 (&lt;.001) | 0.129 |     0.086 | 1.116 | 1.144</code></pre>
+lm_fit     |   _lm | 2307.1 (0.060) | 2307.1 (0.239) | 2320.9 (&gt;.999) | 0.042 |     0.041 | 1.170 | 1.172
+lm_fit_all |   _lm | 2301.6 (0.940) | 2304.8 (0.761) | 2453.1 (&lt;.001) | 0.124 |     0.085 | 1.119 | 1.144</code></pre>
 </div>
 </div>
 <p><strong>There does not seem to be a major difference in model performance between the uni and multivariate models. Both have a similar observance/predicted line path and Normality of Residuals. The multivariate model does have a “higher” R2 and lower RMSE value.</strong></p>
@@ -558,15 +503,15 @@ lm_fit_all |   _lm | 2303.8 (0.835) | 2307.7 (0.430) | 2469.2 (&lt;.001) | 0.129
 <section id="fitting-a-logistic-model-to-the-categorical-outcome-nausea-using-only-the-main-predictor-of-interest-vomit." class="level2">
 <h2 class="anchored" data-anchor-id="fitting-a-logistic-model-to-the-categorical-outcome-nausea-using-only-the-main-predictor-of-interest-vomit.">5. Fitting a logistic model to the categorical outcome (Nausea) using only the main predictor of interest (Vomit).</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Make model</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>log_mod <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Train Model</span></span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> </span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  log_mod <span class="sc">%&gt;%</span> </span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Nausea <span class="sc">~</span> Vomit, <span class="at">data =</span> d)</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>glm_fit </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Make model</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>log_mod <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Train Model</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  log_mod <span class="sc">%&gt;%</span> </span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Nausea <span class="sc">~</span> Vomit, <span class="at">data =</span> d)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>glm_fit </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>parsnip model object
 
@@ -586,7 +531,7 @@ Residual Deviance: 862  AIC: 866</code></pre>
 <section id="examine-model-output" class="level3">
 <h3 class="anchored" data-anchor-id="examine-model-output">Examine model output</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic  p.value
@@ -599,10 +544,10 @@ Residual Deviance: 862  AIC: 866</code></pre>
 <section id="plot-2" class="level3">
 <h3 class="anchored" data-anchor-id="plot-2">Plot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit) <span class="sc">%&gt;%</span> </span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -612,15 +557,15 @@ Residual Deviance: 862  AIC: 866</code></pre>
 <section id="fits-another-logistic-model-to-the-categorical-outcome-using-all-important-predictors-of-interest." class="level2">
 <h2 class="anchored" data-anchor-id="fits-another-logistic-model-to-the-categorical-outcome-using-all-important-predictors-of-interest.">5. Fits another logistic model to the categorical outcome using all (important) predictors of interest.</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Make Model</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>log_mod_all <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Train Model</span></span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>glm_fit_all <span class="ot">&lt;-</span> </span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  log_mod_all <span class="sc">%&gt;%</span> </span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Nausea <span class="sc">~</span> ., <span class="at">data =</span> d)</span>
-<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>glm_fit_all </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Make Model</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>log_mod_all <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Train Model</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>glm_fit_all <span class="ot">&lt;-</span> </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  log_mod_all <span class="sc">%&gt;%</span> </span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Nausea <span class="sc">~</span> ., <span class="at">data =</span> d)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>glm_fit_all </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>parsnip model object
 
@@ -629,66 +574,62 @@ Call:  stats::glm(formula = Nausea ~ ., family = stats::binomial, data = data)
 
 Coefficients:
            (Intercept)    SwollenLymphNodesYes      ChestCongestionYes  
-              0.222870               -0.251083                0.275554  
-       ChillsSweatsYes      NasalCongestionYes              CoughYNYes  
-              0.274097                0.425817               -0.140423  
-             SneezeYes              FatigueYes      SubjectiveFeverYes  
-              0.176724                0.229062                0.277741  
-           HeadacheYes            WeaknessMild        WeaknessModerate  
-              0.331259               -0.121606                0.310849  
-        WeaknessSevere           WeaknessYNYes      CoughIntensityMild  
-              0.823187                      NA               -0.220794  
-CoughIntensityModerate    CoughIntensitySevere             CoughYN2Yes  
-             -0.362678               -0.950544                      NA  
+             0.2073331              -0.2468466               0.2652914  
+       ChillsSweatsYes      NasalCongestionYes               SneezeYes  
+             0.2905732               0.4400651               0.1650192  
+            FatigueYes      SubjectiveFeverYes             HeadacheYes  
+             0.2309581               0.2550192               0.3374915  
+          WeaknessMild        WeaknessModerate          WeaknessSevere  
+            -0.1203258               0.3243767               0.8296720  
+    CoughIntensityMild  CoughIntensityModerate    CoughIntensitySevere  
+            -0.3489315              -0.5080112              -1.0969293  
            MyalgiaMild         MyalgiaModerate           MyalgiaSevere  
-             -0.004146                0.204743                0.120758  
-          MyalgiaYNYes            RunnyNoseYes               AbPainYes  
-                    NA                0.045324                0.939304  
-          ChestPainYes             DiarrheaYes                EyePnYes  
-              0.070777                1.063934               -0.341991  
-           InsomniaYes             ItchyEyeYes                EarPnYes  
-              0.084175               -0.063364               -0.181719  
-            HearingYes          PharyngitisYes           BreathlessYes  
-              0.323052                0.275364                0.526801  
-            ToothPnYes               VisionYes                VomitYes  
-              0.480649                0.125498                2.458466  
+            -0.0002988               0.2001406               0.1296120  
+          RunnyNoseYes               AbPainYes            ChestPainYes  
+             0.0526415               0.9415252               0.0715321  
+           DiarrheaYes                EyePnYes             InsomniaYes  
+             1.0647853              -0.3277246               0.0841010  
+           ItchyEyeYes                EarPnYes          PharyngitisYes  
+            -0.0526911              -0.1654360               0.2915358  
+         BreathlessYes              ToothPnYes                VomitYes  
+             0.5306311               0.4801514               2.4471603  
              WheezeYes                BodyTemp  
-             -0.304435               -0.031246  
+            -0.2758144              -0.0313649  
 
-Degrees of Freedom: 729 Total (i.e. Null);  695 Residual
+Degrees of Freedom: 729 Total (i.e. Null);  698 Residual
 Null Deviance:      944.7 
-Residual Deviance: 751.5    AIC: 821.5</code></pre>
+Residual Deviance: 752.1    AIC: 816.1</code></pre>
 </div>
 </div>
 <section id="examine-output-2" class="level3">
 <h3 class="anchored" data-anchor-id="examine-output-2">Examine Output</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 38 × 5
+<pre><code># A tibble: 32 × 5
    term                 estimate std.error statistic p.value
    &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
- 1 (Intercept)             0.223     7.83     0.0285  0.977 
- 2 SwollenLymphNodesYes   -0.251     0.196   -1.28    0.200 
- 3 ChestCongestionYes      0.276     0.213    1.30    0.195 
- 4 ChillsSweatsYes         0.274     0.288    0.952   0.341 
- 5 NasalCongestionYes      0.426     0.255    1.67    0.0944
- 6 CoughYNYes             -0.140     0.519   -0.271   0.787 
- 7 SneezeYes               0.177     0.210    0.840   0.401 
- 8 FatigueYes              0.229     0.372    0.616   0.538 
- 9 SubjectiveFeverYes      0.278     0.225    1.23    0.218 
-10 HeadacheYes             0.331     0.285    1.16    0.245 
-# … with 28 more rows</code></pre>
+ 1 (Intercept)             0.207     7.81     0.0265  0.979 
+ 2 SwollenLymphNodesYes   -0.247     0.196   -1.26    0.207 
+ 3 ChestCongestionYes      0.265     0.210    1.26    0.207 
+ 4 ChillsSweatsYes         0.291     0.287    1.01    0.311 
+ 5 NasalCongestionYes      0.440     0.253    1.74    0.0822
+ 6 SneezeYes               0.165     0.210    0.787   0.431 
+ 7 FatigueYes              0.231     0.371    0.622   0.534 
+ 8 SubjectiveFeverYes      0.255     0.223    1.14    0.253 
+ 9 HeadacheYes             0.337     0.285    1.18    0.236 
+10 WeaknessMild           -0.120     0.447   -0.269   0.788 
+# … with 22 more rows</code></pre>
 </div>
 </div>
 </section>
 <section id="plot-3" class="level3">
 <h3 class="anchored" data-anchor-id="plot-3">Plot</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit_all) <span class="sc">%&gt;%</span> </span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glm_fit_all) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dwplot</span>(<span class="at">dot_args =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">whisker_args =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">vline =</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>, <span class="at">linetype =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -700,11 +641,14 @@ Residual Deviance: 751.5    AIC: 821.5</code></pre>
 <section id="assess-performance-1" class="level3">
 <h3 class="anchored" data-anchor-id="assess-performance-1">Assess Performance</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(glm_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(glm_fit<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(glm_fit_all<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(glm_fit_all<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Variable `Component` is not in your data frame :/</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="fitting_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid" width="672"></p>
 </div>
@@ -713,27 +657,14 @@ Residual Deviance: 751.5    AIC: 821.5</code></pre>
 <section id="compare-performance-1" class="level3">
 <h3 class="anchored" data-anchor-id="compare-performance-1">Compare Performance</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(glm_fit,glm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
-prediction from a rank-deficient fit may be misleading
-
-Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
-prediction from a rank-deficient fit may be misleading
-
-Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
-prediction from a rank-deficient fit may be misleading
-
-Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
-prediction from a rank-deficient fit may be misleading</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(glm_fit,glm_fit_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Comparison of Model Performance Indices
 
 Name        | Model | AIC (weights) | AICc (weights) | BIC (weights) | Tjur's R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical |   PCP
 -------------------------------------------------------------------------------------------------------------------------------------------------
 glm_fit     |  _glm | 866.0 (&lt;.001) |  866.0 (&lt;.001) | 875.2 (&gt;.999) |     0.117 | 0.448 | 1.088 |    0.590 |  -123.912 |           0.019 | 0.599
-glm_fit_all |  _glm | 821.5 (&gt;.999) |  825.1 (&gt;.999) | 982.2 (&lt;.001) |     0.247 | 0.414 | 1.040 |    0.515 |      -Inf |           0.002 | 0.658</code></pre>
+glm_fit_all |  _glm | 816.1 (&gt;.999) |  819.2 (&gt;.999) | 963.1 (&lt;.001) |     0.246 | 0.415 | 1.038 |    0.515 |      -Inf |           0.002 | 0.657</code></pre>
 </div>
 </div>
 <p><strong>In this case, it looks like the multivariate analysis had a better performance than the uni-variate. While both had a good observed/predicted line path, the former had better Normality of Residuals.</strong></p>
