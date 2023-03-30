@@ -67,10 +67,6 @@ bt_rec_train <-
 
 bt_rec_train
 
-#Look at table
-#bt_rec_train <- prep(bt_rec_train, training = train)
-#bake(bt_rec_train, new_data = NULL, everything())
-
 #Test Data
 bt_rec_test <- 
   recipe(BodyTemp ~ ., data = train) %>%
@@ -124,7 +120,7 @@ null_train_met <- collect_metrics(null_train_fit)
 null_train_met
 ```
 
-**RMSE = 1.21 with a standard error 0.018. \
+**RMSE = 1.21 with a standard error 0.018.\
 **The mean and standard deviation of the performance give you a measure of overall performance and variability in that measure. The plots show you if there are any systematic deviations between model and data. Taken together, these can be compared for the different models and based on those (and as wanted, other considerations) a final model can be chosen.
 
 #### Test Data
@@ -245,6 +241,8 @@ The [`show_best()`](https://tune.tidymodels.org/reference/show_best.html) functi
 dtree_resample %>%
   show_best(n=1)
 ```
+
+**From the plot and the tibble above, we see that the the model with treedepth =1 has the lowest rmse value with a mean of 1.19 and standard error of 0.018.**
 
 We can also use the [`select_best()`](https://tune.tidymodels.org/reference/show_best.html) function to pull out the single set of hyperparameter values for our best decision tree model:
 
@@ -372,12 +370,14 @@ lr_plot
 ```{r}
 #Showing best performing tree models
 lasso_resample %>%
-  show_best()
+  show_best(n=1)
 
 #Selects best performing model
 best_lasso <- lasso_resample %>%
   select_best()
 ```
+
+**Here our RMSE = 1.15 and standard deviation = 0.017. Based on this metric, the Lasso model seems to have performed better than the Tree model. Let's come back to this.**
 
 ##### Creating Final Fit based on based model permutation and plotting predicted values from that final fit model
 
@@ -480,7 +480,7 @@ rf_resample %>%
 ##### Plot Model Performance
 
 ```{r}
-#Plot of actual train_data2
+#Plot of actual train data
 rf_resample %>%
   autoplot()
 ```
@@ -490,12 +490,14 @@ rf_resample %>%
 ```{r}
 #Showing best performing tree models
 rf_resample %>%
-  show_best()
+  show_best(n=1)
 
 #Selects best performing model
 best_rf <- rf_resample %>%
   select_best(method = "rmse")
 ```
+
+**Our best model had an RMSE = 1.16 and standard error = 0.017**
 
 ##### Create Final Fit
 
@@ -545,12 +547,37 @@ plot(rf_residual_plot) #view plot
 
 # Model Selection
 
-Once you have implemented above steps for the 3 models, you should have a "best" fit for each one based on the tuning process. For each best model you should have performance, uncertainty around the performance measure, and some diagnostic plots. While for any real research project, you likely want to look deeper (e.g. at uncertainty in predictions instead of just overall performance), for now this is enough. Pick one of the three models. Explain why you pick it. There is no single answer that's correct, I just want you to practice reasoning for why you are doing something: in this case justify why you are picking the model you do.
+According to the RMSE values, the all models performed somewhat similar to one another, with slight variations. Taking a look at the plots examining Predicted Vs. Actual and Predicted Vs. Residuals, we see a clearer relationship between our predicted and body temperatures with both the LASSO and Random Forest model. Additionally, the former performed best with lowest RMSE and standard error. While Random forest provides a faster result, it runs the risk of over fitting, as it selects a random subset of trees. Ultimately, LASSO is a slower process but more accurate, and had the best performance. So this model will be chosen for the final evaluation.
+
++------------+------+---------+
+| Model      | RMSE | Std_Err |
++============+======+=========+
+| Null Train | 1.21 | 0.018   |
++------------+------+---------+
+| Null Test  | 1.16 | 0.029   |
++------------+------+---------+
+| Tree       | 1.19 | 0.018   |
++------------+------+---------+
+| LASSO      | 1.15 | 0.017   |
++------------+------+---------+
+| Random For | 1.16 | 0.017   |
++------------+------+---------+
+
+: Table 1: Metrics for Models
 
 # Final Evaluation
 
 Once you picked your final model, you are allowed to once -- **and only once** -- fit it to the test data and check how well it performs on that data. This gives you a somewhat honest estimate of how the model might perform for new, unseen data. You can do that using the `last_fit()` function applied to the model you end up choosing. For the final model applied to the test set, report performance and the diagnostic plots as above.
 
-\
+```{r}
+lasso_last_fit <- 
+  lasso_final_wf %>% 
+  last_fit(data_split)
+
+lasso_last_fit %>% 
+  collect_metrics()
+```
+
+**Calculated RMSE of 1.15 and standard error of 0.029. This performs very closely to the Null Test Model (Table 1).** \
 
 \

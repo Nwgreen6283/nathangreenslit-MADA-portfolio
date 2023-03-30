@@ -194,6 +194,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../.././fluanalysis/code/modeleval.html">
  <span class="dropdown-text">Model Evaluation</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../.././fluanalysis/code/machinelearning.html">
+ <span class="dropdown-text">Machine Learning</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -317,15 +321,11 @@ predictor: 25</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>• Zero variance filter on: all_predictors()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Look at table</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bt_rec_train &lt;- prep(bt_rec_train, training = train)</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#bake(bt_rec_train, new_data = NULL, everything())</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Test Data</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>bt_rec_test <span class="ot">&lt;-</span> </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(BodyTemp <span class="sc">~</span> ., <span class="at">data =</span> train) <span class="sc">%&gt;%</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test Data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>bt_rec_test <span class="ot">&lt;-</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(BodyTemp <span class="sc">~</span> ., <span class="at">data =</span> train) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="define-model" class="level4">
@@ -563,6 +563,7 @@ Computational engine: rpart </code></pre>
 1    0.0000000001          1 rmse    standard    1.19    25  0.0181 Preprocesso…</code></pre>
 </div>
 </div>
+<p><strong>From the plot and the tibble above, we see that the the model with treedepth =1 has the lowest rmse value with a mean of 1.19 and standard error of 0.018.</strong></p>
 <p>We can also use the <a href="https://tune.tidymodels.org/reference/show_best.html"><code>select_best()</code></a> function to pull out the single set of hyperparameter values for our best decision tree model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Selects best performing model</span></span>
@@ -754,21 +755,18 @@ Computational engine: rpart </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Showing best performing tree models</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>lasso_resample <span class="sc">%&gt;%</span></span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_best</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_best</span>(<span class="at">n=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 7
+<pre><code># A tibble: 1 × 7
   penalty .metric .estimator  mean     n std_err .config              
     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
-1  0.0574 rmse    standard    1.15    25  0.0170 Preprocessor1_Model18
-2  0.0452 rmse    standard    1.15    25  0.0170 Preprocessor1_Model17
-3  0.0356 rmse    standard    1.16    25  0.0169 Preprocessor1_Model16
-4  0.0728 rmse    standard    1.16    25  0.0171 Preprocessor1_Model19
-5  0.0281 rmse    standard    1.16    25  0.0169 Preprocessor1_Model15</code></pre>
+1  0.0574 rmse    standard    1.15    25  0.0170 Preprocessor1_Model18</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Selects best performing model</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>best_lasso <span class="ot">&lt;-</span> lasso_resample <span class="sc">%&gt;%</span></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Here our RMSE = 1.15 and standard deviation = 0.017. Based on this metric, the Lasso model seems to have performed better than the Tree model. Let’s come back to this.</strong></p>
 </section>
 <section id="creating-final-fit-based-on-based-model-permutation-and-plotting-predicted-values-from-that-final-fit-model" class="level5">
 <h5 class="anchored" data-anchor-id="creating-final-fit-based-on-based-model-permutation-and-plotting-predicted-values-from-that-final-fit-model">Creating Final Fit based on based model permutation and plotting predicted values from that final fit model</h5>
@@ -933,7 +931,7 @@ Computational engine: glmnet </code></pre>
 <section id="plot-model-performance-1" class="level5">
 <h5 class="anchored" data-anchor-id="plot-model-performance-1">Plot Model Performance</h5>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot of actual train_data2</span></span>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot of actual train data</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>rf_resample <span class="sc">%&gt;%</span></span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -946,21 +944,18 @@ Computational engine: glmnet </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Showing best performing tree models</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>rf_resample <span class="sc">%&gt;%</span></span>
-<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_best</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_best</span>(<span class="at">n=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 8
+<pre><code># A tibble: 1 × 8
    mtry min_n .metric .estimator  mean     n std_err .config              
   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
-1     9    37 rmse    standard    1.16    25  0.0168 Preprocessor1_Model05
-2     7    26 rmse    standard    1.16    25  0.0166 Preprocessor1_Model16
-3     4    17 rmse    standard    1.16    25  0.0167 Preprocessor1_Model11
-4     6    23 rmse    standard    1.16    25  0.0167 Preprocessor1_Model24
-5     2     9 rmse    standard    1.17    25  0.0169 Preprocessor1_Model17</code></pre>
+1     9    37 rmse    standard    1.16    25  0.0168 Preprocessor1_Model05</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Selects best performing model</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>best_rf <span class="ot">&lt;-</span> rf_resample <span class="sc">%&gt;%</span></span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">method =</span> <span class="st">"rmse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Our best model had an RMSE = 1.16 and standard error = 0.017</strong></p>
 </section>
 <section id="create-final-fit" class="level5">
 <h5 class="anchored" data-anchor-id="create-final-fit">Create Final Fit</h5>
@@ -1034,12 +1029,69 @@ Computational engine: glmnet </code></pre>
 </section>
 <section id="model-selection" class="level1">
 <h1>Model Selection</h1>
-<p>Once you have implemented above steps for the 3 models, you should have a “best” fit for each one based on the tuning process. For each best model you should have performance, uncertainty around the performance measure, and some diagnostic plots. While for any real research project, you likely want to look deeper (e.g.&nbsp;at uncertainty in predictions instead of just overall performance), for now this is enough. Pick one of the three models. Explain why you pick it. There is no single answer that’s correct, I just want you to practice reasoning for why you are doing something: in this case justify why you are picking the model you do.</p>
+<p>According to the RMSE values, the all models performed somewhat similar to one another, with slight variations. Taking a look at the plots examining Predicted Vs. Actual and Predicted Vs. Residuals, we see a clearer relationship between our predicted and body temperatures with both the LASSO and Random Forest model. Additionally, the former performed best with lowest RMSE and standard error. While Random forest provides a faster result, it runs the risk of over fitting, as it selects a random subset of trees. Ultimately, LASSO is a slower process but more accurate, and had the best performance. So this model will be chosen for the final evaluation.</p>
+<table class="table">
+<caption>Table 1: Metrics for Models</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 9%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>RMSE</th>
+<th>Std_Err</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Null Train</td>
+<td>1.21</td>
+<td>0.018</td>
+</tr>
+<tr class="even">
+<td>Null Test</td>
+<td>1.16</td>
+<td>0.029</td>
+</tr>
+<tr class="odd">
+<td>Tree</td>
+<td>1.19</td>
+<td>0.018</td>
+</tr>
+<tr class="even">
+<td>LASSO</td>
+<td>1.15</td>
+<td>0.017</td>
+</tr>
+<tr class="odd">
+<td>Random For</td>
+<td>1.16</td>
+<td>0.017</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="final-evaluation" class="level1">
 <h1>Final Evaluation</h1>
 <p>Once you picked your final model, you are allowed to once – <strong>and only once</strong> – fit it to the test data and check how well it performs on that data. This gives you a somewhat honest estimate of how the model might perform for new, unseen data. You can do that using the <code>last_fit()</code> function applied to the model you end up choosing. For the final model applied to the test set, report performance and the diagnostic plots as above.</p>
-<p><br>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>lasso_last_fit <span class="ot">&lt;-</span> </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  lasso_final_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(data_split)</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>lasso_last_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard      1.15   Preprocessor1_Model1
+2 rsq     standard      0.0298 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+<p><strong>Calculated RMSE of 1.15 and standard error of 0.029. This performs very closely to the Null Test Model (Table 1).</strong><br>
 </p>
 <p><br>
 </p>
