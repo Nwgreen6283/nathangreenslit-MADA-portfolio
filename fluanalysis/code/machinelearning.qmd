@@ -9,7 +9,7 @@ format:
 
 #### Library
 
-```{r, include = FALSE}
+```{r}
 library(here)
 library(tidyverse)
 library(rsample) #Data splitting
@@ -107,7 +107,7 @@ null_train_wf <-
 
 ##### Fit
 
-```{r, include = FALSE}
+```{r}
 null_train_fit <- 
   fit_resamples(null_train_wf, resamples = fold_bt_train)
 ```
@@ -143,7 +143,7 @@ null_test_wf <-
 
 ##### Fit
 
-```{r, include = FALSE}
+```{r}
 null_test_fit <- 
   fit_resamples(null_test_wf, resamples = fold_bt_test)
 ```
@@ -203,7 +203,7 @@ tree_grid_dtree
 
 #### Tuning using Cross-validation and `tune_grid()` function
 
-```{r, include = FALSE}
+```{r}
 dtree_resample <- 
   dtree_wf %>% 
   tune_grid(
@@ -549,19 +549,19 @@ plot(rf_residual_plot) #view plot
 
 According to the RMSE values, the all models performed somewhat similar to one another, with slight variations. Taking a look at the plots examining Predicted Vs. Actual and Predicted Vs. Residuals, we see a clearer relationship between our predicted and body temperatures with both the LASSO and Random Forest model. Additionally, the former performed best with lowest RMSE and standard error. While Random forest provides a faster result, it runs the risk of over fitting, as it selects a random subset of trees. Ultimately, LASSO is a slower process but more accurate, and had the best performance. So this model will be chosen for the final evaluation.
 
-+------------+------+---------+
-| Model      | RMSE | Std_Err |
-+============+======+=========+
-| Null Train | 1.21 | 0.018   |
-+------------+------+---------+
-| Null Test  | 1.16 | 0.029   |
-+------------+------+---------+
-| Tree       | 1.19 | 0.018   |
-+------------+------+---------+
-| LASSO      | 1.15 | 0.017   |
-+------------+------+---------+
-| Random For | 1.16 | 0.017   |
-+------------+------+---------+
++------------+--------+---------+
+| Model      | RMSE   | Std_Err |
++============+========+=========+
+| Null Train | 1.21   | 0.018   |
++------------+--------+---------+
+| Null Test  | 1.16   | 0.029   |
++------------+--------+---------+
+| Tree       | 1.19   | 0.018   |
++------------+--------+---------+
+| LASSO      | 1.15   | 0.017   |
++------------+--------+---------+
+| Random For | 1.16   | 0.017   |
++------------+--------+---------+
 
 : Table 1: Metrics for Models
 
@@ -578,6 +578,6 @@ lasso_last_fit %>%
   collect_metrics()
 ```
 
-**Calculated RMSE of 1.15 and standard error of 0.029. This performs very closely to the Null Test Model (Table 1).** \
+**Calculated RMSE of 1.15 and standard error of 0.029. This performs very closely to the Null Test Model (Table 1).**\
 
 \
