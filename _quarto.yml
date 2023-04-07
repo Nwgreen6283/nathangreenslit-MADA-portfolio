@@ -22,6 +22,8 @@ website:
             href: ./dataanalysis_exercise.html
           - text: "Coding Cheat Sheet"
             href: ./cheatsheet.html
+      - text: "Coding Cheat Sheet"
+        href: ./cheatsheet.html
       - text: "Flu Analysis"
         menu:
           - text: "Wrangling"
