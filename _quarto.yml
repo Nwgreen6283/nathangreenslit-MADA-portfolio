@@ -17,13 +17,9 @@ website:
           - text: "Tidy Tuesday Exercise"
             href: ./tidytuesday_exercise.html
           - text: "Tidy Tuesday 2 Exercise"
-            href: ./tidytuesday2_exercise.html
+            href: ./tidytuesday_exercise2.html
           - text: "Data Analysis Exercise"
             href: ./dataanalysis_exercise.html
-          - text: "Coding Cheat Sheet"
-            href: ./cheatsheet.html
-      - text: "Coding Cheat Sheet"
-        href: ./cheatsheet.html
       - text: "Flu Analysis"
         menu:
           - text: "Wrangling"
@@ -36,6 +32,8 @@ website:
             href: ./fluanalysis/code/modeleval.html
           - text: "Machine Learning"
             href: ./fluanalysis/code/machinelearning.html
+      - text: "Coding Cheat Sheet"
+        href: ./cheatsheet.html
     right:
       - icon: github 
         href: https://github.com/Nwgreen6283/nathangreenslit-MADA-portfolio    
