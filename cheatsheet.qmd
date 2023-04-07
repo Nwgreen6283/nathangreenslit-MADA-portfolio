@@ -111,6 +111,10 @@ output:
 -   Linear model: Relationship between infant_mortality (x) and life_expectancy (y) from gapminder dataset:\
     `lm(infant_mortality\~life_expectancy, data = gapminder)`
 
+-   [Add R2 to graph](https://cran.r-project.org/web/packages/ggpmisc/vignettes/model-based-annotations.html)
+
+    `bo2 %>% ggplot(aes(x = lag, y = copies_mL)) + geom_point() + stat_smooth(method = "lm")+ stat_correlation(method = "pearson")+ labs(title = "LM DustxCopies (BO+1)", x = "log(dust)")`
+
 ## Exporting
 
 -   Save as RDS file in specific folder:\
