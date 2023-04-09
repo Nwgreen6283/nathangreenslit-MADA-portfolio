@@ -5,4 +5,80 @@ output:
     toc: FALSE
 ---
 
-To be filled :) 
+# Getting Started 
+
+#### Libraries
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+#### Load Data
+
+```{r}
+cage<- read_csv(here("data", "cage-free-percentages.csv"))
+egg<- read_csv(here("data", "egg-production.csv"))
+```
+
+#### Look at Data sets
+
+```{r}
+head(cage)
+head(egg)
+```
+
+# Cleaning
+
+#### Cage Data set
+
+```{r}
+cage<- 
+  cage %>%
+  select(!source) #Removes Source column
+```
+
+#### Egg Data set
+
+```{r}
+egg<- 
+  egg %>%
+  select(!source) %>% #Removes Source Column
+  mutate(egg_hen = n_eggs / n_hens, #Creates column that gives an average eggs per hen
+         prod_process = recode(prod_process, "cage-free (non-organic)" = "cage_free_no"),
+         prod_process = recode(prod_process, "cage-free (organic)" = "cage_free_o"))
+
+
+```
+
+# Exploratory Visualization
+
+```{r}
+egg %>%
+  ggplot() + geom_boxplot(
+    aes(x = prod_type,
+        y = egg_hen,
+        color = prod_process)) +
+  theme_bw()+
+  labs(title = "Eggs per Hen Across Production Process and Type",
+       x = "Production Type",
+       y = "Eggs per Hen",
+       color = "Production Process") + 
+  scale_color_manual(values = c(all = "#ee6f68",
+                                cage_free_no = "#5e8d5a",
+                                cage_free_o = "#f68f3c"))
+```
+
+### Question/Hypothesis:
+
+# Modeling
+
+Fit at least 4 different ML models to the data using the `tidymodels` framework we practiced. Use the CV approach for model training/fitting. Explore the quality of each model by looking at performance, residuals, uncertainty, etc. All of this should still be evaluated using the training/CV data. You can of course recycle code from the previous exercise, but I also encourage you to explore further, e.g. try different ML models or use different metrics. You might have to do that anyway, depending on your question/outcome.
+
+Based on the model evaluations, decide on one model you think is overall best. Explain why. It doesn't have to be the model with the best performance. You make the choice, just explain why you picked the one you picked.
+
+#### Final Assessment
+
+Based on the model evaluations, decide on one model you think is overall best. Explain why. It doesn't have to be the model with the best performance. You make the choice, just explain why you picked the one you picked.
+
+# Discussion
