@@ -5,19 +5,21 @@ output:
     toc: FALSE
 ---
 
-# Getting Started 
+# Getting Started
 
 #### Libraries
 
 ```{r}
 library(tidyverse)
 library(here)
+library(rsample) #Data spliting
+library(tidymodels) #Modeling 
 ```
 
 #### Load Data
 
 ```{r}
-cage<- read_csv(here("data", "cage-free-percentages.csv"))
+cage<- read_csv(here("data", "cage-free-percentages.csv")) #Cage free %
 egg<- read_csv(here("data", "egg-production.csv"))
 ```
 
@@ -28,7 +30,9 @@ head(cage)
 head(egg)
 ```
 
-# Cleaning
+Note: Within the `egg` data set, the value 'all' includes cage-free and conventional housing.
+
+# Initial Cleaning
 
 #### Cage Data set
 
@@ -53,6 +57,35 @@ egg<-
 
 # Exploratory Visualization
 
+#### Fig. 1: Percentage of cage free gens and eggs
+
+```{r}
+cage %>%
+  ggplot() + geom_line( #Percent of cage free hens (orange)
+    aes(x = observed_month,
+        y = percent_hens),
+    color = "#f68f3c") +
+  geom_point(
+    aes(x = observed_month,
+        y = percent_hens),
+    size = 1,
+    color = "#f68f3c")+
+  geom_line( #Percent of cage free eggs (green)
+    aes(x = observed_month,
+        y = percent_eggs),
+    color = "#5e8d5a",
+    size = 1) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "%",
+       title = "Fig.1 :Percentage of Cage Free Hens and Eggs over Time") 
+  
+```
+
+Percentage of Hens are in orange, and percentage of eggs are in green. We see an increase in percentage of cage free eggs and hens over time.
+
+#### Fig. 2: Eggs per Hen across production type and process
+
 ```{r}
 egg %>%
   ggplot() + geom_boxplot(
@@ -60,18 +93,341 @@ egg %>%
         y = egg_hen,
         color = prod_process)) +
   theme_bw()+
-  labs(title = "Eggs per Hen Across Production Process and Type",
+  labs(title = "Fig. 2: Eggs per Hen Across Production Process and Type",
        x = "Production Type",
        y = "Eggs per Hen",
        color = "Production Process") + 
   scale_color_manual(values = c(all = "#ee6f68",
                                 cage_free_no = "#5e8d5a",
-                                cage_free_o = "#f68f3c"))
+                                cage_free_o = "#f68f3c")) 
 ```
+
+Figure 2 depicts a stark difference in the number eggs per hen between hatchilng eggs and table eggs. No difference is observed between the production processes within the table eggs.
+
+#### Fig. 3: Eggs per hen over time
+
+```{r}
+egg %>%
+  ggplot() + geom_line(
+    aes(x = observed_month,
+        y = egg_hen,
+        color = prod_type)) +
+  theme_bw()+
+  labs(x = "Year",
+       y = "Eggs per Hen",
+       title = "Fig. 3: Eggs Per hen over Time by Production Type",
+       color = "Production Type")
+```
+
+Similarly, Figure 3 shows that more eggs per hen are produced from the table eggs process.
 
 ### Question/Hypothesis:
 
+Because a higher portion of the population consumes eggs as opposed to hatching chicks, and due to the energetically taxing/limiting process of hatching, we expect to see a significantly higher effort towards the production of table eggs as opposed to hatching eggs.
+
+-   Predictor: Production Type (Hatching or Table Eggs)
+
+-   Outcome: Eggs per hen
+
+# Final Cleaning
+
+We will use only the egg dataset.
+
+#### Remove Columns that are not needed for analysis
+
+```{r}
+egg <- 
+  egg %>%
+  select(prod_type, egg_hen)
+```
+
+#### Split into Test and Train Set
+
+```{r}
+# Fix the random numbers by setting the seed 
+# This enables the analysis to be reproducible when random numbers are used 
+set.seed(222)
+# Put 3/4 of the data into the training set 
+data_split <- initial_split(egg, prop = 3/4)
+
+# Create data frames for the two sets:
+train <- training(data_split)
+test  <- testing(data_split)
+```
+
 # Modeling
+
+## Null Model
+
+#### 5-Fold Cross Validation
+
+```{r}
+fold_egg_train <- vfold_cv(train, v = 5, repeats = 5, strata = egg_hen)
+
+fold_egg_test <- vfold_cv(test, v = 5, repeats = 5, strata = egg_hen)
+```
+
+#### Recipes
+
+```{r}
+#Train Data
+egg_rec_train <- 
+  recipe(egg_hen ~ prod_type, data = train) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>% 
+  step_ordinalscore() %>%
+  step_zv(all_predictors()) 
+
+
+#Test Data
+egg_rec_test <- 
+  recipe(egg_hen ~ prod_type, data = train) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  step_ordinalscore() %>%
+  step_zv(all_predictors()) 
+
+```
+
+#### Define Model
+
+```{r}
+lm_mod <- 
+  linear_reg() %>% 
+  set_engine("lm") %>% 
+  set_mode("regression")
+
+```
+
+#### Train Data
+
+##### Recipe
+
+```{r}
+null_train_rec<- 
+recipe(egg_hen ~ 1, data = train)
+
+null_train_rec
+```
+
+##### Workflow
+
+```{r}
+null_train_wf <- 
+  workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(null_train_rec)
+```
+
+##### Fit
+
+```{r, results=FALSE}
+null_train_fit <- 
+  fit_resamples(null_train_wf, resamples = fold_egg_train)
+```
+
+##### RMSE Metric
+
+```{r}
+null_train_met <- collect_metrics(null_train_fit)
+
+null_train_met
+```
+
+**RMSE = 2.18 and STD_ERR = 0.011**
+
+#### Test Data
+
+##### Recipe
+
+```{r}
+null_test_rec<- 
+  recipe(egg_hen ~ 1, data = test)
+```
+
+##### Workflow
+
+```{r}
+null_test_wf <- 
+  workflow() %>% 
+  add_model(lm_mod) %>% 
+  add_recipe(null_test_rec)
+```
+
+##### Fit
+
+```{r}
+null_test_fit <- 
+  fit_resamples(null_test_wf, resamples = fold_egg_test)
+```
+
+##### RMSE Metric
+
+```{r}
+null_test_met <- collect_metrics(null_test_fit)
+
+null_test_met
+```
+
+**RMSE = 2.19 and STD_ERR = 0.084\
+**
+
+## Tree Model
+
+#### Model Specification
+
+```{r}
+tune_spec_dtree <- 
+  decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()) %>%
+  set_engine("rpart") %>% 
+  set_mode("regression")
+
+tune_spec_dtree
+```
+
+Think of `tune()` here as a placeholder. After the tuning process, we will select a single numeric value for each of these hyperparameters. For now, we specify our parsnip model object and identify the hyperparameters we will `tune()`.
+
+#### Workflow Definition
+
+```{r}
+dtree_wf <- workflow() %>%
+  add_model(tune_spec_dtree) %>%
+  add_recipe(egg_rec_train)
+```
+
+#### Tuning Grid Specification
+
+We can create a regular grid of values to try using some convenience functions for each hyperparameter:
+
+```{r}
+#create a regular grid of values for using convenience functions for each hyperparameter.
+tree_grid_dtree <-
+  grid_regular(
+    cost_complexity(), 
+    tree_depth(), 
+    levels = 5)
+
+tree_grid_dtree
+```
+
+#### Tuning using Cross-validation and `tune_grid()` function
+
+```{r}
+dtree_resample <- 
+  dtree_wf %>% 
+  tune_grid(
+    resamples = fold_egg_train,
+    grid = tree_grid_dtree)
+    
+```
+
+Once we have our tuning results, we can both explore them through visualization and then select the best result. The function `collect_metrics()` gives us a tidy tibble with all the results
+
+```{r}
+dtree_resample %>%
+  collect_metrics()
+```
+
+##### Plot Model using autoplot()
+
+```{r}
+dtree_resample %>%
+  collect_metrics() %>%
+  mutate(tree_depth = factor(tree_depth)) %>%
+  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
+  geom_line(linewidth = 1.5, alpha = 0.6) +
+  geom_point(size = 2) +
+  facet_wrap(~ .metric, scales = "free", nrow = 2) +
+  scale_x_log10(labels = scales::label_number()) +
+  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+```
+
+<!--# SHould it look like this? -->
+
+##### Show and Select best performing models
+
+The [`show_best()`](https://tune.tidymodels.org/reference/show_best.html) function shows us the top 5 candidate models by default. We set n=1
+
+```{r}
+dtree_resample %>%
+  show_best(n=1)
+```
+
+<!--# Update -->**From the plot and the tibble above, we see that the the model with treedepth =1 has the lowest rmse value with a mean of 1.19 and standard error of 0.018.**
+
+We can also use the [`select_best()`](https://tune.tidymodels.org/reference/show_best.html) function to pull out the single set of hyperparameter values for our best decision tree model:
+
+```{r}
+#Selects best performing model
+best_tree <- dtree_resample %>%
+  select_best()
+
+best_tree
+```
+
+##### Create final fit based on best model permutation and plotting predicted values from that final fit model
+
+We can update (or "finalize") our workflow object `tree_wf` with the values from `select_best()`.
+
+```{r}
+dtree_final_wf <- 
+  dtree_wf %>% 
+  finalize_workflow(best_tree)
+
+dtree_final_wf
+```
+
+```{r}
+#Create workflow for fitting model to train predictions
+dtree_final_fit <- 
+  dtree_final_wf %>%
+  fit(train) 
+```
+
+##### Calculating Residuals and Plotting Actual Vs. Predicted Values
+
+```{r}
+dtree_residuals <- dtree_final_fit %>%
+  augment(train) %>% #use augment() to make predictions from train data
+  select(c(.pred, egg_hen)) %>%
+  mutate(.resid = egg_hen - .pred) #calculate residuals and make new row.
+
+dtree_residuals
+```
+
+##### Predictions vs. Actual
+
+```{r}
+dtree_pred_plot <- ggplot(dtree_residuals, 
+                          aes(x = egg_hen, 
+                              y = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Actual: Decision Tree", 
+       x = "Egg_hen Outcome", 
+       y = "Egg_hen Prediction")
+dtree_pred_plot
+```
+
+##### Predictions vs. Residuals
+
+```{r}
+dtree_residual_plot <- ggplot(dtree_residuals, 
+                              aes(y = .resid, 
+                                  x = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Residuals: Decision Tree", 
+       x = "Egg_hen Prediction", 
+       y = "Residuals")
+plot(dtree_residual_plot) #view plot
+```
+
+## 
+
+## Random Forest Model
+
+## Lasso Model
+
+<!--# Need a 4th  -->
 
 Fit at least 4 different ML models to the data using the `tidymodels` framework we practiced. Use the CV approach for model training/fitting. Explore the quality of each model by looking at performance, residuals, uncertainty, etc. All of this should still be evaluated using the training/CV data. You can of course recycle code from the previous exercise, but I also encourage you to explore further, e.g. try different ML models or use different metrics. You might have to do that anyway, depending on your question/outcome.
 
