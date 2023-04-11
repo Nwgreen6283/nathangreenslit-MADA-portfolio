@@ -259,7 +259,7 @@ null_test_fit <-
   fit_resamples(null_test_wf, resamples = fold_egg_test)
 ```
 
-##### RMSE Metric
+##### Metrics: RMSE
 
 ```{r}
 null_test_met <- collect_metrics(null_test_fit)
@@ -342,9 +342,9 @@ dtree_resample %>%
   scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
 ```
 
-<!--# SHould it look like this? -->
+<!--# SHould it look like this? -->\
 
-##### Show and Select best performing models
+#### Metrics: RMSE
 
 The [`show_best()`](https://tune.tidymodels.org/reference/show_best.html) function shows us the top 5 candidate models by default. We set n=1
 
@@ -353,7 +353,9 @@ dtree_resample %>%
   show_best(n=1)
 ```
 
-<!--# Update -->**From the plot and the tibble above, we see that the the model with treedepth =1 has the lowest rmse value with a mean of 1.19 and standard error of 0.018.**
+**RMSE 0.87 STD_ERR = 0.015**
+
+**From the plot and the tibble above, we see that the the model with treedepth =1 has the lowest rmse value with a mean of 1.19 and standard error of 0.018.**
 
 We can also use the [`select_best()`](https://tune.tidymodels.org/reference/show_best.html) function to pull out the single set of hyperparameter values for our best decision tree model:
 
@@ -425,7 +427,299 @@ plot(dtree_residual_plot) #view plot
 
 ## Random Forest Model
 
-## Lasso Model
+##### Create fxn to detect cores for RFM computation
+
+```{r}
+cores <- parallel::detectCores()
+cores
+```
+
+#### Specify Model
+
+```{r}
+rf_mod <- 
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>% 
+  set_engine("ranger", num.threads = cores) %>% 
+  set_mode("regression")
+```
+
+#### Creating Workflow
+
+```{r}
+rf_wf <- workflow() %>%
+  add_model(rf_mod) %>%
+  add_recipe(egg_rec_train)
+```
+
+#### Create Tuning Grid
+
+```{r}
+rf_grid  <- expand.grid(mtry = c(3, 4, 5, 6),
+                        min_n = c(40,50,60), 
+                        trees = c(500,1000)  )
+```
+
+#### Cross-validation
+
+```{r}
+rf_resample <- 
+  rf_wf %>% 
+  tune_grid(fold_egg_train,
+            grid = 25,
+            control = control_grid(save_pred = TRUE),
+            metrics = metric_set(rmse))
+```
+
+```{r}
+rf_resample %>%
+  collect_metrics()
+```
+
+##### Plot Model Performance
+
+```{r}
+#Plot of actual train data
+rf_resample %>%
+  autoplot()
+```
+
+#### Metrics: RMSE
+
+```{r}
+#Showing best performing tree models
+rf_resample %>%
+  show_best(n=1)
+
+#Selects best performing model
+best_rf <- rf_resample %>%
+  select_best(method = "rmse")
+```
+
+RMSE = 0.87 STD_ERR = 0.015
+
+##### Create Final Fit
+
+```{r}
+rf_final_wf <- 
+  rf_wf %>% 
+  finalize_workflow(best_rf)
+
+#Create workflow for fitting model to train_data2 predictions
+rf_final_fit <- 
+  rf_final_wf %>%
+  fit(train) 
+```
+
+##### Calculate Residuals
+
+```{r}
+rf_residuals <- rf_final_fit %>%
+  augment(train) %>% #use augment() to make predictions from train data
+  select(c(.pred, egg_hen)) %>%
+  mutate(.resid = egg_hen - .pred) #calculate residuals and make new row.
+
+rf_residuals
+```
+
+##### Model Predictions from Tuned Model vs Actual Outcomes
+
+```{r}
+rf_pred_plot <- ggplot(rf_residuals, 
+                          aes(x = egg_hen, 
+                              y = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Actual: Random Forest", 
+       x = "egg_hen Actual", 
+       y = "egg_hen Prediction")
+rf_pred_plot
+
+rf_residual_plot <- ggplot(rf_residuals, 
+                              aes(y = .resid, 
+                                  x = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Residuals: Random Forest", 
+       x = "Body Temperature Prediction", 
+       y = "Residuals")
+plot(rf_residual_plot) #view plot
+```
+
+# Model Selection
+
+## Lasso Model:
+
+#### Specify Model
+
+```{r}
+lasso_mod <- 
+  linear_reg(penalty = tune(), mixture = 1) %>% 
+  set_engine("glmnet")
+```
+
+Setting `mixture` to a value of one means that the glmnet model will potentially remove irrelevant predictors and choose a simpler model.
+
+#### Create Workflow
+
+```{r}
+lasso_wf <- workflow() %>%
+  add_model(lasso_mod) %>%
+  add_recipe(egg_rec_train)
+```
+
+#### Creating a Tuning Grid
+
+```{r}
+lasso_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
+
+```
+
+#### Cross Validation with tune_grid()
+
+```{r}
+lasso_resample <- 
+  lasso_wf %>%
+  tune_grid(resamples = fold_egg_train,
+            grid = lasso_grid,
+            control = control_grid(verbose = FALSE, save_pred = TRUE),
+            metrics = metric_set(rmse))
+
+lasso_resample %>%
+  collect_metrics()
+```
+
+##### Plot Model Performance
+
+```{r}
+lr_plot <- 
+  lasso_resample %>% 
+  collect_metrics() %>% 
+  ggplot(aes(x = penalty, y = mean)) + 
+  geom_point() + 
+  geom_line() +
+  scale_x_log10(labels = scales::label_number())
+
+lr_plot
+```
+
+##### Showing and selecting best performing Models
+
+```{r}
+#Showing best performing tree models
+lasso_resample %>%
+  show_best(n=1)
+
+#Selects best performing model
+best_lasso <- lasso_resample %>%
+  select_best()
+```
+
+**Here our RMSE = 1.15 and standard deviation = 0.017. Based on this metric, the Lasso model seems to have performed better than the Tree model. Let's come back to this.**
+
+##### Creating Final Fit based on based model permutation and plotting predicted values from that final fit model
+
+```{r}
+lasso_final_wf <- 
+  lasso_wf %>% 
+  finalize_workflow(best_lasso)
+
+lasso_final_wf
+
+#Create workflow for fitting model to train_data2 predictions
+lasso_final_fit <- 
+  lasso_final_wf %>%
+  fit(train) 
+```
+
+##### Calculate Residuals
+
+```{r}
+lasso_residuals <- lasso_final_fit %>%
+  augment(train) %>% #use augment() to make predictions from train data
+  select(c(.pred, BodyTemp)) %>%
+  mutate(.resid = BodyTemp - .pred) #calculate residuals and make new row.
+
+lasso_residuals
+```
+
+##### Model Predictions from tuned model vs actual outcomes
+
+```{r}
+lasso_pred_plot <- ggplot(lasso_residuals, 
+                          aes(x = BodyTemp, 
+                              y = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Actual: LASSO", 
+       x = "Body Temperature Outcome", 
+       y = "Body Temperature Prediction")
+lasso_pred_plot
+
+lasso_residual_plot <- ggplot(lasso_residuals, 
+                              aes(y = .resid, 
+                                  x = .pred)) + 
+  geom_point() + 
+  labs(title = "Predictions vs Residuals: LASSO", 
+       x = "Body Temperature Prediction", 
+       y = "Residuals")
+plot(lasso_residual_plot) #view plot
+```
+
+## Linear Model
+
+#### Plot
+
+```{r}
+egg %>% ggplot(aes(x = prod_type, y = egg_hen)) +
+  geom_point() +
+  stat_smooth(method = "lm")+
+  labs(title = "LM DustxCopies (BO+1)",
+       x = "log(dust)")
+```
+
+#### Run Model
+
+```{r}
+#Set up linear model
+lm_mod<- linear_reg() %>%
+  set_engine("lm") %>%
+  set_mode("regression")
+
+#Workflow that adds recipe to model
+lm_wflow<- 
+  workflow() %>%
+  add_model(lm_mod) %>%
+  add_recipe(egg_rec_train)
+
+#Use workflow to fit model to  data set
+egg_fit<- lm_wflow %>%
+  fit(data = train)
+
+#View as Tibble 
+egg_fit %>%
+  extract_fit_parsnip() %>%
+  tidy()
+```
+
+#### Assess Performance 
+
+##### RMSE
+
+```{r}
+aug_test <- augment(egg_fit, train)
+rmse <- aug_test %>% rmse(truth = egg_hen, .pred)
+rsq <- aug_test %>% rsq(truth = egg_hen, .pred)
+metrics<- full_join(rmse, rsq)
+metrics
+```
+
+**RMSE = 0.87**
+
+##### Residuals
+
+```{r}
+egg_mod<- lm(egg_hen ~ prod_type, data = train)
+res<- resid(egg_mod)
+plot(fitted(egg_mod), res)
+abline(0,0)
+```
 
 <!--# Need a 4th  -->
 
