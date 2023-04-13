@@ -13,7 +13,27 @@ output:
 library(tidyverse)
 library(here)
 library(rsample) #Data spliting
-library(tidymodels) #Modeling 
+library(tidymodels)
+tidymodels_prefer(quiet =FALSE) #Removes package masking conflicts 
+
+#ANOVA
+library(ggpubr)
+library(broom)
+library(AICcmodavg)
+
+#Decision Trees
+#library(DAAG)
+library(party)
+library(rpart)
+library(rpart.plot)
+library(mlbench)
+library(caret)
+library(pROC)
+library(tree)
+
+#Naive
+library(naivebayes)
+library(psych)
 ```
 
 #### Load Data
@@ -102,7 +122,7 @@ egg %>%
                                 cage_free_o = "#f68f3c")) 
 ```
 
-Figure 2 depicts a stark difference in the number eggs per hen between hatchilng eggs and table eggs. No difference is observed between the production processes within the table eggs.
+Figure 2 depicts a stark difference in the number eggs per hen between hatching eggs and table eggs. No difference is observed between the production processes within the table eggs.
 
 #### Fig. 3: Eggs per hen over time
 
@@ -121,7 +141,26 @@ egg %>%
 
 Similarly, Figure 3 shows that more eggs per hen are produced from the table eggs process.
 
-### Question/Hypothesis:
+#### Fig.4 Eggs x Hens
+
+```{r}
+p<- egg %>%
+  filter(prod_type %in% "table eggs",
+         !prod_process %in% "all") 
+p %>%
+  ggplot() + geom_point(
+    aes(x = n_hens,
+        y = n_eggs,
+    color = prod_process)) +
+  theme_bw()+
+  labs(x = "#Eggs",
+       y = "#Hens",
+       title = "Number of eggs x Number of Hens") 
+```
+
+This is a very linear correlation- but not a very interesting question.
+
+#### Question/Hypothesis:
 
 Because a higher portion of the population consumes eggs as opposed to hatching chicks, and due to the energetically taxing/limiting process of hatching, we expect to see a significantly higher effort towards the production of table eggs as opposed to hatching eggs.
 
@@ -157,7 +196,7 @@ test  <- testing(data_split)
 
 # Modeling
 
-## Null Model
+## 0. NULL MODEL
 
 #### 5-Fold Cross Validation
 
@@ -172,18 +211,18 @@ fold_egg_test <- vfold_cv(test, v = 5, repeats = 5, strata = egg_hen)
 ```{r}
 #Train Data
 egg_rec_train <- 
-  recipe(egg_hen ~ prod_type, data = train) %>%
-  step_dummy(all_nominal(), -all_outcomes()) %>% 
-  step_ordinalscore() %>%
-  step_zv(all_predictors()) 
+  recipe(egg_hen ~ prod_type, data = train)# %>%
+ # step_dummy(all_nominal(), -all_outcomes()) %>% 
+ # step_ordinalscore() %>%
+ # step_zv(all_predictors()) 
 
 
 #Test Data
 egg_rec_test <- 
-  recipe(egg_hen ~ prod_type, data = train) %>%
-  step_dummy(all_nominal(), -all_outcomes()) %>%
-  step_ordinalscore() %>%
-  step_zv(all_predictors()) 
+ recipe(egg_hen ~ prod_type, data = test) #%>%
+ # step_dummy(all_nominal(), -all_outcomes()) %>%
+#  step_ordinalscore() %>%
+ # step_zv(all_predictors()) 
 
 ```
 
@@ -270,7 +309,103 @@ null_test_met
 **RMSE = 2.19 and STD_ERR = 0.084\
 **
 
-## Tree Model
+## 1. LINEAR MODEL
+
+#### Run Model
+
+```{r}
+#Set up linear model
+lm_mod<- linear_reg() %>%
+  set_engine("lm") %>%
+  set_mode("regression")
+
+#Workflow that adds recipe to model
+lm_wflow<- 
+  workflow() %>%
+  add_model(lm_mod) %>%
+  add_recipe(egg_rec_train)
+
+#Use workflow to fit model to  data set
+egg_fit<- lm_wflow %>%
+  fit(data = train)
+
+#View as Tibble 
+egg_fit %>%
+  extract_fit_parsnip() %>%
+  tidy()
+```
+
+#### Assess Performance
+
+##### RMSE
+
+```{r}
+aug_test <- augment(egg_fit, train)
+rmse <- aug_test %>% rmse(truth = egg_hen, .pred)
+rsq <- aug_test %>% rsq(truth = egg_hen, .pred)
+metrics<- full_join(rmse, rsq)
+metrics
+```
+
+**RMSE = 0.87**
+
+##### Residuals
+
+```{r}
+egg_mod<- lm(egg_hen ~ prod_type, data = train)
+res<- resid(egg_mod)
+plot(fitted(egg_mod), res)
+abline(0,0)
+```
+
+<!--# Need a 4th  -->
+
+## 2. ANOVA MODEL
+
+**ANOVA** is a [statistical test](https://www.scribbr.com/statistics/statistical-tests/) for estimating how a quantitative [dependent variable](https://www.scribbr.com/methodology/independent-and-dependent-variables/#dependent) changes according to the levels of one or more categorical [independent variables](https://www.scribbr.com/methodology/independent-and-dependent-variables/#independent). ANOVA tests whether there is a difference in means of the groups at each level of the independent variable.
+
+#### Null
+
+```{r}
+#Model
+anova_n<- 
+  aov(egg_hen ~ 1, data = egg)
+summary(anova_n)
+
+#Assess Performance
+RSS<- c(crossprod(anova_n$residuals))
+MSE<- RSS / length(anova_n$residuals)
+RMSE <- sqrt(MSE)
+RMSE
+```
+
+**RMSE of Null = 2.18**
+
+#### Actual Model
+
+```{r}
+#Model
+anova<- 
+  aov(egg_hen ~ prod_type, data = train)
+summary(anova)
+
+#Assess Performance
+RSS<- c(crossprod(anova$residuals))
+MSE<- RSS / length(anova$residuals)
+RMSE <- sqrt(MSE)
+RMSE
+```
+
+**RMSE for Actual Model = 0.91**
+
+#### Plot
+
+```{r}
+plot(anova, 1)
+
+```
+
+## 3. TREE MODEL
 
 #### Model Specification
 
@@ -342,7 +477,9 @@ dtree_resample %>%
   scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
 ```
 
-<!--# SHould it look like this? -->\
+<!--# SHould it look like this? -->
+
+\
 
 #### Metrics: RMSE
 
@@ -423,11 +560,42 @@ dtree_residual_plot <- ggplot(dtree_residuals,
 plot(dtree_residual_plot) #view plot
 ```
 
-## 
+## 4. Regression Decision Tree
 
-## Random Forest Model
+#### Regression Tree
 
-##### Create fxn to detect cores for RFM computation
+```{r}
+tree <- rpart(egg_hen ~prod_type, data = train)
+rpart.plot(tree)
+
+```
+
+#### Predict
+
+```{r}
+p <- predict(tree, train)
+
+```
+
+#### RMSE and R2
+
+```{r}
+sqrt(mean(train$egg_hen - p))
+(cor(train$egg_hen,p))
+```
+
+## 4. Naive Bayes????
+
+<!--# I think take this out -->
+
+```{r}
+model <- naive_bayes(prod_type~ ., data = train, usekernel = T) 
+ plot(model) 
+```
+
+## 5. Random Forest Model
+
+#### Create function to detect cores for RFM computation
 
 ```{r}
 cores <- parallel::detectCores()
@@ -467,7 +635,7 @@ rf_resample <-
   tune_grid(fold_egg_train,
             grid = 25,
             control = control_grid(save_pred = TRUE),
-            metrics = metric_set(rmse))
+            metrics = metric_set(yardstick::rmse))
 ```
 
 ```{r}
@@ -475,7 +643,7 @@ rf_resample %>%
   collect_metrics()
 ```
 
-##### Plot Model Performance
+#### Plot Model Performance
 
 ```{r}
 #Plot of actual train data
@@ -495,9 +663,9 @@ best_rf <- rf_resample %>%
   select_best(method = "rmse")
 ```
 
-RMSE = 0.87 STD_ERR = 0.015
+**RMSE = 0.87 STD_ERR = 0.015**
 
-##### Create Final Fit
+#### Create Final Fit
 
 ```{r}
 rf_final_wf <- 
@@ -510,7 +678,7 @@ rf_final_fit <-
   fit(train) 
 ```
 
-##### Calculate Residuals
+#### Calculate Residuals
 
 ```{r}
 rf_residuals <- rf_final_fit %>%
@@ -521,7 +689,7 @@ rf_residuals <- rf_final_fit %>%
 rf_residuals
 ```
 
-##### Model Predictions from Tuned Model vs Actual Outcomes
+#### Model Predictions from Tuned Model vs Actual Outcomes
 
 ```{r}
 rf_pred_plot <- ggplot(rf_residuals, 
@@ -543,192 +711,39 @@ rf_residual_plot <- ggplot(rf_residuals,
 plot(rf_residual_plot) #view plot
 ```
 
-# Model Selection
+## Final Assessment
 
-## Lasso Model:
+In order to pick a model that I believe is best for my hypothesis, I must (1) understand the data and question (2) use visual plots, and (3) metrics (e.g. RMSE) to assess performance. Based on these three attributes, I believe that the one-way ANOVA is the best model to use in this case. I am working with a continuous outcome (eggs per hen) and a categorical independent variable (production type) and would like to assess the two means between hatching and table eggs. This model is sample and efficient, and properly addresses the questions. Additionally, the RMSE of the actual model (0.87) was lower than the null model (2.18) indicating a better performance.
 
-#### Specify Model
+While the Random Forest Model had a lower RMSE value (0.87), the plot produced depicts a fluctuation in performance with node size. The decision tree is a simple model, but in this case not very informative as we only had two outcomes.
 
-```{r}
-lasso_mod <- 
-  linear_reg(penalty = tune(), mixture = 1) %>% 
-  set_engine("glmnet")
-```
-
-Setting `mixture` to a value of one means that the glmnet model will potentially remove irrelevant predictors and choose a simpler model.
-
-#### Create Workflow
+#### ANOVA on Test Data
 
 ```{r}
-lasso_wf <- workflow() %>%
-  add_model(lasso_mod) %>%
-  add_recipe(egg_rec_train)
+#Model
+anova_test<- 
+  aov(egg_hen ~ prod_type, data = test)
+summary(anova_test)
+
+#Assess Performance
+RSS<- c(crossprod(anova_test$residuals))
+MSE<- RSS / length(anova_test$residuals)
+RMSE <- sqrt(MSE)
+RMSE
 ```
 
-#### Creating a Tuning Grid
+**RMSE = 0.99**
 
-```{r}
-lasso_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
-
-```
-
-#### Cross Validation with tune_grid()
-
-```{r}
-lasso_resample <- 
-  lasso_wf %>%
-  tune_grid(resamples = fold_egg_train,
-            grid = lasso_grid,
-            control = control_grid(verbose = FALSE, save_pred = TRUE),
-            metrics = metric_set(rmse))
-
-lasso_resample %>%
-  collect_metrics()
-```
-
-##### Plot Model Performance
-
-```{r}
-lr_plot <- 
-  lasso_resample %>% 
-  collect_metrics() %>% 
-  ggplot(aes(x = penalty, y = mean)) + 
-  geom_point() + 
-  geom_line() +
-  scale_x_log10(labels = scales::label_number())
-
-lr_plot
-```
-
-##### Showing and selecting best performing Models
-
-```{r}
-#Showing best performing tree models
-lasso_resample %>%
-  show_best(n=1)
-
-#Selects best performing model
-best_lasso <- lasso_resample %>%
-  select_best()
-```
-
-**Here our RMSE = 1.15 and standard deviation = 0.017. Based on this metric, the Lasso model seems to have performed better than the Tree model. Let's come back to this.**
-
-##### Creating Final Fit based on based model permutation and plotting predicted values from that final fit model
-
-```{r}
-lasso_final_wf <- 
-  lasso_wf %>% 
-  finalize_workflow(best_lasso)
-
-lasso_final_wf
-
-#Create workflow for fitting model to train_data2 predictions
-lasso_final_fit <- 
-  lasso_final_wf %>%
-  fit(train) 
-```
-
-##### Calculate Residuals
-
-```{r}
-lasso_residuals <- lasso_final_fit %>%
-  augment(train) %>% #use augment() to make predictions from train data
-  select(c(.pred, BodyTemp)) %>%
-  mutate(.resid = BodyTemp - .pred) #calculate residuals and make new row.
-
-lasso_residuals
-```
-
-##### Model Predictions from tuned model vs actual outcomes
-
-```{r}
-lasso_pred_plot <- ggplot(lasso_residuals, 
-                          aes(x = BodyTemp, 
-                              y = .pred)) + 
-  geom_point() + 
-  labs(title = "Predictions vs Actual: LASSO", 
-       x = "Body Temperature Outcome", 
-       y = "Body Temperature Prediction")
-lasso_pred_plot
-
-lasso_residual_plot <- ggplot(lasso_residuals, 
-                              aes(y = .resid, 
-                                  x = .pred)) + 
-  geom_point() + 
-  labs(title = "Predictions vs Residuals: LASSO", 
-       x = "Body Temperature Prediction", 
-       y = "Residuals")
-plot(lasso_residual_plot) #view plot
-```
-
-## Linear Model
+<!--# Worse... -->
 
 #### Plot
 
 ```{r}
-egg %>% ggplot(aes(x = prod_type, y = egg_hen)) +
-  geom_point() +
-  stat_smooth(method = "lm")+
-  labs(title = "LM DustxCopies (BO+1)",
-       x = "log(dust)")
+plot(anova_test, 1)
 ```
-
-#### Run Model
-
-```{r}
-#Set up linear model
-lm_mod<- linear_reg() %>%
-  set_engine("lm") %>%
-  set_mode("regression")
-
-#Workflow that adds recipe to model
-lm_wflow<- 
-  workflow() %>%
-  add_model(lm_mod) %>%
-  add_recipe(egg_rec_train)
-
-#Use workflow to fit model to  data set
-egg_fit<- lm_wflow %>%
-  fit(data = train)
-
-#View as Tibble 
-egg_fit %>%
-  extract_fit_parsnip() %>%
-  tidy()
-```
-
-#### Assess Performance 
-
-##### RMSE
-
-```{r}
-aug_test <- augment(egg_fit, train)
-rmse <- aug_test %>% rmse(truth = egg_hen, .pred)
-rsq <- aug_test %>% rsq(truth = egg_hen, .pred)
-metrics<- full_join(rmse, rsq)
-metrics
-```
-
-**RMSE = 0.87**
-
-##### Residuals
-
-```{r}
-egg_mod<- lm(egg_hen ~ prod_type, data = train)
-res<- resid(egg_mod)
-plot(fitted(egg_mod), res)
-abline(0,0)
-```
-
-<!--# Need a 4th  -->
-
-Fit at least 4 different ML models to the data using the `tidymodels` framework we practiced. Use the CV approach for model training/fitting. Explore the quality of each model by looking at performance, residuals, uncertainty, etc. All of this should still be evaluated using the training/CV data. You can of course recycle code from the previous exercise, but I also encourage you to explore further, e.g. try different ML models or use different metrics. You might have to do that anyway, depending on your question/outcome.
-
-Based on the model evaluations, decide on one model you think is overall best. Explain why. It doesn't have to be the model with the best performance. You make the choice, just explain why you picked the one you picked.
-
-#### Final Assessment
-
-Based on the model evaluations, decide on one model you think is overall best. Explain why. It doesn't have to be the model with the best performance. You make the choice, just explain why you picked the one you picked.
 
 # Discussion
+
+Summarize everything you did and found in a discussion. Of course, your Rmd file should contain commentary/documentation on everything you do for each step.
+
+\
