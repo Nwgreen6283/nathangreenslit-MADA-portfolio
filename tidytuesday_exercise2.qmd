@@ -396,7 +396,7 @@ RMSE <- sqrt(MSE)
 RMSE
 ```
 
-**RMSE for Actual Model = 0.91**
+**RMSE for Actual Model = 0.87**
 
 #### Plot
 
@@ -584,10 +584,6 @@ sqrt(mean(train$egg_hen - p))
 (cor(train$egg_hen,p))
 ```
 
-## 4. Naive Bayes????
-
-<!--# I think take this out -->
-
 ```{r}
 model <- naive_bayes(prod_type~ ., data = train, usekernel = T) 
  plot(model) 
@@ -744,6 +740,30 @@ plot(anova_test, 1)
 
 # Discussion
 
-Summarize everything you did and found in a discussion. Of course, your Rmd file should contain commentary/documentation on everything you do for each step.
+#### Data
 
-\
+The data used for this exercise was sourced from [The Humane League's US Egg Production dataset](https://thehumaneleague.org/article/E008R01-us-egg-production-data) by [Samara Mendez](https://samaramendez.github.io/). It tracks cage-free hens and the supply of cage-free eggs relative to the overall numbers of hens and table eggs in the United States.
+
+#### Cleaning
+
+Data cleaning involved making a new column in the `egg` data set "egg_hen" which represents the number of eggs per hen. Variables within columns were also renamed for convienience.
+
+#### Visualization
+
+To explore the data, plots were made to depict various trends between the variables (e.g. percentage of cage free hens and eggs over time, eggs per hen over time, eggs per hen across production type/process). From this exploration, we could see a drastic difference in eggs per hen between table and hatching production type. This lead us to explore the relationship between production type (hatching or table) on eggs produced per hen.
+
+#### Modeling
+
+Final cleaning was conducted (eliminating unneeded columns) and the data was split into training and test data (70:30). A null linear model was run for comparison of metrics. Four models were tested in this exercise:
+
+1.  Linear Model
+2.  ANOVA Model
+3.  Tree Model
+4.  Regression Decision Tree
+5.  Random Forest Model.
+
+Metrics were run (Primarily RMSE) and compared to the Null model to assess performance. Additionally, visualization methods were used in conjunjtion with the performance metrics.
+
+#### Conclusion
+
+Based on the metrics, the question, and the plots, the ANOVA model was chosen, and again run but on the test data. Ultimately, it had a higher RMSE than the train data, but still lower than the null ANOVA.
