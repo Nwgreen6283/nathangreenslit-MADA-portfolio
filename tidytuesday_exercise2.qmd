@@ -22,7 +22,7 @@ library(broom)
 library(AICcmodavg)
 
 #Decision Trees
-#library(DAAG)
+library(DAAG)
 library(party)
 library(rpart)
 library(rpart.plot)
@@ -358,8 +358,6 @@ plot(fitted(egg_mod), res)
 abline(0,0)
 ```
 
-<!--# Need a 4th  -->
-
 ## 2. ANOVA MODEL
 
 **ANOVA** is a [statistical test](https://www.scribbr.com/statistics/statistical-tests/) for estimating how a quantitative [dependent variable](https://www.scribbr.com/methodology/independent-and-dependent-variables/#dependent) changes according to the levels of one or more categorical [independent variables](https://www.scribbr.com/methodology/independent-and-dependent-variables/#independent). ANOVA tests whether there is a difference in means of the groups at each level of the independent variable.
@@ -477,10 +475,6 @@ dtree_resample %>%
   scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
 ```
 
-<!--# SHould it look like this? -->
-
-\
-
 #### Metrics: RMSE
 
 The [`show_best()`](https://tune.tidymodels.org/reference/show_best.html) function shows us the top 5 candidate models by default. We set n=1
@@ -491,8 +485,6 @@ dtree_resample %>%
 ```
 
 **RMSE 0.87 STD_ERR = 0.015**
-
-**From the plot and the tibble above, we see that the the model with treedepth =1 has the lowest rmse value with a mean of 1.19 and standard error of 0.018.**
 
 We can also use the [`select_best()`](https://tune.tidymodels.org/reference/show_best.html) function to pull out the single set of hyperparameter values for our best decision tree model:
 
@@ -580,13 +572,10 @@ p <- predict(tree, train)
 #### RMSE and R2
 
 ```{r}
-sqrt(mean(train$egg_hen - p))
-(cor(train$egg_hen,p))
-```
-
-```{r}
-model <- naive_bayes(prod_type~ ., data = train, usekernel = T) 
- plot(model) 
+rmse<- sqrt(mean(train$egg_hen - p))
+r2<- (cor(train$egg_hen,p))
+r2
+rmse
 ```
 
 ## 5. Random Forest Model
@@ -709,9 +698,9 @@ plot(rf_residual_plot) #view plot
 
 ## Final Assessment
 
-In order to pick a model that I believe is best for my hypothesis, I must (1) understand the data and question (2) use visual plots, and (3) metrics (e.g. RMSE) to assess performance. Based on these three attributes, I believe that the one-way ANOVA is the best model to use in this case. I am working with a continuous outcome (eggs per hen) and a categorical independent variable (production type) and would like to assess the two means between hatching and table eggs. This model is sample and efficient, and properly addresses the questions. Additionally, the RMSE of the actual model (0.87) was lower than the null model (2.18) indicating a better performance.
+In order to pick a model that I believe is best for my hypothesis, I must (1) understand the data and question (2) use visual plots, and (3) metrics (e.g. RMSE) to assess performance. Based on these three attributes, I believe that the one-way ANOVA is the best model to use in this case. I am working with a continuous outcome (eggs per hen) and a categorical independent variable (production type) and would like to assess the two means between hatching and table eggs. This model is simple and efficient, and properly addresses the questions. Additionally, the RMSE of the actual model (0.87) was lower than the null model (2.18) indicating a better performance.
 
-While the Random Forest Model had a lower RMSE value (0.87), the plot produced depicts a fluctuation in performance with node size. The decision tree is a simple model, but in this case not very informative as we only had two outcomes.
+The Random Forest Model also had a lower RMSE value (0.87), ut the plot produced depicts a fluctuation in performance with node size. The decision tree is a simple model, but in this case not very informative as we only had two outcomes.
 
 #### ANOVA on Test Data
 
@@ -730,8 +719,6 @@ RMSE
 
 **RMSE = 0.99**
 
-<!--# Worse... -->
-
 #### Plot
 
 ```{r}
@@ -746,15 +733,15 @@ The data used for this exercise was sourced from [The Humane League's US Egg Pro
 
 #### Cleaning
 
-Data cleaning involved making a new column in the `egg` data set "egg_hen" which represents the number of eggs per hen. Variables within columns were also renamed for convienience.
+Data cleaning involved making a new column in the `egg` data set "egg_hen" which represents the number of eggs per hen. Variables within columns were also renamed for convenience.
 
 #### Visualization
 
-To explore the data, plots were made to depict various trends between the variables (e.g. percentage of cage free hens and eggs over time, eggs per hen over time, eggs per hen across production type/process). From this exploration, we could see a drastic difference in eggs per hen between table and hatching production type. This lead us to explore the relationship between production type (hatching or table) on eggs produced per hen.
+To explore the data, plots were made to depict various trends between the variables (e.g. percentage of cage free hens and eggs over time, eggs per hen over time, eggs per hen across production type/process). From this exploration, we could see a drastic difference in eggs per hen between table and hatching production type. This lead us to explore the **relationship between production type (hatching or table) on eggs produced per hen.**
 
 #### Modeling
 
-Final cleaning was conducted (eliminating unneeded columns) and the data was split into training and test data (70:30). A null linear model was run for comparison of metrics. Four models were tested in this exercise:
+Final cleaning was conducted (eliminating undesired columns) and the data was split into training and test data (70:30). A null linear model was run for comparison of metrics. Four models were tested in this exercise:
 
 1.  Linear Model
 2.  ANOVA Model
@@ -762,8 +749,8 @@ Final cleaning was conducted (eliminating unneeded columns) and the data was spl
 4.  Regression Decision Tree
 5.  Random Forest Model.
 
-Metrics were run (Primarily RMSE) and compared to the Null model to assess performance. Additionally, visualization methods were used in conjunjtion with the performance metrics.
+Metrics were run (Primarily RMSE) and compared to the Null model to assess performance. Additionally, visualization methods were used in conjunction with the performance metrics.
 
 #### Conclusion
 
-Based on the metrics, the question, and the plots, the ANOVA model was chosen, and again run but on the test data. Ultimately, it had a higher RMSE than the train data, but still lower than the null ANOVA.
+Based on the metrics, the question, and the plots, the ANOVA model was chosen, and again run but on the test data. Ultimately, it had a higher RMSE than the train data, but still lower than the null ANOVA, suggesting that this model can be adequate in its ability to address our question.

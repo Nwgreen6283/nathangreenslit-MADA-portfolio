@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -179,9 +242,1552 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>To be filled :)</p>
+<section id="getting-started" class="level1">
+<h1>Getting Started</h1>
+<section id="libraries" class="level4">
+<h4 class="anchored" data-anchor-id="libraries">Libraries</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0     ✔ purrr   1.0.1
+✔ tibble  3.1.8     ✔ dplyr   1.1.0
+✔ tidyr   1.2.1     ✔ stringr 1.5.0
+✔ readr   2.1.3     ✔ forcats 0.5.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/nathangreenslit/Desktop/UGA/Spring 2023/MADA/nathangreenslit-MADA-portfolio</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample) <span class="co">#Data spliting</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.0.0 ──
+✔ broom        1.0.2     ✔ recipes      1.0.5
+✔ dials        1.1.0     ✔ tune         1.0.1
+✔ infer        1.0.4     ✔ workflows    1.1.3
+✔ modeldata    1.1.0     ✔ workflowsets 1.0.0
+✔ parsnip      1.0.4     ✔ yardstick    1.1.0
+── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ scales::discard() masks purrr::discard()
+✖ dplyr::filter()   masks stats::filter()
+✖ recipes::fixed()  masks stringr::fixed()
+✖ dplyr::lag()      masks stats::lag()
+✖ yardstick::spec() masks readr::spec()
+✖ recipes::step()   masks stats::step()
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidymodels_prefer</span>(<span class="at">quiet =</span><span class="cn">FALSE</span>) <span class="co">#Removes package masking conflicts </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[conflicted] Will prefer dplyr::filter over any other package.
+[conflicted] Will prefer dplyr::select over any other package.
+[conflicted] Will prefer dplyr::slice over any other package.
+[conflicted] Will prefer dplyr::rename over any other package.
+[conflicted] Will prefer dials::neighbors over any other package.
+[conflicted] Will prefer parsnip::fit over any other package.
+[conflicted] Will prefer parsnip::bart over any other package.
+[conflicted] Will prefer parsnip::pls over any other package.
+[conflicted] Will prefer purrr::map over any other package.
+[conflicted] Will prefer recipes::step over any other package.
+[conflicted] Will prefer themis::step_downsample over any other package.
+[conflicted] Will prefer themis::step_upsample over any other package.
+[conflicted] Will prefer tune::tune over any other package.
+[conflicted] Will prefer yardstick::precision over any other package.
+[conflicted] Will prefer yardstick::recall over any other package.
+[conflicted] Will prefer yardstick::spec over any other package.
+── Conflicts ──────────────────────────────────────────── tidymodels_prefer() ──</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ANOVA</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AICcmodavg)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Decision Trees</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DAAG)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(party)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+
+Attaching package: 'modeltools'
+
+The following object is masked from 'package:tune':
+
+    parameters
+
+The following object is masked from 'package:parsnip':
+
+    fit
+
+The following object is masked from 'package:infer':
+
+    fit
+
+The following object is masked from 'package:dials':
+
+    parameters
+
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+
+Attaching package: 'strucchange'
+
+The following object is masked from 'package:stringr':
+
+    boundary</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Type 'citation("pROC")' for a citation.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tree)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Naive</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naivebayes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>naivebayes 0.9.7 loaded</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-data" class="level4">
+<h4 class="anchored" data-anchor-id="load-data">Load Data</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cage<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"cage-free-percentages.csv"</span>)) <span class="co">#Cage free %</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 96 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): source
+dbl  (2): percent_hens, percent_eggs
+date (1): observed_month
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>egg<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"egg-production.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 220 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (3): prod_type, prod_process, source
+dbl  (2): n_hens, n_eggs
+date (1): observed_month
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="look-at-data-sets" class="level4">
+<h4 class="anchored" data-anchor-id="look-at-data-sets">Look at Data sets</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  observed_month percent_hens percent_eggs source                             
+  &lt;date&gt;                &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;                              
+1 2007-12-31              3.2           NA Egg-Markets-Overview-2019-10-19.pdf
+2 2008-12-31              3.5           NA Egg-Markets-Overview-2019-10-19.pdf
+3 2009-12-31              3.6           NA Egg-Markets-Overview-2019-10-19.pdf
+4 2010-12-31              4.4           NA Egg-Markets-Overview-2019-10-19.pdf
+5 2011-12-31              5.4           NA Egg-Markets-Overview-2019-10-19.pdf
+6 2012-12-31              6             NA Egg-Markets-Overview-2019-10-19.pdf</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(egg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  observed_month prod_type     prod_process   n_hens     n_eggs source          
+  &lt;date&gt;         &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;           
+1 2016-07-31     hatching eggs all          57975000 1147000000 ChicEggs-09-23-…
+2 2016-08-31     hatching eggs all          57595000 1142700000 ChicEggs-10-21-…
+3 2016-09-30     hatching eggs all          57161000 1093300000 ChicEggs-11-22-…
+4 2016-10-31     hatching eggs all          56857000 1126700000 ChicEggs-12-23-…
+5 2016-11-30     hatching eggs all          57116000 1096600000 ChicEggs-01-24-…
+6 2016-12-31     hatching eggs all          57750000 1132900000 ChicEggs-02-28-…</code></pre>
+</div>
+</div>
+<p>Note: Within the <code>egg</code> data set, the value ‘all’ includes cage-free and conventional housing.</p>
+</section>
+</section>
+<section id="initial-cleaning" class="level1">
+<h1>Initial Cleaning</h1>
+<section id="cage-data-set" class="level4">
+<h4 class="anchored" data-anchor-id="cage-data-set">Cage Data set</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cage<span class="ot">&lt;-</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  cage <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>source) <span class="co">#Removes Source column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="egg-data-set" class="level4">
+<h4 class="anchored" data-anchor-id="egg-data-set">Egg Data set</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>egg<span class="ot">&lt;-</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  egg <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>source) <span class="sc">%&gt;%</span> <span class="co">#Removes Source Column</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">egg_hen =</span> n_eggs <span class="sc">/</span> n_hens, <span class="co">#Creates column that gives an average eggs per hen</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">prod_process =</span> <span class="fu">recode</span>(prod_process, <span class="st">"cage-free (non-organic)"</span> <span class="ot">=</span> <span class="st">"cage_free_no"</span>),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">prod_process =</span> <span class="fu">recode</span>(prod_process, <span class="st">"cage-free (organic)"</span> <span class="ot">=</span> <span class="st">"cage_free_o"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="exploratory-visualization" class="level1">
+<h1>Exploratory Visualization</h1>
+<section id="fig.-1-percentage-of-cage-free-gens-and-eggs" class="level4">
+<h4 class="anchored" data-anchor-id="fig.-1-percentage-of-cage-free-gens-and-eggs">Fig. 1: Percentage of cage free gens and eggs</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>cage <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>( <span class="co">#Percent of cage free hens (orange)</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> observed_month,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> percent_hens),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#f68f3c"</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> observed_month,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> percent_hens),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#f68f3c"</span>)<span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>( <span class="co">#Percent of cage free eggs (green)</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> observed_month,</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> percent_eggs),</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#5e8d5a"</span>,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"%"</span>,</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Fig.1 :Percentage of Cage Free Hens and Eggs over Time"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 11 rows containing missing values (`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Percentage of Hens are in orange, and percentage of eggs are in green. We see an increase in percentage of cage free eggs and hens over time.</p>
+</section>
+<section id="fig.-2-eggs-per-hen-across-production-type-and-process" class="level4">
+<h4 class="anchored" data-anchor-id="fig.-2-eggs-per-hen-across-production-type-and-process">Fig. 2: Eggs per Hen across production type and process</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>egg <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_boxplot</span>(</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> prod_type,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> egg_hen,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> prod_process)) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Fig. 2: Eggs per Hen Across Production Process and Type"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Production Type"</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Eggs per Hen"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Production Process"</span>) <span class="sc">+</span> </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">all =</span> <span class="st">"#ee6f68"</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                                <span class="at">cage_free_no =</span> <span class="st">"#5e8d5a"</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>                                <span class="at">cage_free_o =</span> <span class="st">"#f68f3c"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Figure 2 depicts a stark difference in the number eggs per hen between hatching eggs and table eggs. No difference is observed between the production processes within the table eggs.</p>
+</section>
+<section id="fig.-3-eggs-per-hen-over-time" class="level4">
+<h4 class="anchored" data-anchor-id="fig.-3-eggs-per-hen-over-time">Fig. 3: Eggs per hen over time</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>egg <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_line</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> observed_month,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> egg_hen,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> prod_type)) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Eggs per Hen"</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Fig. 3: Eggs Per hen over Time by Production Type"</span>,</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Production Type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Similarly, Figure 3 shows that more eggs per hen are produced from the table eggs process.</p>
+</section>
+<section id="fig.4-eggs-x-hens" class="level4">
+<h4 class="anchored" data-anchor-id="fig.4-eggs-x-hens">Fig.4 Eggs x Hens</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span> egg <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prod_type <span class="sc">%in%</span> <span class="st">"table eggs"</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>prod_process <span class="sc">%in%</span> <span class="st">"all"</span>) </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>p <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> n_hens,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> n_eggs,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> prod_process)) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"#Eggs"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"#Hens"</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of eggs x Number of Hens"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This is a very linear correlation- but not a very interesting question.</p>
+</section>
+<section id="questionhypothesis" class="level4">
+<h4 class="anchored" data-anchor-id="questionhypothesis">Question/Hypothesis:</h4>
+<p>Because a higher portion of the population consumes eggs as opposed to hatching chicks, and due to the energetically taxing/limiting process of hatching, we expect to see a significantly higher effort towards the production of table eggs as opposed to hatching eggs.</p>
+<ul>
+<li><p>Predictor: Production Type (Hatching or Table Eggs)</p></li>
+<li><p>Outcome: Eggs per hen</p></li>
+</ul>
+</section>
+</section>
+<section id="final-cleaning" class="level1">
+<h1>Final Cleaning</h1>
+<p>We will use only the egg dataset.</p>
+<section id="remove-columns-that-are-not-needed-for-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="remove-columns-that-are-not-needed-for-analysis">Remove Columns that are not needed for analysis</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>egg <span class="ot">&lt;-</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  egg <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(prod_type, egg_hen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="split-into-test-and-train-set" class="level4">
+<h4 class="anchored" data-anchor-id="split-into-test-and-train-set">Split into Test and Train Set</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the random numbers by setting the seed </span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This enables the analysis to be reproducible when random numbers are used </span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">222</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Put 3/4 of the data into the training set </span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(egg, <span class="at">prop =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data frames for the two sets:</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">training</span>(data_split)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">testing</span>(data_split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="modeling" class="level1">
+<h1>Modeling</h1>
+<section id="null-model" class="level2">
+<h2 class="anchored" data-anchor-id="null-model">0. NULL MODEL</h2>
+<section id="fold-cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="fold-cross-validation">5-Fold Cross Validation</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fold_egg_train <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(train, <span class="at">v =</span> <span class="dv">5</span>, <span class="at">repeats =</span> <span class="dv">5</span>, <span class="at">strata =</span> egg_hen)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>fold_egg_test <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(test, <span class="at">v =</span> <span class="dv">5</span>, <span class="at">repeats =</span> <span class="dv">5</span>, <span class="at">strata =</span> egg_hen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The number of observations in each quantile is below the recommended threshold of 20.
+• Stratification will use 2 breaks instead.
+The number of observations in each quantile is below the recommended threshold of 20.
+• Stratification will use 2 breaks instead.
+The number of observations in each quantile is below the recommended threshold of 20.
+• Stratification will use 2 breaks instead.
+The number of observations in each quantile is below the recommended threshold of 20.
+• Stratification will use 2 breaks instead.
+The number of observations in each quantile is below the recommended threshold of 20.
+• Stratification will use 2 breaks instead.</code></pre>
+</div>
+</div>
+</section>
+<section id="recipes" class="level4">
+<h4 class="anchored" data-anchor-id="recipes">Recipes</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Train Data</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>egg_rec_train <span class="ot">&lt;-</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(egg_hen <span class="sc">~</span> prod_type, <span class="at">data =</span> train)<span class="co"># %&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a> <span class="co"># step_dummy(all_nominal(), -all_outcomes()) %&gt;% </span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a> <span class="co"># step_ordinalscore() %&gt;%</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a> <span class="co"># step_zv(all_predictors()) </span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Test Data</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>egg_rec_test <span class="ot">&lt;-</span> </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">recipe</span>(egg_hen <span class="sc">~</span> prod_type, <span class="at">data =</span> test) <span class="co">#%&gt;%</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a> <span class="co"># step_dummy(all_nominal(), -all_outcomes()) %&gt;%</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  step_ordinalscore() %&gt;%</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a> <span class="co"># step_zv(all_predictors()) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="define-model" class="level4">
+<h4 class="anchored" data-anchor-id="define-model">Define Model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lm_mod <span class="ot">&lt;-</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="train-data" class="level4">
+<h4 class="anchored" data-anchor-id="train-data">Train Data</h4>
+<section id="recipe" class="level5">
+<h5 class="anchored" data-anchor-id="recipe">Recipe</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>null_train_rec<span class="ot">&lt;-</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">recipe</span>(egg_hen <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> train)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>null_train_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Inputs </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Number of variables by role</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outcome: 1</code></pre>
+</div>
+</div>
+</section>
+<section id="workflow" class="level5">
+<h5 class="anchored" data-anchor-id="workflow">Workflow</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>null_train_wf <span class="ot">&lt;-</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_mod) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(null_train_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fit" class="level5">
+<h5 class="anchored" data-anchor-id="fit">Fit</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>null_train_fit <span class="ot">&lt;-</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(null_train_wf, <span class="at">resamples =</span> fold_egg_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+</div>
+</section>
+<section id="rmse-metric" class="level5">
+<h5 class="anchored" data-anchor-id="rmse-metric">RMSE Metric</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>null_train_met <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(null_train_fit)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>null_train_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  .metric .estimator   mean     n std_err .config             
+  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard     2.18    25  0.0106 Preprocessor1_Model1
+2 rsq     standard   NaN        0 NA      Preprocessor1_Model1</code></pre>
+</div>
+</div>
+<p><strong>RMSE = 2.18 and STD_ERR = 0.011</strong></p>
+</section>
+</section>
+<section id="test-data" class="level4">
+<h4 class="anchored" data-anchor-id="test-data">Test Data</h4>
+<section id="recipe-1" class="level5">
+<h5 class="anchored" data-anchor-id="recipe-1">Recipe</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>null_test_rec<span class="ot">&lt;-</span> </span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(egg_hen <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="workflow-1" class="level5">
+<h5 class="anchored" data-anchor-id="workflow-1">Workflow</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>null_test_wf <span class="ot">&lt;-</span> </span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_mod) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(null_test_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fit-1" class="level5">
+<h5 class="anchored" data-anchor-id="fit-1">Fit</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>null_test_fit <span class="ot">&lt;-</span> </span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(null_test_wf, <span class="at">resamples =</span> fold_egg_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat1: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat2: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat3: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat4: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold1, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold2, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold3, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold4, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Fold5, Repeat5: internal:
+  There was 1 warning in `dplyr::summarise()`.
+  ℹ In argument: `.estimate = metric_fn(truth = egg_hen, estimate = .pre...
+    = na_rm)`.
+  Caused by warning:
+  ! A correlation computation is required, but `estimate` is constant an...</code></pre>
+</div>
+</div>
+</section>
+<section id="metrics-rmse" class="level5">
+<h5 class="anchored" data-anchor-id="metrics-rmse">Metrics: RMSE</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>null_test_met <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(null_test_fit)</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>null_test_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  .metric .estimator   mean     n std_err .config             
+  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard     2.19    25  0.0838 Preprocessor1_Model1
+2 rsq     standard   NaN        0 NA      Preprocessor1_Model1</code></pre>
+</div>
+</div>
+<p><strong>RMSE = 2.19 and STD_ERR = 0.084<br>
+</strong></p>
+</section>
+</section>
+</section>
+<section id="linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="linear-model">1. LINEAR MODEL</h2>
+<section id="run-model" class="level4">
+<h4 class="anchored" data-anchor-id="run-model">Run Model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set up linear model</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>lm_mod<span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Workflow that adds recipe to model</span></span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>lm_wflow<span class="ot">&lt;-</span> </span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lm_mod) <span class="sc">%&gt;%</span></span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(egg_rec_train)</span>
+<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Use workflow to fit model to  data set</span></span>
+<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a>egg_fit<span class="ot">&lt;-</span> lm_wflow <span class="sc">%&gt;%</span></span>
+<span id="cb106-14"><a href="#cb106-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> train)</span>
+<span id="cb106-15"><a href="#cb106-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-16"><a href="#cb106-16" aria-hidden="true" tabindex="-1"></a><span class="co">#View as Tibble </span></span>
+<span id="cb106-17"><a href="#cb106-17" aria-hidden="true" tabindex="-1"></a>egg_fit <span class="sc">%&gt;%</span></span>
+<span id="cb106-18"><a href="#cb106-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb106-19"><a href="#cb106-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term                estimate std.error statistic   p.value
+  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)            19.0      0.134     142.  9.30e-173
+2 prod_typetable eggs     4.55     0.156      29.2 1.15e- 66</code></pre>
+</div>
+</div>
+</section>
+<section id="assess-performance" class="level4">
+<h4 class="anchored" data-anchor-id="assess-performance">Assess Performance</h4>
+<section id="rmse" class="level5">
+<h5 class="anchored" data-anchor-id="rmse">RMSE</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>aug_test <span class="ot">&lt;-</span> <span class="fu">augment</span>(egg_fit, train)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> aug_test <span class="sc">%&gt;%</span> <span class="fu">rmse</span>(<span class="at">truth =</span> egg_hen, .pred)</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>rsq <span class="ot">&lt;-</span> aug_test <span class="sc">%&gt;%</span> <span class="fu">rsq</span>(<span class="at">truth =</span> egg_hen, .pred)</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>metrics<span class="ot">&lt;-</span> <span class="fu">full_join</span>(rmse, rsq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(.metric, .estimator, .estimate)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.873
+2 rsq     standard       0.840</code></pre>
+</div>
+</div>
+<p><strong>RMSE = 0.87</strong></p>
+</section>
+<section id="residuals" class="level5">
+<h5 class="anchored" data-anchor-id="residuals">Residuals</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>egg_mod<span class="ot">&lt;-</span> <span class="fu">lm</span>(egg_hen <span class="sc">~</span> prod_type, <span class="at">data =</span> train)</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>res<span class="ot">&lt;-</span> <span class="fu">resid</span>(egg_mod)</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(egg_mod), res)</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="anova-model" class="level2">
+<h2 class="anchored" data-anchor-id="anova-model">2. ANOVA MODEL</h2>
+<p><strong>ANOVA</strong> is a <a href="https://www.scribbr.com/statistics/statistical-tests/">statistical test</a> for estimating how a quantitative <a href="https://www.scribbr.com/methodology/independent-and-dependent-variables/#dependent">dependent variable</a> changes according to the levels of one or more categorical <a href="https://www.scribbr.com/methodology/independent-and-dependent-variables/#independent">independent variables</a>. ANOVA tests whether there is a difference in means of the groups at each level of the independent variable.</p>
+<section id="null" class="level4">
+<h4 class="anchored" data-anchor-id="null">Null</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>anova_n<span class="ot">&lt;-</span> </span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aov</span>(egg_hen <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> egg)</span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals   219   1050   4.796               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Assess Performance</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>RSS<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">crossprod</span>(anova_n<span class="sc">$</span>residuals))</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>MSE<span class="ot">&lt;-</span> RSS <span class="sc">/</span> <span class="fu">length</span>(anova_n<span class="sc">$</span>residuals)</span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>RMSE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(MSE)</span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>RMSE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.185032</code></pre>
+</div>
+</div>
+<p><strong>RMSE of Null = 2.18</strong></p>
+</section>
+<section id="actual-model" class="level4">
+<h4 class="anchored" data-anchor-id="actual-model">Actual Model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model</span></span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>anova<span class="ot">&lt;-</span> </span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aov</span>(egg_hen <span class="sc">~</span> prod_type, <span class="at">data =</span> train)</span>
+<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+prod_type     1  658.4   658.4   853.1 &lt;2e-16 ***
+Residuals   163  125.8     0.8                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Assess Performance</span></span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>RSS<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">crossprod</span>(anova<span class="sc">$</span>residuals))</span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>MSE<span class="ot">&lt;-</span> RSS <span class="sc">/</span> <span class="fu">length</span>(anova<span class="sc">$</span>residuals)</span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>RMSE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(MSE)</span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>RMSE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.873181</code></pre>
+</div>
+</div>
+<p><strong>RMSE for Actual Model = 0.87</strong></p>
+</section>
+<section id="plot" class="level4">
+<h4 class="anchored" data-anchor-id="plot">Plot</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anova, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="tree-model" class="level2">
+<h2 class="anchored" data-anchor-id="tree-model">3. TREE MODEL</h2>
+<section id="model-specification" class="level4">
+<h4 class="anchored" data-anchor-id="model-specification">Model Specification</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>tune_spec_dtree <span class="ot">&lt;-</span> </span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">decision_tree</span>(</span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cost_complexity =</span> <span class="fu">tune</span>(),</span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> <span class="fu">tune</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"rpart"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb122-6"><a href="#cb122-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb122-7"><a href="#cb122-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-8"><a href="#cb122-8" aria-hidden="true" tabindex="-1"></a>tune_spec_dtree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Decision Tree Model Specification (regression)
+
+Main Arguments:
+  cost_complexity = tune()
+  tree_depth = tune()
+
+Computational engine: rpart </code></pre>
+</div>
+</div>
+<p>Think of <code>tune()</code> here as a placeholder. After the tuning process, we will select a single numeric value for each of these hyperparameters. For now, we specify our parsnip model object and identify the hyperparameters we will <code>tune()</code>.</p>
+</section>
+<section id="workflow-definition" class="level4">
+<h4 class="anchored" data-anchor-id="workflow-definition">Workflow Definition</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>dtree_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(tune_spec_dtree) <span class="sc">%&gt;%</span></span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(egg_rec_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tuning-grid-specification" class="level4">
+<h4 class="anchored" data-anchor-id="tuning-grid-specification">Tuning Grid Specification</h4>
+<p>We can create a regular grid of values to try using some convenience functions for each hyperparameter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create a regular grid of values for using convenience functions for each hyperparameter.</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>tree_grid_dtree <span class="ot">&lt;-</span></span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(</span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cost_complexity</span>(), </span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tree_depth</span>(), </span>
+<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="dv">5</span>)</span>
+<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>tree_grid_dtree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 25 × 2
+   cost_complexity tree_depth
+             &lt;dbl&gt;      &lt;int&gt;
+ 1    0.0000000001          1
+ 2    0.0000000178          1
+ 3    0.00000316            1
+ 4    0.000562              1
+ 5    0.1                   1
+ 6    0.0000000001          4
+ 7    0.0000000178          4
+ 8    0.00000316            4
+ 9    0.000562              4
+10    0.1                   4
+# … with 15 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="tuning-using-cross-validation-and-tune_grid-function" class="level4">
+<h4 class="anchored" data-anchor-id="tuning-using-cross-validation-and-tune_grid-function">Tuning using Cross-validation and <code>tune_grid()</code> function</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>dtree_resample <span class="ot">&lt;-</span> </span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>  dtree_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> fold_egg_train,</span>
+<span id="cb127-5"><a href="#cb127-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> tree_grid_dtree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we have our tuning results, we can both explore them through visualization and then select the best result. The function <code>collect_metrics()</code> gives us a tidy tibble with all the results</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>dtree_resample <span class="sc">%&gt;%</span></span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 50 × 8
+   cost_complexity tree_depth .metric .estimator  mean     n std_err .config    
+             &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;      
+ 1    0.0000000001          1 rmse    standard   0.872    25 0.0152  Preprocess…
+ 2    0.0000000001          1 rsq     standard   0.841    25 0.00563 Preprocess…
+ 3    0.0000000178          1 rmse    standard   0.872    25 0.0152  Preprocess…
+ 4    0.0000000178          1 rsq     standard   0.841    25 0.00563 Preprocess…
+ 5    0.00000316            1 rmse    standard   0.872    25 0.0152  Preprocess…
+ 6    0.00000316            1 rsq     standard   0.841    25 0.00563 Preprocess…
+ 7    0.000562              1 rmse    standard   0.872    25 0.0152  Preprocess…
+ 8    0.000562              1 rsq     standard   0.841    25 0.00563 Preprocess…
+ 9    0.1                   1 rmse    standard   0.872    25 0.0152  Preprocess…
+10    0.1                   1 rsq     standard   0.841    25 0.00563 Preprocess…
+# … with 40 more rows</code></pre>
+</div>
+</div>
+<section id="plot-model-using-autoplot" class="level5">
+<h5 class="anchored" data-anchor-id="plot-model-using-autoplot">Plot Model using autoplot()</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>dtree_resample <span class="sc">%&gt;%</span></span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tree_depth =</span> <span class="fu">factor</span>(tree_depth)) <span class="sc">%&gt;%</span></span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(cost_complexity, mean, <span class="at">color =</span> tree_depth)) <span class="sc">+</span></span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> .metric, <span class="at">scales =</span> <span class="st">"free"</span>, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>()) <span class="sc">+</span></span>
+<span id="cb130-9"><a href="#cb130-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">begin =</span> .<span class="dv">9</span>, <span class="at">end =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="metrics-rmse-1" class="level4">
+<h4 class="anchored" data-anchor-id="metrics-rmse-1">Metrics: RMSE</h4>
+<p>The <a href="https://tune.tidymodels.org/reference/show_best.html"><code>show_best()</code></a> function shows us the top 5 candidate models by default. We set n=1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>dtree_resample <span class="sc">%&gt;%</span></span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_best</span>(<span class="at">n=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No value of `metric` was given; metric 'rmse' will be used.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+  cost_complexity tree_depth .metric .estimator  mean     n std_err .config     
+            &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;       
+1    0.0000000001          1 rmse    standard   0.872    25  0.0152 Preprocesso…</code></pre>
+</div>
+</div>
+<p><strong>RMSE 0.87 STD_ERR = 0.015</strong></p>
+<p>We can also use the <a href="https://tune.tidymodels.org/reference/show_best.html"><code>select_best()</code></a> function to pull out the single set of hyperparameter values for our best decision tree model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Selects best performing model</span></span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>best_tree <span class="ot">&lt;-</span> dtree_resample <span class="sc">%&gt;%</span></span>
+<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No value of `metric` was given; metric 'rmse' will be used.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>best_tree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  cost_complexity tree_depth .config              
+            &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;                
+1    0.0000000001          1 Preprocessor1_Model01</code></pre>
+</div>
+</div>
+<section id="create-final-fit-based-on-best-model-permutation-and-plotting-predicted-values-from-that-final-fit-model" class="level5">
+<h5 class="anchored" data-anchor-id="create-final-fit-based-on-best-model-permutation-and-plotting-predicted-values-from-that-final-fit-model">Create final fit based on best model permutation and plotting predicted values from that final fit model</h5>
+<p>We can update (or “finalize”) our workflow object <code>tree_wf</code> with the values from <code>select_best()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>dtree_final_wf <span class="ot">&lt;-</span> </span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  dtree_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_tree)</span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a>dtree_final_wf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: decision_tree()
+
+── Preprocessor ────────────────────────────────────────────────────────────────
+0 Recipe Steps
+
+── Model ───────────────────────────────────────────────────────────────────────
+Decision Tree Model Specification (regression)
+
+Main Arguments:
+  cost_complexity = 1e-10
+  tree_depth = 1
+
+Computational engine: rpart </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create workflow for fitting model to train predictions</span></span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>dtree_final_fit <span class="ot">&lt;-</span> </span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>  dtree_final_wf <span class="sc">%&gt;%</span></span>
+<span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(train) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculating-residuals-and-plotting-actual-vs.-predicted-values" class="level5">
+<h5 class="anchored" data-anchor-id="calculating-residuals-and-plotting-actual-vs.-predicted-values">Calculating Residuals and Plotting Actual Vs. Predicted Values</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>dtree_residuals <span class="ot">&lt;-</span> dtree_final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(train) <span class="sc">%&gt;%</span> <span class="co">#use augment() to make predictions from train data</span></span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(.pred, egg_hen)) <span class="sc">%&gt;%</span></span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.resid =</span> egg_hen <span class="sc">-</span> .pred) <span class="co">#calculate residuals and make new row.</span></span>
+<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb141-6"><a href="#cb141-6" aria-hidden="true" tabindex="-1"></a>dtree_residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 165 × 3
+   .pred egg_hen  .resid
+   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1  23.6    23.2 -0.406 
+ 2  23.6    23.6 -0.0187
+ 3  19.0    18.9 -0.101 
+ 4  23.6    23.6  0.0588
+ 5  19.0    18.6 -0.424 
+ 6  19.0    18.2 -0.813 
+ 7  23.6    23.4 -0.174 
+ 8  23.6    23.2 -0.406 
+ 9  19.0    19.2  0.185 
+10  19.0    18.6 -0.454 
+# … with 155 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="predictions-vs.-actual" class="level5">
+<h5 class="anchored" data-anchor-id="predictions-vs.-actual">Predictions vs.&nbsp;Actual</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>dtree_pred_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dtree_residuals, </span>
+<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">aes</span>(<span class="at">x =</span> egg_hen, </span>
+<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> .pred)) <span class="sc">+</span> </span>
+<span id="cb143-4"><a href="#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb143-5"><a href="#cb143-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Predictions vs Actual: Decision Tree"</span>, </span>
+<span id="cb143-6"><a href="#cb143-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Egg_hen Outcome"</span>, </span>
+<span id="cb143-7"><a href="#cb143-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Egg_hen Prediction"</span>)</span>
+<span id="cb143-8"><a href="#cb143-8" aria-hidden="true" tabindex="-1"></a>dtree_pred_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="predictions-vs.-residuals" class="level5">
+<h5 class="anchored" data-anchor-id="predictions-vs.-residuals">Predictions vs.&nbsp;Residuals</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>dtree_residual_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dtree_residuals, </span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">aes</span>(<span class="at">y =</span> .resid, </span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">x =</span> .pred)) <span class="sc">+</span> </span>
+<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Predictions vs Residuals: Decision Tree"</span>, </span>
+<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Egg_hen Prediction"</span>, </span>
+<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Residuals"</span>)</span>
+<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dtree_residual_plot) <span class="co">#view plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="regression-decision-tree" class="level2">
+<h2 class="anchored" data-anchor-id="regression-decision-tree">4. Regression Decision Tree</h2>
+<section id="regression-tree" class="level4">
+<h4 class="anchored" data-anchor-id="regression-tree">Regression Tree</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(egg_hen <span class="sc">~</span>prod_type, <span class="at">data =</span> train)</span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(tree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="predict" class="level4">
+<h4 class="anchored" data-anchor-id="predict">Predict</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree, train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="rmse-and-r2" class="level4">
+<h4 class="anchored" data-anchor-id="rmse-and-r2">RMSE and R2</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>rmse<span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(train<span class="sc">$</span>egg_hen <span class="sc">-</span> p))</span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>r2<span class="ot">&lt;-</span> (<span class="fu">cor</span>(train<span class="sc">$</span>egg_hen,p))</span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>r2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9162877</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.871667e-08</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="random-forest-model" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest-model">5. Random Forest Model</h2>
+<section id="create-function-to-detect-cores-for-rfm-computation" class="level4">
+<h4 class="anchored" data-anchor-id="create-function-to-detect-cores-for-rfm-computation">Create function to detect cores for RFM computation</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
+<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>cores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+</section>
+<section id="specify-model" class="level4">
+<h4 class="anchored" data-anchor-id="specify-model">Specify Model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>rf_mod <span class="ot">&lt;-</span> </span>
+<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="fu">tune</span>(), <span class="at">min_n =</span> <span class="fu">tune</span>(), <span class="at">trees =</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>, <span class="at">num.threads =</span> cores) <span class="sc">%&gt;%</span> </span>
+<span id="cb153-4"><a href="#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creating-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="creating-workflow">Creating Workflow</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>rf_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_mod) <span class="sc">%&gt;%</span></span>
+<span id="cb154-3"><a href="#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(egg_rec_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-tuning-grid" class="level4">
+<h4 class="anchored" data-anchor-id="create-tuning-grid">Create Tuning Grid</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>rf_grid  <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>),</span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">min_n =</span> <span class="fu">c</span>(<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>), </span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">trees =</span> <span class="fu">c</span>(<span class="dv">500</span>,<span class="dv">1000</span>)  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="cross-validation">Cross-validation</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>rf_resample <span class="ot">&lt;-</span> </span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>  rf_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(fold_egg_train,</span>
+<span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">grid =</span> <span class="dv">25</span>,</span>
+<span id="cb156-5"><a href="#cb156-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb156-6"><a href="#cb156-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">metrics =</span> <span class="fu">metric_set</span>(yardstick<span class="sc">::</span>rmse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>rf_resample <span class="sc">%&gt;%</span></span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 8
+    mtry min_n .metric .estimator  mean     n std_err .config              
+   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
+ 1     1     3 rmse    standard   0.872    25  0.0152 Preprocessor1_Model01
+ 2     1     9 rmse    standard   0.872    25  0.0153 Preprocessor1_Model02
+ 3     1    27 rmse    standard   0.872    25  0.0152 Preprocessor1_Model03
+ 4     1     4 rmse    standard   0.872    25  0.0153 Preprocessor1_Model04
+ 5     1    13 rmse    standard   0.872    25  0.0152 Preprocessor1_Model05
+ 6     1    23 rmse    standard   0.872    25  0.0152 Preprocessor1_Model06
+ 7     1    21 rmse    standard   0.872    25  0.0152 Preprocessor1_Model07
+ 8     1    35 rmse    standard   0.872    25  0.0153 Preprocessor1_Model08
+ 9     1    12 rmse    standard   0.872    25  0.0152 Preprocessor1_Model09
+10     1     6 rmse    standard   0.872    25  0.0152 Preprocessor1_Model10
+# … with 13 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-model-performance" class="level4">
+<h4 class="anchored" data-anchor-id="plot-model-performance">Plot Model Performance</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot of actual train data</span></span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a>rf_resample <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="metrics-rmse-2" class="level4">
+<h4 class="anchored" data-anchor-id="metrics-rmse-2">Metrics: RMSE</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Showing best performing tree models</span></span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>rf_resample <span class="sc">%&gt;%</span></span>
+<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_best</span>(<span class="at">n=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+   mtry min_n .metric .estimator  mean     n std_err .config              
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
+1     1    39 rmse    standard   0.872    25  0.0152 Preprocessor1_Model22</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Selects best performing model</span></span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>best_rf <span class="ot">&lt;-</span> rf_resample <span class="sc">%&gt;%</span></span>
+<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">method =</span> <span class="st">"rmse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>RMSE = 0.87 STD_ERR = 0.015</strong></p>
+</section>
+<section id="create-final-fit" class="level4">
+<h4 class="anchored" data-anchor-id="create-final-fit">Create Final Fit</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>rf_final_wf <span class="ot">&lt;-</span> </span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>  rf_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(best_rf)</span>
+<span id="cb164-4"><a href="#cb164-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-5"><a href="#cb164-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Create workflow for fitting model to train_data2 predictions</span></span>
+<span id="cb164-6"><a href="#cb164-6" aria-hidden="true" tabindex="-1"></a>rf_final_fit <span class="ot">&lt;-</span> </span>
+<span id="cb164-7"><a href="#cb164-7" aria-hidden="true" tabindex="-1"></a>  rf_final_wf <span class="sc">%&gt;%</span></span>
+<span id="cb164-8"><a href="#cb164-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(train) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculate-residuals" class="level4">
+<h4 class="anchored" data-anchor-id="calculate-residuals">Calculate Residuals</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>rf_residuals <span class="ot">&lt;-</span> rf_final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(train) <span class="sc">%&gt;%</span> <span class="co">#use augment() to make predictions from train data</span></span>
+<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(.pred, egg_hen)) <span class="sc">%&gt;%</span></span>
+<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.resid =</span> egg_hen <span class="sc">-</span> .pred) <span class="co">#calculate residuals and make new row.</span></span>
+<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a>rf_residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 165 × 3
+   .pred egg_hen  .resid
+   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1  23.6    23.2 -0.408 
+ 2  23.6    23.6 -0.0202
+ 3  19.0    18.9 -0.101 
+ 4  23.6    23.6  0.0574
+ 5  19.0    18.6 -0.424 
+ 6  19.0    18.2 -0.813 
+ 7  23.6    23.4 -0.175 
+ 8  23.6    23.2 -0.408 
+ 9  19.0    19.2  0.185 
+10  19.0    18.6 -0.454 
+# … with 155 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="model-predictions-from-tuned-model-vs-actual-outcomes" class="level4">
+<h4 class="anchored" data-anchor-id="model-predictions-from-tuned-model-vs-actual-outcomes">Model Predictions from Tuned Model vs Actual Outcomes</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>rf_pred_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(rf_residuals, </span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">aes</span>(<span class="at">x =</span> egg_hen, </span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> .pred)) <span class="sc">+</span> </span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Predictions vs Actual: Random Forest"</span>, </span>
+<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"egg_hen Actual"</span>, </span>
+<span id="cb167-7"><a href="#cb167-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"egg_hen Prediction"</span>)</span>
+<span id="cb167-8"><a href="#cb167-8" aria-hidden="true" tabindex="-1"></a>rf_pred_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a>rf_residual_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(rf_residuals, </span>
+<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">aes</span>(<span class="at">y =</span> .resid, </span>
+<span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">x =</span> .pred)) <span class="sc">+</span> </span>
+<span id="cb168-4"><a href="#cb168-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb168-5"><a href="#cb168-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Predictions vs Residuals: Random Forest"</span>, </span>
+<span id="cb168-6"><a href="#cb168-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Body Temperature Prediction"</span>, </span>
+<span id="cb168-7"><a href="#cb168-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Residuals"</span>)</span>
+<span id="cb168-8"><a href="#cb168-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rf_residual_plot) <span class="co">#view plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-55-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="final-assessment" class="level2">
+<h2 class="anchored" data-anchor-id="final-assessment">Final Assessment</h2>
+<p>In order to pick a model that I believe is best for my hypothesis, I must (1) understand the data and question (2) use visual plots, and (3) metrics (e.g.&nbsp;RMSE) to assess performance. Based on these three attributes, I believe that the one-way ANOVA is the best model to use in this case. I am working with a continuous outcome (eggs per hen) and a categorical independent variable (production type) and would like to assess the two means between hatching and table eggs. This model is simple and efficient, and properly addresses the questions. Additionally, the RMSE of the actual model (0.87) was lower than the null model (2.18) indicating a better performance.</p>
+<p>The Random Forest Model also had a lower RMSE value (0.87), ut the plot produced depicts a fluctuation in performance with node size. The decision tree is a simple model, but in this case not very informative as we only had two outcomes.</p>
+<section id="anova-on-test-data" class="level4">
+<h4 class="anchored" data-anchor-id="anova-on-test-data">ANOVA on Test Data</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model</span></span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>anova_test<span class="ot">&lt;-</span> </span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aov</span>(egg_hen <span class="sc">~</span> prod_type, <span class="at">data =</span> test)</span>
+<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)    
+prod_type    1 210.81  210.81   204.9 &lt;2e-16 ***
+Residuals   53  54.52    1.03                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Assess Performance</span></span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>RSS<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">crossprod</span>(anova_test<span class="sc">$</span>residuals))</span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>MSE<span class="ot">&lt;-</span> RSS <span class="sc">/</span> <span class="fu">length</span>(anova_test<span class="sc">$</span>residuals)</span>
+<span id="cb171-4"><a href="#cb171-4" aria-hidden="true" tabindex="-1"></a>RMSE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(MSE)</span>
+<span id="cb171-5"><a href="#cb171-5" aria-hidden="true" tabindex="-1"></a>RMSE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9956049</code></pre>
+</div>
+</div>
+<p><strong>RMSE = 0.99</strong></p>
+</section>
+<section id="plot-1" class="level4">
+<h4 class="anchored" data-anchor-id="plot-1">Plot</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anova_test, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tidytuesday_exercise2_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<section id="data" class="level4">
+<h4 class="anchored" data-anchor-id="data">Data</h4>
+<p>The data used for this exercise was sourced from <a href="https://thehumaneleague.org/article/E008R01-us-egg-production-data">The Humane League’s US Egg Production dataset</a> by <a href="https://samaramendez.github.io/">Samara Mendez</a>. It tracks cage-free hens and the supply of cage-free eggs relative to the overall numbers of hens and table eggs in the United States.</p>
+</section>
+<section id="cleaning" class="level4">
+<h4 class="anchored" data-anchor-id="cleaning">Cleaning</h4>
+<p>Data cleaning involved making a new column in the <code>egg</code> data set “egg_hen” which represents the number of eggs per hen. Variables within columns were also renamed for convenience.</p>
+</section>
+<section id="visualization" class="level4">
+<h4 class="anchored" data-anchor-id="visualization">Visualization</h4>
+<p>To explore the data, plots were made to depict various trends between the variables (e.g.&nbsp;percentage of cage free hens and eggs over time, eggs per hen over time, eggs per hen across production type/process). From this exploration, we could see a drastic difference in eggs per hen between table and hatching production type. This lead us to explore the <strong>relationship between production type (hatching or table) on eggs produced per hen.</strong></p>
+</section>
+<section id="modeling-1" class="level4">
+<h4 class="anchored" data-anchor-id="modeling-1">Modeling</h4>
+<p>Final cleaning was conducted (eliminating undesired columns) and the data was split into training and test data (70:30). A null linear model was run for comparison of metrics. Four models were tested in this exercise:</p>
+<ol type="1">
+<li>Linear Model</li>
+<li>ANOVA Model</li>
+<li>Tree Model</li>
+<li>Regression Decision Tree</li>
+<li>Random Forest Model.</li>
+</ol>
+<p>Metrics were run (Primarily RMSE) and compared to the Null model to assess performance. Additionally, visualization methods were used in conjunction with the performance metrics.</p>
+</section>
+<section id="conclusion" class="level4">
+<h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
+<p>Based on the metrics, the question, and the plots, the ANOVA model was chosen, and again run but on the test data. Ultimately, it had a higher RMSE than the train data, but still lower than the null ANOVA, suggesting that this model can be adequate in its ability to address our question.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
