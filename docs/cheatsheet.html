@@ -229,6 +229,8 @@ ul.task-list li input[type="checkbox"] {
 <code>Data %&gt;% rename("New" = "Old")</code></p></li>
 <li><p>Rename Variables In a Column”<br>
 <code>mutate(column = recode(column, "Old" = "Blind New"))</code></p></li>
+<li><p>If value is NA, make it <code>X</code> (can be numeric or “character”)</p>
+<p><code>mutate(col= ifelse(is.na(col), "X", col))</code></p></li>
 <li><p>Make new column based on old column:<br>
 <code>mutate(new_col = old_col*6)</code> —&gt;If old column had “3”, new column would have “18”</p></li>
 <li><p>Average values based on column (Ex. Triplicates in qPCR)“<br>

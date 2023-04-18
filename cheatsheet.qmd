@@ -56,6 +56,10 @@ output:
 -   Rename Variables In a Column"\
     `mutate(column = recode(column, "Old" = "Blind New"))`
 
+-   If value is NA, make it `X` (can be numeric or "character")
+
+    `mutate(col= ifelse(is.na(col), "X", col))`
+
 -   Make new column based on old column:\
     `mutate(new_col = old_col*6)` --->If old column had "3", new column would have "18"
 
