@@ -20,6 +20,8 @@ output:
 -   `filter()` :which extracts rows from a data frame
 
     -   Filter NAs: `filter(!is.na(x))`
+    -   filter(hair == "black" & eye == "blue") would dive us columns that are both black hair *and* blue eyes
+    -   filter(hair == "black" \| eye = "blue") would give us columns where hair is black *or* eyes are blue
 
 -   `arrange()` :which moves important rows to the top of a data frame
 

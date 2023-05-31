@@ -196,6 +196,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p><code>filter()</code> :which extracts rows from a data frame</p>
 <ul>
 <li>Filter NAs: <code>filter(!is.na(x))</code></li>
+<li>filter(hair == “black” &amp; eye == “blue”) would dive us columns that are both black hair <em>and</em> blue eyes</li>
+<li>filter(hair == “black” | eye = “blue”) would give us columns where hair is black <em>or</em> eyes are blue</li>
 </ul></li>
 <li><p><code>arrange()</code> :which moves important rows to the top of a data frame</p>
 <ul>
