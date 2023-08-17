@@ -76,6 +76,10 @@ output:
 -   Create new column using mutate() and case_when:\
     `Df %>% mutate(new_column = case_when(other_column == "A"~ "What_you_want_in_new_col")`
 
+-   Create new column using mutate, case_when, and if_else
+
+    `Df %>% mutate(new_column = case_when(other_column == "A"~ "What_you_want_in_new_col", TRUE ~ else-output-value)`
+
 ## GGPLOT
 
 -   Tilting x axis labels:\
